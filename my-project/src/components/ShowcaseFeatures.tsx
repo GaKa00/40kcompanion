@@ -1,43 +1,50 @@
-import { Box, Container, Heading, Image, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Container, Heading, Image, Text, Grid, GridItem } from '@chakra-ui/react';
+import React from 'react';
+
+import { FeatureType } from '../types/types';
 
 const ShowcaseFeatures = () => {
   return (
-    <div>
-      <NewbookShowcase/>
-    </div>
-  )
-}
+    <Container maxW="9xl" bg="gray.100" py={12}>
+      <Heading textAlign="center" mb={8}>Explore Our Features</Heading>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={8}>
+        <Feature
+          title="Staying Updated with New Books"
+          text="Stay updated on the latest additions to the Warhammer 40k library with our curated selection of cutting-edge releases."
+          image="/images/new_books.jpg"
+        />
+        <Feature
+          title="Mark Books as Read or Add to Your Reading List"
+          text="Keep track of books you've read or create a reading list for future enjoyment."
+          image="/images/reading_list.jpg"
+        />
+        <Feature
+          title="Get Recommendations Based on Your Previous Reads"
+          text="Discover new books tailored to your interests with personalized recommendations."
+          image="/images/recommendations.jpg"
+        />
+        <Feature
+          title="Write Quotes, Reviews, and Summaries"
+          text="Record your thoughts and insights about your favorite books for future reference."
+          image="/images/write_notes.jpg"
+        />
+      </Grid>
+    </Container>
+  );
+};
 
-export default ShowcaseFeatures
 
 
-const NewbookShowcase = () => {
-    return (
-      <Container maxW={"9xl"} bg="gray" maxH={"9xl"}>
-        <Heading
-          pt="6rem"
-          pr="2rem"
-          fontWeight={500}
-          fontSize={{ base: "xl", sm: "2xl", lg: "3xl" }}
-        >
-          <Text>
-            <Box>
-              <Image>
-                
-              </Image>
-            </Box>
-          </Text>
-          Keep Track Of The Newest Releases,
-        </Heading>
-        <Text>
-          Stay updated on the latest additions to the Warhammer 40k library with
-          our curated selection of cutting-edge releases. Dive into our 
-          collection, showcasing the newest narratives, characters, and
-          conflicts Whether you're a seasoned veteran or a newcomer to
-          the Warhammer universe, 'The Library' is sure to be your beacon through the vast 40k universe.
-        </Text>
-      </Container>
-    );
+const Feature= ({ title, text, image }: FeatureType) => {
+  return (
+    <GridItem>
+      <Box p={6} borderWidth="1px" borderRadius="lg" boxShadow="md" bg="white">
+        <Image src={image} alt={title} borderRadius="md" mb={4} />
+        <Heading fontSize="xl" mb={2}>{title}</Heading>
+        <Text fontSize="md" mb={4}>{text}</Text>
+      </Box>
+    </GridItem>
+  );
+};
 
-}
+export default ShowcaseFeatures;

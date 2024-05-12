@@ -19,12 +19,16 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import React from "react";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
+
+
 
 interface Props {
   children: React.ReactNode;
 }
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = ["Books", "Upcoming Releases", "Support The Creator"];
 
 const NavLink = (props: Props) => {
   const { children } = props;
@@ -67,9 +71,15 @@ export default function Simple() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+              <ChakraLink as={ReactRouterLink} to="/library">
+                Library
+              </ChakraLink>
+              <ChakraLink as={ReactRouterLink} to="/faq">
+                FAQ
+              </ChakraLink>
+              <ChakraLink as={ReactRouterLink} to="/support">
+                Support the Creator
+              </ChakraLink>
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
@@ -89,11 +99,28 @@ export default function Simple() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>My Profile</MenuItem>
-                <MenuItem> Settings</MenuItem>
+                <MenuItem>
+                  <ChakraLink as={ReactRouterLink} to="/profile">
+                    My Profile
+                  </ChakraLink>
+                </MenuItem>
+                <MenuItem>
+                  {" "}
+                  <ChakraLink as={ReactRouterLink} to="/settings">
+                    Settings
+                  </ChakraLink>
+                </MenuItem>
                 <MenuDivider />
-                <MenuItem>Library</MenuItem>
-                <MenuItem>Reading List</MenuItem>
+                <MenuItem>
+                  <ChakraLink as={ReactRouterLink} to="/">
+                  Unknown
+                  </ChakraLink>
+                </MenuItem>
+                <MenuItem>
+                  <ChakraLink as={ReactRouterLink} to="/readingList">
+                    Your Reading List
+                  </ChakraLink>
+                </MenuItem>
                 <MenuItem></MenuItem>
               </MenuList>
             </Menu>
