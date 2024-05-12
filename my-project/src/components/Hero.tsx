@@ -26,13 +26,15 @@ export default function CallToActionWithVideo() {
         py={{ base: 20, md: 28 }}
         direction={{ base: "column", md: "row" }}
       >
-        <Stack flex={1} spacing={{ base: 5, md: 10 }}>
+        <Stack  flex={1} spacing={{ base: 5, md: 10 }}>
           <Heading
             lineHeight={1.1}
             fontWeight={600}
-            fontSize={{ base: "3xl", sm: "4xl", lg: "6xl" }}
+            fontSize={{ base: "xl", sm: "2xl", lg: "3xl" }}
           >
             <Text
+            // Add padding somehow
+            fontSize={{base:"2xl", sm:"4xl", lg:"6xl"}}
               as={"span"}
               position={"relative"}
               _after={{
@@ -44,13 +46,14 @@ export default function CallToActionWithVideo() {
                 left: 0,
                 bg: "red.400",
                 zIndex: -1,
+                
               }}
             >
-              Write once,
+             The Library
             </Text>
             <br />
             <Text as={"span"} color={"red.400"}>
-              use everywhere!
+             Keep track of your 40K Reading
             </Text>
           </Heading>
           <Text color={"gray.500"}>
@@ -72,15 +75,6 @@ export default function CallToActionWithVideo() {
               _hover={{ bg: "red.500" }}
             >
               Get started
-            </Button>
-            <Button
-              rounded={"full"}
-              size={"lg"}
-              fontWeight={"normal"}
-              px={6}
-              leftIcon={<PlayIcon h={4} w={4} color={"gray.300"} />}
-            >
-              How It Works
             </Button>
           </Stack>
         </Stack>
@@ -112,7 +106,6 @@ export default function CallToActionWithVideo() {
               aria-label={"Play Button"}
               variant={"ghost"}
               _hover={{ bg: "transparent" }}
-              icon={<PlayIcon w={12} h={12} />}
               size={"lg"}
               color={"white"}
               position={"absolute"}
@@ -126,9 +119,7 @@ export default function CallToActionWithVideo() {
               align={"center"}
               w={"100%"}
               h={"100%"}
-              src={
-                "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-              }
+              src='./public/images/Heroimage.jpg'
             />
           </Box>
         </Flex>

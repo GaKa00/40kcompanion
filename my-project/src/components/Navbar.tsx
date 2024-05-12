@@ -61,7 +61,7 @@ export default function Simple() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box>WCR</Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -89,10 +89,12 @@ export default function Simple() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <MenuItem>My Profile</MenuItem>
+                <MenuItem> Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Library</MenuItem>
+                <MenuItem>Reading List</MenuItem>
+                <MenuItem></MenuItem>
               </MenuList>
             </Menu>
           </Flex>
