@@ -7,4 +7,12 @@
  install guide https://reactrouter.com/en/main/start/overview 
 
  Vite
- install guide  
+ install guide https://vitejs.dev/guide/
+
+ express
+ install guide https://expressjs.com/en/starter/installing.html
+
+ nodemon
+ install guide https://www.npmjs.com/package/nodemon
+
+
