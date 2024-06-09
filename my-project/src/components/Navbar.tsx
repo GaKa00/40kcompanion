@@ -5,7 +5,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
   Menu,
@@ -50,7 +49,7 @@ const NavLink = (props: Props) => {
   );
 };
 
-export default function Simple() {
+export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -65,7 +64,12 @@ export default function Simple() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>WCR</Box>
+            <Box>
+              {" "}
+              <ChakraLink as={ReactRouterLink} to="/">
+                WCR
+              </ChakraLink>{" "}
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -113,7 +117,7 @@ export default function Simple() {
                 <MenuDivider />
                 <MenuItem>
                   <ChakraLink as={ReactRouterLink} to="/">
-                  Unknown
+                    Unknown
                   </ChakraLink>
                 </MenuItem>
                 <MenuItem>
@@ -137,8 +141,6 @@ export default function Simple() {
           </Box>
         ) : null}
       </Box>
-
-      <Box p={4}>Main Content Here</Box>
     </>
   );
 }
