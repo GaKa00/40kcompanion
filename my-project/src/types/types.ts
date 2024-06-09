@@ -14,5 +14,6 @@
    image: string;
    isFinished?: boolean;
    isReading?: boolean;
+   tags?: string[]
  };
 

@@ -1,8 +1,43 @@
 import { Box, Image, Stack, Text, SimpleGrid, Flex, VStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
+import { Book } from '../../types/types'
+
+
+
+
+
+
 
 const Librarypage = () => {
+
+ 
+ 
+
+const [books, setBooks] = useState<Book[]>([]);
+
+useEffect(() => {
+  fetch("my-project/src/test/testdata.json")
+    .then((response) => response.json())
+    .then((data) => setBooks(data))
+    .catch((error) => console.error("Error fetching data:", error));
+}, []);
+
+
+if (books.length < 0) {
+  const SoTfetch = () => {
+    const filteredBooks = books.filter(
+      (book) => book.tags && book.tags.includes("Siege of Terra")
+    );
+    return filteredBooks;
+  };
+
+  const siegeOfTerraBooks = SoTfetch();
+  console.log(siegeOfTerraBooks); // Use this variable as needed
+}
+
+
+
   return (
     <VStack spacing={8} align="center">
       <Navbar/>
@@ -39,7 +74,8 @@ const SiegeofTerra = () => {
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Siege of Terra</Text>
-      {/* Add content here */}
+      
+
     </Box>
   )
 }
@@ -72,8 +108,6 @@ const ByFaction = () => {
 }
 
 
-const Omnibuses = () => {
-  return <Stack> </Stack>;
-};
+
 
 
