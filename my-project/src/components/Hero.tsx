@@ -11,11 +11,8 @@ import {
   Text,
   Button,
   Image,
-  Icon,
   IconButton,
-  createIcon,
-  IconProps,
-  useColorModeValue,
+ 
 } from "@chakra-ui/react";
 import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -119,7 +116,7 @@ export default function CallToActionWithVideo() {
               align={"center"}
               w={"100%"}
               h={"100%"}
-              src="./public/images/Heroimage.jpg"
+              src="./public/images/LandingImages/appCard4.jpg"
             />
           </Box>
         </Flex>

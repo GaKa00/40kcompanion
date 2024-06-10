@@ -9,6 +9,8 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react'
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
 
 import { ReactNode } from 'react'
 import React from 'react'
@@ -62,48 +64,56 @@ const SocialButton = ({
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}>
+      bg={useColorModeValue("gray.50", "gray.900")}
+      color={useColorModeValue("gray.700", "gray.200")}
+    >
       <Container
         as={Stack}
-        maxW={'6xl'}
+        maxW={"6xl"}
         py={4}
         spacing={4}
-        justify={'center'}
-        align={'center'}>
+        justify={"center"}
+        align={"center"}
+      >
         <Logo />
-        <Stack direction={'row'} spacing={6}>
-          <Box as="a" href={'#'}>
+        <Stack direction={"row"} spacing={6}>
+          <Box as="a" href={"#"}>
             Home
           </Box>
-          <Box as="a" href={'#'}>
+          <Box as="a" href={"#"}>
             About
           </Box>
-          <Box as="a" href={'#'}>
-            Blog
-          </Box>
-          <Box as="a" href={'#'}>
+          <Box as="a" href={"#"}>
             Contact
+          </Box>
+          <Box as="a" href={"#"}>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="https://www.patreon.com/brushray/posts"
+            >
+              Art by: Brushray
+            </ChakraLink>
           </Box>
         </Stack>
       </Container>
 
       <Box
         borderTopWidth={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.700')}>
+        borderStyle={"solid"}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
+      >
         <Container
           as={Stack}
-          maxW={'6xl'}
+          maxW={"6xl"}
           py={4}
-          direction={{ base: 'column', md: 'row' }}
+          direction={{ base: "column", md: "row" }}
           spacing={4}
-          justify={{ base: 'center', md: 'space-between' }}
-          align={{ base: 'center', md: 'center' }}>
+          justify={{ base: "center", md: "space-between" }}
+          align={{ base: "center", md: "center" }}
+        >
           <Text>© 2022 Chakra Templates. All rights reserved</Text>
-        
         </Container>
       </Box>
     </Box>
-  )
+  );
 }
