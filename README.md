@@ -15,4 +15,10 @@
  nodemon
  install guide https://www.npmjs.com/package/nodemon
 
+Prisma
+install guide
+
+
+
+useful commands
 

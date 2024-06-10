@@ -74,7 +74,7 @@ const SiegeofTerra = () => {
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Siege of Terra</Text>
-      
+    
 
     </Box>
   )

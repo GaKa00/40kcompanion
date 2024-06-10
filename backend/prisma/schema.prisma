@@ -3,42 +3,48 @@
 
 generator client {
   provider = "prisma-client-js"
-    previewFeatures = ["driverAdapters"]
+    
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int   @id @default(autoincrement())
   username  String   @unique
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
   readingList ReadingList[]
 }
-
 model Book {
-  id        String   @id @default(uuid())
+  id        Int  @id @default(autoincrement())
   title     String
   author    String
-  summary   String?
-  createdAt DateTime @default(now())
+  pages BigInt
+  desc  String
+  image  String
+  isFinished Boolean
+  isReading Boolean
+  tags String[]
+  rating  Int?
+  quotes String?
+  summary  String?
+  createdAt DateTime? @default(now())
   readingList ReadingList[]
 }
-
 model ReadingList {
   id        String   @id @default(uuid())
-  userId    String   
-  bookId    String
-  status    String?
+  isFinished Boolean
+  isReading Boolean
   rating    Int?
   quotes    String?
   summary   String?
-  createdAt DateTime @default(now())
-
+  addedAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
+  userId   Int
   book      Book     @relation(fields: [bookId], references: [id])
+  bookId  Int
 }

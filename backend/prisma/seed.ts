@@ -1,0 +1,84 @@
+import { randomUUID } from "crypto";
+import dotenv from "dotenv";
+
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+dotenv.config();
+
+
+async function main() {
+  await prisma.book.createMany({
+    data: [
+      {
+        
+        title: "A Thousand Sons",
+        author: "Graham McNeill",
+        pages: 416,
+        desc: "Magnus the Red courts the deadly powers of the warp, dooming his Legion for eternity.",
+        image: "/mnt/data/A Thousand Sons.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra", "Space Marines"],
+
+      },
+      {
+      
+        title: "Age of Darkness",
+        author: "Christian Dunn",
+        pages: 416,
+        desc: "Featuring stories by Dan Abnett, Chris Wraight, Aaron Dembski-Bowden, James Swallow, and more.",
+        image: "/mnt/data/Age of Darkness.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra"],
+      },
+      {
+      
+        title: "Angel Exterminatus",
+        author: "Graham McNeill",
+        pages: 442,
+        desc: "Perturabo and Fulgrim seek the Angel Exterminatus.",
+        image: "/mnt/data/Angel Exterminatus.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra"],
+      },
+      {
+        
+        title: "Angels of Caliban",
+        author: "Gav Thorpe",
+        pages: 368,
+        desc: "Lion El'Jonson returns his Legion to Macragge in pursuit of vengeance.",
+        image: "/mnt/data/Angels of Caliban.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra", "Space Marines"],
+      },
+      {
+       
+        title: "Betrayer",
+        author: "Aaron Dembski-Bowden",
+        pages: 544,
+        desc: "Blood for the Blood God.",
+        image: "/mnt/data/Betrayer.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra"],
+      },
+      {
+     
+        title: "Born of Flame",
+        author: "Nick Kyme",
+        pages: 336,
+        desc: "Through the glory of the Great Crusade to the massacre of Istvaan, the sons of Nocturne endure.",
+        image: "/mnt/data/Born of Flame.jpg",
+        isFinished: false,
+        isReading: false,
+        tags: ["Horus Heresy", "Siege of Terra", "Space Marines"],
+      },
+    ],
+  });
+}
+
+main()
