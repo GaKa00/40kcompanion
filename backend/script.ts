@@ -1,20 +1,20 @@
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import express from "express";
+import userRoutes from "./resources/users/users.routes";
+import bookRoutes from "./resources/books/books.routes";
+import cors from "cors";
+import bodyParser from "body-parser";
 
-async function main() {
-}
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
-main()
- 
+const port = 3000;
 
 
+app.use("/api", userRoutes);
+app.use("/api", bookRoutes);
 
-.then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

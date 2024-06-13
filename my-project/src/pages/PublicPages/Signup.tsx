@@ -18,10 +18,21 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import React, { useState } from "react";
+import axios
 
+ from "axios";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const register =async (e) => {
+    e.preventDefault()
+    try {
+      const response = fetch('')
+    } catch () {
+      
+    }
+
+  }
   return (
     <Container
       position="relative"
@@ -62,20 +73,10 @@ const Signup = () => {
                     to enjoy all of our cool features ✌️
                   </Text>
                 </Stack>
-              <HStack>
-                <Box>
-                  <FormControl id="firstName" isRequired>
-                    <FormLabel>First Name</FormLabel>
-                    <Input type="text" />
-                  </FormControl>
-                </Box>
-                <Box>
-                  <FormControl id="lastName">
-                    <FormLabel>Last Name</FormLabel>
-                    <Input type="text" />
-                  </FormControl>
-                </Box>
-              </HStack>
+              <FormControl id="username" isRequired>
+                <FormLabel>Username</FormLabel>
+                  <Input type="string"/>
+              </FormControl>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input type="email" />
@@ -103,6 +104,7 @@ const Signup = () => {
                   bg="blue.400"
                   color="white"
                   _hover={{ bg: "blue.500" }}
+                  onClick={register}
                 >
                   Sign up
                 </Button>

@@ -16,8 +16,22 @@ import {
 import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axios from "axios";
 
 export default function Signin() {
+
+  const login = async (e) => {
+    e.preventDefault()
+    try {
+      const response = axios.post('/register', {username, email, password});
+      localStorage.setItem('token', (await response).data.token)
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+  }
+  
   return (
     <Container
       position="relative"
@@ -28,6 +42,7 @@ export default function Signin() {
       maxW="100vw"
       margin="0"
       padding="0"
+      onSubmit={login}
     >
       <Button
         as={ReactRouterLink}
@@ -88,6 +103,7 @@ export default function Signin() {
                   _hover={{
                     bg: "blue.500",
                   }}
+              
                 >
                   Sign in
                 </Button>

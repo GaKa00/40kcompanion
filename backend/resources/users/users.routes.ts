@@ -1,33 +1,32 @@
 import express from "express";
-
-// Import  from users.controller.js
 import {
-
   addBookToReadinglist,
   deleteBookFromReadinglist,
   getReadingList,
   login,
   register,
   updateBookInReadinglist,
-} from "./users.controllers.js";
+} from "./users.controllers";
+import { auth } from "../../middleware/auth";
 
-
-//sets router via express
 const router = express.Router();
 
-
-
 // CRUD for auth
-
-router.post("/register", register);  // register a new user
-router.post("/login", login);               // login an existing user
-
-
+router.post("/register", register); // register a new user
+router.post("/login", login); // login an existing user
 
 // CRUD for users
-router.get("/users/:id/reading-list", getReadingList) // get the reading list of an active user
-router.post("/api/users/:id/reading-list", addBookToReadinglist),  // post a book to an active users reading list
-router.put("/api/users/:id/reading-list/:book_id", updateBookInReadinglist) //update changeable info about a book in an active users reading list
-router.delete ("/api/users/:id/reading-list/:book_id", deleteBookFromReadinglist) //Remove a book from a users reading list
+router.get("/users/:id/reading-list", auth, getReadingList); // get the reading list of an active user
+router.post("/users/:id/reading-list", auth, addBookToReadinglist); // post a book to an active user's reading list
+router.put(
+  "/users/:id/reading-list/:readingListId",
+  auth,
+  updateBookInReadinglist
+); // update a book in an active user's reading list
+router.delete(
+  "/users/:id/reading-list/:readingListId",
+  auth,
+  deleteBookFromReadinglist
+); // remove a book from an active user's reading list
 
 export default router;

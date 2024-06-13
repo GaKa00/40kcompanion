@@ -14,27 +14,7 @@ const Librarypage = () => {
  
  
 
-const [books, setBooks] = useState<Book[]>([]);
 
-useEffect(() => {
-  fetch("my-project/src/test/testdata.json")
-    .then((response) => response.json())
-    .then((data) => setBooks(data))
-    .catch((error) => console.error("Error fetching data:", error));
-}, []);
-
-
-if (books.length < 0) {
-  const SoTfetch = () => {
-    const filteredBooks = books.filter(
-      (book) => book.tags && book.tags.includes("Siege of Terra")
-    );
-    return filteredBooks;
-  };
-
-  const siegeOfTerraBooks = SoTfetch();
-  console.log(siegeOfTerraBooks); // Use this variable as needed
-}
 
 
 
@@ -71,9 +51,16 @@ const LatestReleases = () => {
 }
 
 const SiegeofTerra = () => {
+  const books = [
+    "./publicimages/LandingImages/appCard1.jpg",
+    "./publicimages/LandingImages/appCard2.jpg",
+    "./publicimages/LandingImages/appCard3.jpg",
+    "./publicimages/LandingImages/appCard4.jpg"
+  ];
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Siege of Terra</Text>
+
     
 
     </Box>
