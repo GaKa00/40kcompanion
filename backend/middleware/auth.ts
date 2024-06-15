@@ -6,7 +6,7 @@ dotenv.config();
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload;
+      user?: JwtPayload & { id: number };
     }
   }
 }
@@ -15,19 +15,22 @@ export function auth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token) {
-    return res.sendStatus(401); // Unauthorized
-  }
-  if (!process.env.JWT_SECRET) {
+if (!token) {
+  return res.status(401).json({ message: "Unauthorized: No token provided" });
+}
+
+  const secretKey = process.env.JWT_SECRET;
+  if (!secretKey) {
     throw new Error("Missing JWT_SECRET in environment");
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, secretKey, (err, user) => {
     if (err) {
-      return res.sendStatus(403); // Forbidden
+      console.error("Token verification error:", err);
+      return res.status(403).json({ message: "Forbidden: Invalid token" });
     }
 
-    req.user = user as JwtPayload;
+    req.user = user as JwtPayload & { id: number };
     next();
   });
 }

@@ -23,7 +23,7 @@ model Book {
   id        Int  @id @default(autoincrement())
   title     String
   author    String
-  pages BigInt
+  pages Int
   desc  String
   image  String
   isFinished Boolean

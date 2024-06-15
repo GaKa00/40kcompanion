@@ -20,17 +20,17 @@ import axios from "axios";
 
 export default function Signin() {
 
-  const login = async (e) => {
-    e.preventDefault()
-    try {
-      const response = axios.post('/register', {username, email, password});
-      localStorage.setItem('token', (await response).data.token)
-    } catch (error) {
-      console.log(error)
+  // const login = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     const response = axios.post('/register', {username, email, password});
+  //     localStorage.setItem('token', (await response).data.token)
+  //   } catch (error) {
+  //     console.log(error)
       
-    }
+  //   }
 
-  }
+  // }
   
   return (
     <Container
@@ -42,7 +42,7 @@ export default function Signin() {
       maxW="100vw"
       margin="0"
       padding="0"
-      onSubmit={login}
+      // onSubmit={login}
     >
       <Button
         as={ReactRouterLink}
