@@ -2,6 +2,7 @@ import { Box, Image, Stack, Text, SimpleGrid, Flex, VStack } from '@chakra-ui/re
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { Book } from '../../types/types'
+import axios from 'axios'
 
 
 
@@ -11,8 +12,12 @@ import { Book } from '../../types/types'
 
 const Librarypage = () => {
 
- 
- 
+  const [books, setBooks] =useState([])
+
+useEffect(() => {
+  axios.get("http://localhost:3000/api/books")
+    .then((response) => setBooks(response.data));
+}, []);
 
 
 
@@ -20,10 +25,24 @@ const Librarypage = () => {
 
   return (
     <VStack spacing={8} align="center">
-      <Navbar/>
+      <Navbar />
       {/* Placeholder for Hero Image */}
-      <Box width="100%" p="5" boxShadow="md">
-        <Text fontSize="2xl">Hero Image</Text>
+      <Box  
+            position={"relative"}
+            height={"900px"}
+            rounded={"2xl"}
+            boxShadow={"2xl"}
+            width={"full"}
+            overflow={"hidden"}
+          >
+        <Image
+          alt={"Hero Image"}
+          fit={"cover"}
+          align={"center"}
+          w={"100%"}
+          h={"100%"}
+          src="./public/images/LandingImages/alternativeHero.jpg"
+        />
       </Box>
       <ByFaction />
       <Flex justify="space-around" width="80%" mt="4">
@@ -36,7 +55,7 @@ const Librarypage = () => {
         </Box>
       </Flex>
     </VStack>
-  )
+  );
 }
 
 export default Librarypage
@@ -51,12 +70,9 @@ const LatestReleases = () => {
 }
 
 const SiegeofTerra = () => {
-  const books = [
-    "./publicimages/LandingImages/appCard1.jpg",
-    "./publicimages/LandingImages/appCard2.jpg",
-    "./publicimages/LandingImages/appCard3.jpg",
-    "./publicimages/LandingImages/appCard4.jpg"
-  ];
+
+  
+
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Siege of Terra</Text>
@@ -77,7 +93,15 @@ const Omnibuses = () => {
 }
 
 const ByFaction = () => {
-  const imagesFaction = ["AstartesLogo.jpg", "MechanicusLogo.jpg", "MilitarumLogo.jpg", "SororitasLogo.jpg", "NecronsLogo.jpg", "OrkZLogo.jpg", "TyranidsLogo.jpg"]
+  const imagesFaction = [
+    "images/FactionLogos/AstartesLogo.jpg",
+    "images/FactionLogos/MechanicusLogo.jpg",
+    "images/FactionLogos/MilitarumLogo.jpg",
+    "images/FactionLogos/SororitasLogo.jpg",
+    "images/FactionLogos/NecronsLogo.jpg",
+    "images/FactionLogos/OrkzLogo.jpg",
+    "images/FactionLogos/TyranidsLogo.jpg",
+  ];
   const namesFaction = ["Adeptus Astartes", "Adeptus Mechanicus", "Astra Militarum", "Adepta Sororitas", "Necrons", "Orks", "Tyranids"]
   return (
     <Box width="100%" p="5" boxShadow="md">

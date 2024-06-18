@@ -12,13 +12,13 @@ app.use(express.json());
 
 
 export async function getBooks(req: Request, res: Response) {
-  const books = prisma.book.findMany();
-  await res.json(books);
+  const books = await prisma.book.findMany();
+   res.json(books);
 }
 
 
 export async function getBookById(req: Request, res: Response) {
     const {id} = req.body
-  const TargetBook = prisma.book.findUnique({ where: { id } });
-  await res.json(TargetBook);
+  const TargetBook = await prisma.book.findUnique({ where: { id } });
+ res.json(TargetBook);
 }

@@ -16,21 +16,35 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+const navigate= useNavigate()
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [username, setUsername] = useState("");
 
-  // const register =async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     const response = fetch('')
-  //   } catch () {
-      
-  //   }
 
-  // }
+const register = async (e: React.FormEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+  
+  try {
+    const response = await axios.post("http://localhost:3000/api/register", {
+      username,
+      email,
+      password,
+    });
+    console.log(response);
+    navigate('/login')
+   
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <Container
       position="relative"
@@ -41,6 +55,7 @@ const Signup = () => {
       maxW="100vw"
       margin="0"
       padding="0"
+     
     >
       <Button
         as={ReactRouterLink}
@@ -63,26 +78,38 @@ const Signup = () => {
             p={8}
           >
             <Stack spacing={4}>
-                <Stack align="center">
-                  <Heading fontSize="4xl" textAlign="center">
-                    Sign up
-                  </Heading>
-                  <Text fontSize="lg" color="gray.600">
-                    to enjoy all of our cool features ✌️
-                  </Text>
-                </Stack>
+              <Stack align="center">
+                <Heading fontSize="4xl" textAlign="center">
+                  Sign up
+                </Heading>
+                <Text fontSize="lg" color="gray.600">
+                  to enjoy all of our cool features ✌️
+                </Text>
+              </Stack>
               <FormControl id="username" isRequired>
                 <FormLabel>Username</FormLabel>
-                  <Input type="string"/>
+                <Input
+                  type="string"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </FormControl>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? "text" : "password"} />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                   <InputRightElement h="full">
                     <Button
                       variant="ghost"
@@ -102,7 +129,7 @@ const Signup = () => {
                   bg="blue.400"
                   color="white"
                   _hover={{ bg: "blue.500" }}
-                  // onClick={register}
+                  onClick={register}
                 >
                   Sign up
                 </Button>

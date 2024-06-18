@@ -13,24 +13,32 @@ import {
   useColorModeValue,
   Container,
 } from "@chakra-ui/react";
-import React from "react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link as ReactRouterLink ,useNavigate} from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function Signin() {
+  let token = '';
 
-  // const login = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     const response = axios.post('/register', {username, email, password});
-  //     localStorage.setItem('token', (await response).data.token)
-  //   } catch (error) {
-  //     console.log(error)
-      
-  //   }
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  // }
+  const login = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        username,
+        password
+      });
+      localStorage.setItem(token, response.data.token);
+      console.log(token)
+        navigate('/library')
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   return (
     <Container
@@ -40,9 +48,7 @@ export default function Signin() {
       bgPosition="center"
       height="100vh"
       maxW="100vw"
-      margin="0"
-      padding="0"
-      // onSubmit={login}
+      style={{ margin: 0, padding: 0 }}
     >
       <Button
         as={ReactRouterLink}
@@ -72,13 +78,21 @@ export default function Signin() {
                   <Link color="blue.400">features</Link> ✌️
                 </Text>
               </Stack>
-              <FormControl id="email">
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+               <FormControl id="username" isRequired>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type="string"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </FormControl>
-              <FormControl id="password">
+              <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -103,7 +117,7 @@ export default function Signin() {
                   _hover={{
                     bg: "blue.500",
                   }}
-              
+                  onClick={login}
                 >
                   Sign in
                 </Button>
