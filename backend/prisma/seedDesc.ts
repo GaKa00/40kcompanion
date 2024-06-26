@@ -2,8 +2,7 @@
  export const bookDescriptions = {
    "Horus Rising": {
      desc: "Under the benevolent leadership of the Immortal Emperor the Imperium of Man has stretched out across the galaxy. On the eve of victory, the Emperor leaves the front lines, entrusting the great crusade to his favorite son, Horus. Promoted to Warmaster, the idealistic Horus tries to carry out the Emperor'sgrand design, all the while the seeds of heresy and rebellion have been sowed amongst his brothers.",
-     image:
-       "../../",
+     image: "https://m.media-amazon.com/images/I/51z11hTsDSL._SY445_SX342_.jpg",
    },
    "False Gods": {
      desc: "The Great Crusade that has taken humanity into the stars continues. The Emperor of mankind has handed the reins of command to his favoured son, the Warmaster Horus. Yet all is not well in the armies of the Imperium. Horus is still battling against the jealousy and resentment of his brother primarchs and, when he is injured in combat on the planet Davin, he must also battle his inner daemons. With all the temptations that Chaos has to offer, can the weakened Horus resist?",
