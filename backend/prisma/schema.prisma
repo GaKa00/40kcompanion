@@ -29,6 +29,7 @@ model Book {
   isFinished Boolean
   isReading Boolean
   tags String[]
+  link String?
   rating  Int?
   quotes String?
   summary  String?
