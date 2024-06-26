@@ -6,6 +6,7 @@
 };
 
  export type Book = {
+   map(arg0: (book: any) => void): unknown;
    id: number;
    title: string;
    author: string;

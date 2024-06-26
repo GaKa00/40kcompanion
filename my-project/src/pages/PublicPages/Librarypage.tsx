@@ -1,4 +1,4 @@
-import { Box, Image, Stack, Text, SimpleGrid, Flex, VStack } from '@chakra-ui/react'
+import { Box, Image, Stack, Text, SimpleGrid, Flex, VStack, HStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { Book } from '../../types/types'
@@ -12,7 +12,7 @@ import axios from 'axios'
 
 const Librarypage = () => {
 
-  const [books, setBooks] =useState([])
+ const [books, setBooks] = useState<Book[]>([]);
 
 useEffect(() => {
   axios.get("http://localhost:3000/api/books")
@@ -27,14 +27,14 @@ useEffect(() => {
     <VStack spacing={8} align="center">
       <Navbar />
       {/* Placeholder for Hero Image */}
-      <Box  
-            position={"relative"}
-            height={"900px"}
-            rounded={"2xl"}
-            boxShadow={"2xl"}
-            width={"full"}
-            overflow={"hidden"}
-          >
+      <Box
+        position={"relative"}
+        height={"900px"}
+        rounded={"2xl"}
+        boxShadow={"2xl"}
+        width={"full"}
+        overflow={"hidden"}
+      >
         <Image
           alt={"Hero Image"}
           fit={"cover"}
@@ -47,11 +47,11 @@ useEffect(() => {
       <ByFaction />
       <Flex justify="space-around" width="80%" mt="4">
         <Box width="40%">
-          <LatestReleases />
-          <SiegeofTerra />
+          <LatestReleases data={books} />
+          <SiegeofTerra data={books} />
         </Box>
         <Box width="40%">
-          <Omnibuses />
+          <Omnibuses data={books} />
         </Box>
       </Flex>
     </VStack>
@@ -60,37 +60,53 @@ useEffect(() => {
 
 export default Librarypage
 
-const LatestReleases = () => {
+interface dataProp  {
+  data: Book[]
+}
+
+const LatestReleases = ({data}:dataProp) => {
+
+  const showReleases = data.map((book) => {
+    return (
+
+      <img src={book.image} alt={book.title} />
+    )
+
+  })
   return (
     <Box p="5" boxShadow="md" mb="4">
       <Text fontSize="xl">Latest Releases</Text>
-      {/* Add content here */}
+   <HStack gap="3">
+
+      {showReleases}
+   </HStack>
     </Box>
   )
 }
 
-const SiegeofTerra = () => {
-
-  
+const SiegeofTerra = ({ data }: dataProp) => {
+  const showReleases = data.map((book) => {
+    return <img src={book.image} alt={book.title} />;
+  });
 
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Siege of Terra</Text>
-
-    
-
     </Box>
-  )
-}
+  );
+};
 
-const Omnibuses = () => {
+const Omnibuses = ({ data }: dataProp) => {
+  const showReleases = data.map((book) => {
+    return <img src={book.image} alt={book.title} />;
+  });
   return (
     <Box p="5" boxShadow="md">
       <Text fontSize="xl">Omnibuses</Text>
       {/* Add content here */}
     </Box>
-  )
-}
+  );
+};
 
 const ByFaction = () => {
   const imagesFaction = [
