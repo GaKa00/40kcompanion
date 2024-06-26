@@ -12,6 +12,7 @@
    author: string;
    pages?: number;
    desc?: string;
+   link?: string;
    image: string;
    isFinished?: boolean;
    isReading?: boolean;

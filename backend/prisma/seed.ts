@@ -19,7 +19,7 @@ async function main() {
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "astartes"],
-        link: "",
+        link: "https://www.amazon.com/Horus-Rising-Heresy-Dan-Abnett/dp/184970743X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.PN9YjGmXm6g_g9OJrIz_indHOPaO84Z3b8g_Ww-l9Smc5YWzvGYc_8QeKjdh-BPWOQNaw6itvrrvwtuZKNOMZdvbyo1CcEvK_n8ZmSIUClFZJrevwszGxCuJzcUbN4qT61VE64tbkg3AmyeAUGRmDQ2JGVNgqfaiTuS_kt8O2n4lKnBSqX8reuouWpugJVHkOzMU4GOWSQARG1Zq2J9KwzsNHMLZX6f7dLd3JNy9Kjw.ZTgLQnTfTxBmu8alC-aythVvsqHhxFLv3vgYHbKyOhA&qid=1719427240&sr=1-1",
         rating: null,
         quotes: "",
         summary: "",
