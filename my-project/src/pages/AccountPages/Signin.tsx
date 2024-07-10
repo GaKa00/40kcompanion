@@ -19,10 +19,12 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function Signin() {
-  let token = '';
+
+
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
 
   const login = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -32,13 +34,25 @@ export default function Signin() {
         username,
         password
       });
-      localStorage.setItem(token, response.data.token);
-      console.log(token)
+
+      if(remember) {
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("uid", response.data.userId)
+      }
+      else{
+      sessionStorage.setItem("token", response.data.token);}
+       sessionStorage.setItem("uid", response.data.userId);
+      
         navigate('/library')
     } catch (error) {
       console.log(error);
     }
   }
+
+  const toggleRemember = () => {
+    setRemember((prevRemember) => !prevRemember);
+  };
+  
   
   return (
     <Container
@@ -100,7 +114,7 @@ export default function Signin() {
                   align="start"
                   justify="space-between"
                 >
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox onClick={toggleRemember}>Remember me</Checkbox>
                   <Link color="blue.400">Forgot password?</Link>
                 </Stack>
                 <ChakraLink

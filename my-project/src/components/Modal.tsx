@@ -1,49 +1,62 @@
-import React, { useEffect } from "react";
-import { Book } from ".././types/types";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
-  ModalBody,
   ModalCloseButton,
+  ModalBody,
+  ModalFooter,
   Button,
-  Image,
   Text,
-  VStack,
+  Image,
   Flex,
-  Link,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { BookDetailModalProps } from "../types/types";
 
-
-let token = ''
-localStorage.getItem(token);
-interface BookDetailModalProps {
-  book: Book;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-
-const addtoList = (id: string) => {
-  useEffect(() => {
-    axios
-      .put(`http://localhost:3000/users/${id}/reading-list`)
-      .then(() => {
-        alert("Book added to reading list");
-      })
-      .catch((error) => {
-        console.error("Error adding book to reading list:", error);
-      });
-  }, [token]);
-}
 const BookDetailModal: React.FC<BookDetailModalProps> = ({
   book,
   isOpen,
   onClose,
 }) => {
+  const [bookIdToAdd, setBookIdToAdd] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (bookIdToAdd !== null) {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+      const userId =
+        localStorage.getItem("uid") || sessionStorage.getItem("uid");
+
+      if (token && userId) {
+        axios
+          .post(
+            `http://localhost:3000/api//users/${userId}/reading-list`,
+            { bookId: bookIdToAdd },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then(() => {
+            alert("Book added to reading list");
+          })
+          .catch((error) => {
+            console.error("Error adding book to reading list:", error);
+          })
+          .finally(() => {
+            setBookIdToAdd(null); // Reset the state after the request is complete
+          });
+      }
+    }
+  }, [bookIdToAdd]);
+
+  const handleAddToList = () => {
+    setBookIdToAdd(book.id);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -59,11 +72,11 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" mr={3}>
-            <Button as="a" colorScheme="blue" href={book.link} mr={3}>
-              Buy on Amazon
-            </Button>
+            <a href={book.link} target="_blank">
+              Buy from Amazon
+            </a>
           </Button>
-          <Button colorScheme="green" mr={3} onClick={() => addtoList(token)}>
+          <Button colorScheme="green" mr={3} onClick={handleAddToList}>
             Add to Reading List
           </Button>
           <Button colorScheme="red" mr={3} onClick={onClose}>

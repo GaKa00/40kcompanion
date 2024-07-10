@@ -39,7 +39,7 @@ const register = async (e: React.FormEvent<HTMLButtonElement>) => {
       password,
     });
     console.log(response);
-    navigate('/login')
+    navigate('/signin')
    
   } catch (error) {
     console.log(error);

@@ -19,3 +19,31 @@
    tags?: string[]
  };
 
+ export interface BookDetailModalProps {
+  book: Book;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+ export type User = {
+
+   
+   id:number;
+   username:String  ;
+   email: string  
+   password: string;
+   createdAt: string; 
+   readingList:[];
+  }
+
+  export type ReadingList = {
+    id:number;
+  isFinished:boolean;
+  isReading:boolean;
+  rating?: number;
+  quotes?: string;
+  summary?: string;
+  addedAt:string;
+  book:Book
+
+  }

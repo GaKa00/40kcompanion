@@ -31,12 +31,6 @@ export async function register(req: Request, res: Response) {
         username,
         email,
         password: hashedPassword,
-        readingList: {
-          create: {
-            isFinished: false,
-            isReading: false,
-          },
-        },
       },
     });
     res.status(201).json({ message: "User registered", userId: user.id });
@@ -66,7 +60,7 @@ export async function login(req: Request, res: Response) {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-
+    
     const payload = {
       id: user.id,
       username: user.username,
@@ -82,60 +76,65 @@ export async function login(req: Request, res: Response) {
     };
 
     const token = jwt.sign(payload, secretKey, options);
-    res.json({ token });
+    res.json({ token, userId: user.id });
   } catch (error) {
     console.error(error); // Log the error for debugging
 
     
   }
+  
 }
  
-
-
-//Get reading list from active user
-
-
-
-export async function getReadingList(req: Request, res: Response) {
+export async function getUser(req:Request, res:Response) {
   const { id: userId } = req.params;
   const parsedUserId = Number(userId);
 
-  
-
   if (req.user?.id !== parsedUserId) {
-    return res.status(403).json({ message: "Access forbidden, userid does not match" });
+    return res
+      .status(403)
+      .json({ message: "Access forbidden, userId does not match" });
   }
 
   try {
-    let readingList = await prisma.readingList.findMany({
-      where: { userId: parsedUserId },
-      include: { book: true },
+    const activeUser = await prisma.user.findUnique({
+      where: { id: parsedUserId },
     });
 
-    
-    if (readingList.length === 0) {
-      const emptyReadingListEntry = await prisma.readingList.create({
-        data: {
-          userId: parsedUserId,
-          bookId: null, 
-          isFinished: false,
-          isReading: false,
-        },
-     
-      });
-
-      readingList = await prisma.readingList.findMany({
-        where: { userId: parsedUserId },
-        include: { book: true },
-      });
+    if (!activeUser) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(readingList);
+    res.json(activeUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
+//Get reading list from active user
+
+
+
+export async function getUserReadingList(req: Request, res: Response) {
+  const { id: userId } = req.params;
+  const parsedUserId = Number(userId);
+
+  if (req.user?.id !== parsedUserId) {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+
+  try {
+    const readingList = await prisma.readingList.findMany({
+      where: { userId: parsedUserId },
+      include: { book: true },
+    });
+    res.status(200).json(readingList);
+  } catch (error) {
+    console.error("Error fetching reading list:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 
 
 export async function deleteBookFromReadinglist(req:Request, res:Response){
@@ -197,7 +196,7 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
    }
 
    try {
-     const readingList = await prisma.readingList.create({
+     const newEntry= await prisma.readingList.create({
        data: {
          userId: parsedUserId,
          bookId: parsedBookId,
@@ -205,7 +204,7 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
          isReading: true,
        },
      });
-     res.status(201).json(readingList);
+     res.status(201).json(newEntry);
    } catch (error) {
      console.error(error);
      res.status(400).json({ error: error });

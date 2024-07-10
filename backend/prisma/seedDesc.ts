@@ -2,7 +2,8 @@
  export const bookDescriptions = {
    "Horus Rising": {
      desc: "Under the benevolent leadership of the Immortal Emperor the Imperium of Man has stretched out across the galaxy. On the eve of victory, the Emperor leaves the front lines, entrusting the great crusade to his favorite son, Horus. Promoted to Warmaster, the idealistic Horus tries to carry out the Emperor'sgrand design, all the while the seeds of heresy and rebellion have been sowed amongst his brothers.",
-     image: "https://m.media-amazon.com/images/I/51z11hTsDSL._SY445_SX342_.jpg",
+     image:
+       "../my-project/public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
    },
    "False Gods": {
      desc: "The Great Crusade that has taken humanity into the stars continues. The Emperor of mankind has handed the reins of command to his favoured son, the Warmaster Horus. Yet all is not well in the armies of the Imperium. Horus is still battling against the jealousy and resentment of his brother primarchs and, when he is injured in combat on the planet Davin, he must also battle his inner daemons. With all the temptations that Chaos has to offer, can the weakened Horus resist?",
@@ -93,15 +94,15 @@
      image: "path/to/image.jpg",
    },
    "Fear to Tread": {
-     desc: "Description for Fear to Tread.",
+     desc: "Since the earliest days of the Great Crusade, Sanguinius – angelic primarch of the IXth Legion – was ever among the closest and most loyal of Horus’s brothers. But the Blood Angels have long kept their true nature hidden from the rest of the Imperium, and when the Warmaster hints that the key to their salvation may lie in the ruins of a conquered world, the sons of Sanguinius race to claim it. Now, as the revelation of their betrayal dawns and the traitors’ hand is revealed, the Blood Angels must face all the warp-spawned armies of Chaos, as well their own personal daemons, upon the blasted plains of Signus Prime...",
      image: "path/to/image.jpg",
    },
    "Shadows of Treachery": {
-     desc: "Description for Shadows of Treachery.",
+     desc: "From the battlefields of Phall and Isstvan, to the haunted shadows of Terra itself – the greatest war in the history of mankind rages on. While the traitor Legions continue their campaign of terror across the galaxy, preparations are made for the defence of the Imperial Palace and the final, inevitable reckoning that must yet come between Horus and the Emperor... This anthology spans the entire Horus Heresy, with short stories from Dan Abnett, Graham McNeill and Gav Thorpe, as well as two brand new novella-length tales. Learn the fate of Rogal Dorn’s fleet originally sent to Isstvan III in ‘The Crimson Fist’ by John French, and descend deeper into the darkness of the Night Lords Legion in ‘Prince of Crows’ by Aaron Dembski-Bowden.",
      image: "path/to/image.jpg",
    },
    "Angel Exterminatus": {
-     desc: "Description for Angel Exterminatus.",
+     desc: "erturabo – master of siegecraft, and the executioner of Olympia. Long has he lived in the shadow of his more favoured primarch brothers, frustrated by the mundane and ignominious duties which regularly fall to his Legion. When Fulgrim offers him the chance to lead an expedition in search of ancient and destructive xenos weaponry, the Iron Warriors and the Emperor’s Children unite and venture deep into the heart of the great star maelstrom that haunts Perturabo's dreams. Pursued by vengeful survivors from Isstvan V and the revenants of a dead eldar world, they must work quickly if they are to unleash the devastating power of the Angel Exterminatus!",
      image: "path/to/image.jpg",
    },
    "Tallarn: Ironclad": {
@@ -109,11 +110,11 @@
      image: "path/to/image.jpg",
    },
    Betrayer: {
-     desc: "Description for Betrayer.",
+     desc: "The Shadow Crusade has begun. While the Ultramarines reel from Kor Phaeron’s surprise attack on Calth, Lorgar leads the rest of the Word Bearers deep into the realm of Ultramar. Their unlikely allies, Angron and the World Eaters, seem blind to the true goals of the mission, preferring instead to ravage each new civilisation they come across – but where Lorgar might once have chastised his wayward brother, now he seems only to encourage the frenzied bloodletting. Worlds will burn, Legions will clash and a primarch will fall... and the fate of the entire galaxy hangs in the balance.",
      image: "path/to/image.jpg",
    },
    "Mark of Calth": {
-     desc: "Description for Mark of Calth.",
+     desc: "The Heresy came to Calth without warning. In just a few hours of betrayal and bloodshed, the proud warriors of the XIIIth Legion – Guilliman’s own Ultramarines – were laid low by the treachery of their erstwhile brothers of the XVIIth. Now, as the planet is scoured by solar flares from the wounded Veridian star, the survivors must take the fight to the remaining Word Bearers and their foul allies, or face damnation in the gloomy arcology shelters beneath the planet’s surface. A collection of stories by authors including Dan Abnett, Aaron Demsbki-Bowden and Rob Sanders. The battle for Calth is far from over...",
      image: "path/to/image.jpg",
    },
    "Promethean Sun": {
@@ -121,15 +122,15 @@
      image: "path/to/image.jpg",
    },
    "Vulkan Lives": {
-     desc: "Description for Vulkan Lives.",
+     desc: "In the wake of the Dropsite Massacre at Isstvan V, the survivors of the Salamanders Legion searched long and hard for their fallen primarch, but to no avail. Little did they know that while Vulkan might have wished himself dead, he lives still... languishing in a hidden cell for the entertainment of a cruel gaoler, his brother Konrad Curze. Enduring a series of hellish tortures designed to break his body and spirit, Vulkan witnesses the depths of the Night Haunter's depravity, but also discovers something else - a revelation that could change the course of the entire war.",
      image: "path/to/image.jpg",
    },
    "The Unremembered Empire": {
-     desc: "Description for The Unremembered Empire.",
+     desc: "Far out on the Eastern Fringe, the realm of Ultramar stands alone. Having weathered the Word Bearers’ attack on Calth and the subsequent Shadow Crusade against the Five Hundred Worlds, the Ultramarines primarch Roboute Guilliman now draws all loyalist forces to Macragge as he contemplates a new future for mankind. With the arrival of more and more fugitives from the war that has engulfed the rest of the galaxy, all distinction between friend and foe is lost – isolated from Terra by fearsome warp storms, is Guilliman making a bid for power to rival even the renegade Warmaster Horus?",
      image: "path/to/image.jpg",
    },
    Scars: {
-     desc: "Description for Scars.",
+     desc: "Fresh from their conquest of Chondax and the discovery of Horus’s rebellion, Jaghatai Khan’s warriors stand divided. Long considered one of the less trustworthy Legions, many of the White Scars claim to owe their loyalty exclusively to Terra, and others still to the Warmaster and his warrior lodges. But when a distress call from Leman Russ of the Space Wolves brings the wrath of the Alpha Legion to Chondax, the Khan’s hand is forced and the decision must be made – in the great war for the Imperium, will he side with the Emperor or Horus?",
      image: "path/to/image.jpg",
    },
    "Wolf King": {
@@ -137,27 +138,27 @@
      image: "path/to/image.jpg",
    },
    "Vengeful Spirit": {
-     desc: "Description for Vengeful Spirit.",
+     desc: "Once the brightest star in the Imperium and always first among his primarch brothers, Horus has dragged the Space Marine Legions into the bloodiest conflict that the galaxy has ever seen. While their allies wage war on a thousand different fronts, the XVIth Legion descend upon the Knight world of Molech - home to the ruling House Devine, and a principal stronghold of the Imperial Army. The forces loyal to the Emperor stand ready to defy the Warmaster, but just what could have drawn Horus to attack such a well defended planet, and what might he be willing to sacrifice to fulfil his own dark destiny?",
      image: "path/to/image.jpg",
    },
    "The Damnation of Pythos": {
-     desc: "Description for The Damnation of Pythos.",
+     desc: "In the aftermath of the Dropsite Massacre at Isstvan V, a battered and bloodied force of Iron Hands, Raven Guard and Salamanders regroups on a seemingly insignificant death world. Fending off attacks from all manner of monstrous creatures, the fractious allies find hope in the form of human refugees fleeing from the growing war, and cast adrift upon the tides of the warp. But even as the Space Marines carve out a sanctuary for them in the jungles of Pythos, a darkness gathers that threatens to consume them all…",
      image: "path/to/image.jpg",
    },
    "Legacies of Betrayal": {
-     desc: "Description for Legacies of Betrayal.",
+     desc: "Only from out of great conflict can true heroes arise. With the galaxy aflame and war on an unimaginable scale tearing the Imperium apart, champions of light and darkness venture onto countless fields of battle in service to their masters. They ask not for remembrance or reward - simply to meet their destiny head-on, and only by embracing that destiny will they come to learn what the unseen future may yet hold for them...",
      image: "path/to/image.jpg",
    },
    Deathfire: {
-     desc: "Description for Deathfire.",
+     desc: "Vulkan lies in state beneath the Fortress of Hera, and yet many of his sons still refuse to believe that he is truly dead. After a seemingly miraculous rescue by the Ultramarines, Artellus Numeon, once captain of the Pyre Guard, urges the other Salamanders on Macragge to leave Imperium Secundus and return their primarch's body to the home world of Nocturne - there to be reborn in the flames of Mount Deathfire. But Numeon grapples endlessly with his doubts and fears for the future of the Legion, while their foes seek to carve out new destinies of their own...",
      image: "path/to/image.jpg",
    },
    "War Without End": {
-     desc: "Description for War Without End.",
+     desc: "The Emperor’s vision of mankind ascendant lies in tatters. But with Horus’s rebellion spreading to every corner of the Imperium and war engulfing new worlds and systems almost daily, there are some who now ask: were the signs there to be seen all along? In these dark times, only one thing is certain – the galaxy will never know peace again, not in this lifetime or a thousand others... This Horus Heresy anthology contains twenty-one short stories by the cream of Black Library's authors, including David Annandale, Aaron Dembski-Bowden, John French, Guy Haley, Nick Kyme, Graham McNeill, Rob Sanders, Andy Smillie, James Swallow, Gav Thorpe and Chris Wraight.",
      image: "path/to/image.jpg",
    },
    " Pharos": {
-     desc: "Description for Pharos.",
+     desc: "With the noble Emperor Sanguinius ruling from Macragge, Imperium Secundus stands as a lone beacon of hope even as the Warmaster’s forces continue to ravage the rest of the galaxy. Roboute Guilliman, still Master of Ultramar, has convinced his brother that Terra has fallen and that the mysterious Mount Pharos on Sotha now holds the key to mankind’s future. But the Night Lords, the cruel and pitiless sons of Konrad Curze, have been watching from the shadows, and make ready to launch their long-planned attack on the Pharos itself…",
      image: "path/to/image.jpg",
    },
    "The Seventh Serpent": {
@@ -165,7 +166,7 @@
      image: "path/to/image.jpg",
    },
    "Eye of Terra": {
-     desc: "Description for Eye of Terra.",
+     desc: "Once, the title of Warmaster stood for honour, loyalty and a fierce pride in the strength of the Space Marine Legions. But perhaps by following the myriad lines of destiny and defiance that were already woven around the primarchs and their sons, we may yet come to understand the bitterness that can eat away at even the most steadfast of souls… This Horus Heresy anthology contains fifteen short stories by authors such as Graham McNeill, Nick Kyme, Gav Thorpe and many more. It also includes Aaron Dembski-Bowden’s acclaimed novella Aurelian.",
      image: "path/to/image.jpg",
    },
    "The Path of Heaven": {
