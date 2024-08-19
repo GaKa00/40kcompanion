@@ -21,6 +21,8 @@ app.use(express.json());
  * @route GET /users/:id
  */
 
+
+//takes user details from body, then creates new user and grants an userid.
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,6 +43,7 @@ export async function register(req: Request, res: Response) {
 }
 
 //log in registered user
+//also creates an user token for other functionality which require authentication
 export async function login(req: Request, res: Response) {
   try {
     const { username, password } = req.body;
@@ -84,7 +87,7 @@ export async function login(req: Request, res: Response) {
   }
   
 }
- 
+ //gets the active user if userdata is needed (as per profile page)
 export async function getUser(req:Request, res:Response) {
   const { id: userId } = req.params;
   const parsedUserId = Number(userId);
@@ -118,6 +121,7 @@ export async function getUser(req:Request, res:Response) {
 export async function getUserReadingList(req: Request, res: Response) {
   const { id: userId } = req.params;
   const parsedUserId = Number(userId);
+  
 
   if (req.user?.id !== parsedUserId) {
     return res.status(403).json({ message: "Access forbidden" });
@@ -140,9 +144,10 @@ export async function getUserReadingList(req: Request, res: Response) {
 export async function deleteBookFromReadinglist(req:Request, res:Response){
       const { userId, readingListId } = req.params;
       let parsedReadingListId = Number(readingListId);
+      const parsedUserId = Number(userId);
     
       
-      if (req.user?.userId !== userId) {
+      if (req.user?.userId !== parsedUserId) {
         return res.status(403).json({ message: "Access forbidden" });
       }
       
@@ -158,24 +163,60 @@ export async function deleteBookFromReadinglist(req:Request, res:Response){
 
 // Update book in reading list
 
+//typing for updating readinglist bookentries
+
+interface ReadingListUpdate {
+  isFinished?: boolean;
+  isReading?: boolean;
+  rating?: number;
+  quotes?: string;
+  summary?: string;
+}
+
+// if uid and readinglistid are defined, they will be parsed, then checked for comparisoj
+//if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateBookInReadinglist(req: Request, res: Response) {
   const { userId, readingListId } = req.params;
-  const parsedReadingListId = Number(readingListId);
-  const { isFinished, isReading, rating, quotes, summary } = req.body;
 
-  if (req.user?.id !== Number(userId)) {
+  console.log(`Received userId: ${userId}, readingListId: ${readingListId}`);
+
+  if (!userId || !readingListId) {
+    return res.status(400).json({ message: "Missing userId or readingListId" });
+  }
+
+  const parsedReadingListId = parseInt(readingListId, 10);
+  const parsedUserId = parseInt(userId, 10);
+
+  if (isNaN(parsedUserId) || isNaN(parsedReadingListId)) {
+    return res.status(400).json({ message: "Invalid userId or readingListId" });
+  }
+
+  const { isFinished, isReading, rating, quotes, summary }: ReadingListUpdate =
+    req.body;
+
+  if (req.user?.id !== parsedUserId) {
+    console.log(
+      `Access forbidden: req.user.id (${req.user?.id}) !== userId (${parsedUserId})`
+    );
     return res.status(403).json({ message: "Access forbidden" });
   }
+
+  const data: ReadingListUpdate = {};
+  if (typeof isFinished !== "undefined") data.isFinished = isFinished;
+  if (typeof isReading !== "undefined") data.isReading = isReading;
+  if (typeof rating !== "undefined") data.rating = rating;
+  if (typeof quotes !== "undefined") data.quotes = quotes;
+  if (typeof summary !== "undefined") data.summary = summary;
 
   try {
     const updatedReadingList = await prisma.readingList.update({
       where: { id: parsedReadingListId },
-      data: { isFinished, isReading, rating, quotes, summary },
+      data,
     });
     res.json(updatedReadingList);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: error });
+    res.status(400).json({ error: (error as Error).message });
   }
 }
 
