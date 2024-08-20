@@ -173,7 +173,7 @@ interface ReadingListUpdate {
   summary?: string;
 }
 
-// if uid and readinglistid are defined, they will be parsed, then checked for comparisoj
+// if uid and readinglistid are defined, they will be parsed, then checked for comparison
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateBookInReadinglist(req: Request, res: Response) {
   const { userId, readingListId } = req.params;
@@ -202,11 +202,11 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
   }
 
   const data: ReadingListUpdate = {};
-  if (typeof isFinished !== "undefined") data.isFinished = isFinished;
-  if (typeof isReading !== "undefined") data.isReading = isReading;
-  if (typeof rating !== "undefined") data.rating = rating;
-  if (typeof quotes !== "undefined") data.quotes = quotes;
-  if (typeof summary !== "undefined") data.summary = summary;
+  if (isFinished !== undefined) data.isFinished = isFinished;
+  if (isReading !== undefined) data.isReading = isReading;
+  if (rating !== undefined) data.rating = rating;
+  if (quotes !== undefined) data.quotes = quotes;
+  if (summary !== undefined) data.summary = summary;
 
   try {
     const updatedReadingList = await prisma.readingList.update({
@@ -252,5 +252,6 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
    }
  }
 
-  
+
+
 

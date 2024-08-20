@@ -120,6 +120,8 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
       `Sending update with summary: ${newSummary}, readingListId: ${readingListId}, userId: ${userId}`
     );
 
+   // check if sumamary already exists in backend if it does, overwrite the existing one
+
     axios
       .put(
         `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}`,
@@ -152,6 +154,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
       return;
     }
 
+    // check if qupdate already exists in backend if it does, overwrite the existing one
     axios
       .put(
         `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}`,
@@ -294,6 +297,10 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
               </Button>
             </>
           ) : null}
+
+          <Button colorScheme="green" ml={3} onClick={onRead}>
+ Finished Reading
+          </Button>
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>

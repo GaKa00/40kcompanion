@@ -4,6 +4,7 @@
 - Fill in database
 - Resolve Cors
 - Resolve adding book to readinglist
+-resolve dynamic count
 
 
 

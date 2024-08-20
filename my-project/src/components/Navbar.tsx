@@ -21,14 +21,10 @@ import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
 
-
-
 interface Props {
   children: React.ReactNode;
 }
-
 const Links = ["Books", "Upcoming Releases", "Support The Creator"];
-
 const NavLink = (props: Props) => {
   const { children } = props;
 

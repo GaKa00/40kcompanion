@@ -119,6 +119,8 @@ const ProfileCard = ({ data }: { data: User }) => {
           <Stack spacing={0} align={"center"}>
             <Text fontSize={"xl"} fontWeight={600}>
              30
+              {/* Add books in readinglist  with is finished¨
+               */}
             </Text>
             <Text fontSize={"md"} color={"gray.500"}>
               Books Read
