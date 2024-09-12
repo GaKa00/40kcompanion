@@ -56,7 +56,7 @@ const Librarypage = () => {
           src="./public/images/LandingImages/alternativeHero.jpg"
         />
       </Box>
-      <ByFaction />
+     
       <Flex mt="4" justifyContent={'center'} >
         <LatestReleases data={books} openModal={openModal} />
  
@@ -141,38 +141,3 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 //   );
 // };
 
-const ByFaction = () => {
-  const imagesFaction = [
-    "images/FactionLogos/AstartesLogo.jpg",
-    "images/FactionLogos/MechanicusLogo.jpg",
-    "images/FactionLogos/MilitarumLogo.jpg",
-    "images/FactionLogos/SororitasLogo.jpg",
-    "images/FactionLogos/NecronsLogo.jpg",
-    "images/FactionLogos/OrkzLogo.jpg",
-    "images/FactionLogos/TyranidsLogo.jpg",
-  ];
-  const namesFaction = [
-    "Adeptus Astartes",
-    "Adeptus Mechanicus",
-    "Astra Militarum",
-    "Adepta Sororitas",
-    "Necrons",
-    "Orks",
-    "Tyranids",
-  ];
-  return (
-    <Box width="100%" p="5" boxShadow="md">
-      <Text fontSize="2xl" textAlign="center" mb="4">
-        Factions
-      </Text>
-      <SimpleGrid columns={[1, 2, 3, 7]} spacing="20px">
-        {imagesFaction.map((image, index) => (
-          <VStack key={index} textAlign="center">
-            <Image src={image} alt={namesFaction[index]} w={100} h={100} />
-            <Text mt="2">{namesFaction[index]}</Text>
-          </VStack>
-        ))}
-      </SimpleGrid>
-    </Box>
-  );
-};

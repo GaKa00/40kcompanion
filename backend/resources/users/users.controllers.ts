@@ -177,6 +177,7 @@ interface ReadingListUpdate {
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateBookInReadinglist(req: Request, res: Response) {
   const { userId, readingListId } = req.params;
+  console.log( "params", req.params)
 
   console.log(`Received userId: ${userId}, readingListId: ${readingListId}`);
 

@@ -72,6 +72,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
   // function for handling rating changes
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
+    console.log("Setting new rating" + newRating);
     if (readingListId) {
       updateRating(newRating, readingListId);
     }
@@ -117,7 +118,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
     }
 
     console.log(
-      `Sending update with summary: ${newSummary}, readingListId: ${readingListId}, userId: ${userId}`
+      `Sending update with summary: ${newSummary}, readingListId: ${readingListId},userId: ${userId}`
     );
 
    // check if sumamary already exists in backend if it does, overwrite the existing one
@@ -211,8 +212,6 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
 
 
   return (
-
-  
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
@@ -229,13 +228,17 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
           onChange={() => setEditBool(!editBool)}
         />
         <Flex justify="center">
-          <ReactStars
-            count={5}
-            value={rating}
-            onChange={handleRatingChange}
-            size={35}
-            color2={"#ffd700"}
-          />
+        
+            <ReactStars
+              count={5}
+              value={rating}
+              onChange={handleRatingChange}
+              size={35}
+              color2={"#ffd700"}
+              half={false}
+              edit={editBool}
+              />
+    
         </Flex>
         <ModalCloseButton />
         <ModalBody>
@@ -269,9 +272,8 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
                 </>
               )}
             </>
-          ) : 
-          // will show if edit mode is disabled
-          (
+          ) : (
+            // will show if edit mode is disabled
             <>
               {summaryBool && (
                 <Box mb={4} p={4} border="1px solid" borderColor="gray.300">
@@ -298,8 +300,9 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
             </>
           ) : null}
 
-          <Button colorScheme="green" ml={3} onClick={onRead}>
- Finished Reading
+          <Button colorScheme="green" ml={3}>
+            {/* onClick={onRead} */}
+            Finished Reading
           </Button>
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
