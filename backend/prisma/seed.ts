@@ -894,7 +894,7 @@ async function main() {
   rating: null,
   quotes: "",
   summary: ""
-}
+},
 
 
       {
