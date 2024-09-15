@@ -7,6 +7,7 @@ import {
   Spacer,
   Text,
   SimpleGrid,
+  Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -100,7 +101,17 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
 const AllBooks = ({ data, openModal }: dataProp) => {
   const showAll = data.map((book) => {
     return (
-      <img src={book.image} alt={book.title} onClick={() => openModal(book)} />
+      <Box
+        key={book.id}
+        p={4}
+        shadow="md"
+        rounded="lg"
+        maxW="300px"
+        onMouseEnter={}>
+
+      <Heading className="text-center m-2">{book.title}</Heading>
+      <img src={book.image} alt={book.title} onClick={() => openModal(book)}/>
+        </Box>
     );
   });
 

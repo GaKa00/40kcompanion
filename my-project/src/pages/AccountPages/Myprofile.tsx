@@ -241,13 +241,18 @@ const BookShowcase = ({
           filteredBooks.map((list) => (
             <Box key={list.id} p={4} shadow="md" rounded="lg" maxW="300px">
               {list.book.image && (
+                <div>
+
+                <Heading fontSize="lg">{list.book.title}</Heading>
                 <Image
                   src={list.book.image}
                   alt={list.book.title}
                   onClick={() => openModal(list.book)}
-                />
+                  cursor="pointer"
+                  maxH="200px"
+                  />
+                  </div>
               )}
-              <Heading fontSize="lg">{list.book.title}</Heading>
             </Box>
           ))
         ) : (
