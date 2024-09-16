@@ -112,15 +112,11 @@ export default function Navbar() {
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem>
-                  <ChakraLink as={ReactRouterLink} to="/">
-                    Unknown
+                  <ChakraLink as={ReactRouterLink} to="/" textColor='red'>
+                    Logout
                   </ChakraLink>
                 </MenuItem>
-                <MenuItem>
-                  <ChakraLink as={ReactRouterLink} to="/readingList">
-                    Your Reading List
-                  </ChakraLink>
-                </MenuItem>
+               
                 <MenuItem></MenuItem>
               </MenuList>
             </Menu>

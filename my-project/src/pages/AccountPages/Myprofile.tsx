@@ -11,67 +11,67 @@ import {
   Button,
   useColorModeValue,
   Divider,
- 
-  HStack,
-  Spacer
+  Switch,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Book, ReadingList, User } from "../../types/types";
-import Footer from "../../components/Footer";
-import ReadingListModal from "../../components/RLModal";
+import Footer from "../../components/ui/Footer";
+import ReadingListModal from "../../components/Modal/RLModal";
+import EditedModal from "../../components/Modal/EditModeModal";
+import { getUser } from "../../utils/renderFetches";
 
 const MyProfile = () => {
+  //States
   const [user, setUser] = useState<User | null>(null);
-   const [isOpen, setIsOpen] = useState(false);
-   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
- 
+  const [isOpen, setIsOpen] = useState(false); //state that handles opening ReadingList Modal  when true
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that sets data for what book is being opened
+  const [editBool, setEditBool] = useState<boolean>(false);
 
-       const openModal = (book: Book) => {
-         setSelectedBook(book);
-         setIsOpen(true);
-       };
+  const openModal = (book: Book) => {
+    setSelectedBook(book);
+    setIsOpen(true);
+  };
 
-       const closeModal = () => {
-         setSelectedBook(null);
-         setIsOpen(false);
-       };
+  const closeModal = () => {
+    setSelectedBook(null);
+    setIsOpen(false);
+  };
 
-  useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    const userId = localStorage.getItem("uid") || sessionStorage.getItem("uid");
-
-    if (token && userId) {
-      axios
-        .get(`http://localhost:3000/api/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => setUser(response.data))
-        .catch((error) => {
-          console.error("Error fetching user:", error);
-        });
-    }
-  }, []);
+  //fetch active user data
+  getUser(setUser);
 
   return (
     <div>
-      {user ? <ProfileCard data={user} /> : <Text>Loading...</Text>}
-
       {user ? (
-        <ButtonCard userId={user.id} openModal={openModal} />
+        <>
+          <ProfileCard data={user} />
+          <ButtonCard
+            userId={user.id}
+            openModal={openModal}
+            editBool={editBool}
+            setEditBool={setEditBool}
+          />
+        </>
       ) : (
         <Text>Loading...</Text>
       )}
+
       <Footer />
-      {selectedBook && (
-        <ReadingListModal
-          book={selectedBook}
-          isOpen={isOpen}
-          onClose={closeModal}
-        />
-      )}
+      {editBool
+        ? selectedBook && (
+            <EditedModal
+              book={selectedBook}
+              isOpen={isOpen}
+              onClose={closeModal}
+            />
+          )
+        : selectedBook && (
+            <ReadingListModal
+              book={selectedBook}
+              isOpen={isOpen}
+              onClose={closeModal}
+            />
+          )}
     </div>
   );
 };
@@ -118,7 +118,7 @@ const ProfileCard = ({ data }: { data: User }) => {
           </Box>
           <Stack spacing={0} align={"center"}>
             <Text fontSize={"xl"} fontWeight={600}>
-             30
+              30
               {/* Add books in readinglist  with is finished¨
                */}
             </Text>
@@ -132,14 +132,16 @@ const ProfileCard = ({ data }: { data: User }) => {
   );
 };
 
-
-
 const ButtonCard = ({
   userId,
   openModal,
+  editBool,
+  setEditBool,
 }: {
   userId: number;
   openModal: (book: Book) => void;
+  editBool: boolean;
+  setEditBool: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [readingList, setReadingList] = useState<any[]>([]);
   const [showFinished, setShowFinished] = useState(true);
@@ -181,6 +183,15 @@ const ButtonCard = ({
           </Button>
         </Flex>
       </Box>
+      <Text size="sm" m={2}>
+        Edit Mode
+      </Text>
+      <Switch
+        size="md"
+        mx={4}
+        isChecked={editBool}
+        onChange={() => setEditBool(!editBool)}
+      />
       <BookShowcase
         readingList={readingList}
         showFinished={showFinished}
@@ -190,13 +201,20 @@ const ButtonCard = ({
   );
 };
 
-
 export default MyProfile;
 
-const BookShowcase = ({readingList,showFinished, openModal}: {readingList: ReadingList[];showFinished: boolean;  openModal: (book: Book) => void}) => {
-
-  const filteredBooks = readingList.filter((list) => showFinished ? list.isFinished : !list.isFinished);
-
+const BookShowcase = ({
+  readingList,
+  showFinished,
+  openModal,
+}: {
+  readingList: ReadingList[];
+  showFinished: boolean;
+  openModal: (book: Book) => void;
+}) => {
+  const filteredBooks = readingList.filter((list) =>
+    showFinished ? list.isFinished : !list.isFinished
+  );
 
   console.log("Filtered books:", filteredBooks);
 
@@ -223,13 +241,18 @@ const BookShowcase = ({readingList,showFinished, openModal}: {readingList: Readi
           filteredBooks.map((list) => (
             <Box key={list.id} p={4} shadow="md" rounded="lg" maxW="300px">
               {list.book.image && (
+                <div>
+
+                <Heading fontSize="lg">{list.book.title}</Heading>
                 <Image
                   src={list.book.image}
                   alt={list.book.title}
                   onClick={() => openModal(list.book)}
-                />
+                  cursor="pointer"
+                  maxH="200px"
+                  />
+                  </div>
               )}
-              <Heading fontSize="lg">{list.book.title}</Heading>
             </Box>
           ))
         ) : (

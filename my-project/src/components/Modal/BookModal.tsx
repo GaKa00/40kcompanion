@@ -13,7 +13,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { BookDetailModalProps } from "../types/types";
+import { BookDetailModalProps } from "../../types/types";
 
 const BookDetailModal: React.FC<BookDetailModalProps> = ({
   book,

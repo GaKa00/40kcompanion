@@ -6,15 +6,14 @@ import {
   Flex,
   Spacer,
   Text,
-  SimpleGrid
+  SimpleGrid,
+  Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/ui/Navbar";
 import { Book } from "../../types/types";
-import BookDetailModal from "../../components/Modal";
-
-
+import BookDetailModal from "../../components/Modal/BookModal";
 
 const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -26,15 +25,15 @@ const Librarypage = () => {
       .then((response) => setBooks(response.data));
   }, []);
 
-   const openModal = (book: Book) => {
-     setSelectedBook(book);
-     setIsOpen(true);
-   };
+  const openModal = (book: Book) => {
+    setSelectedBook(book);
+    setIsOpen(true);
+  };
 
-   const closeModal = () => {
-     setSelectedBook(null);
-     setIsOpen(false);
-   };
+  const closeModal = () => {
+    setSelectedBook(null);
+    setIsOpen(false);
+  };
 
   return (
     <VStack spacing={8} align="center">
@@ -56,17 +55,21 @@ const Librarypage = () => {
           src="./public/images/LandingImages/alternativeHero.jpg"
         />
       </Box>
-      <ByFaction />
-      <Flex mt="4" justifyContent={'center'} >
+
+      <Flex mt="4" justifyContent={"center"}>
         <LatestReleases data={books} openModal={openModal} />
- 
+
         {/* <Omnibuses data={books} openModal={openModal} /> */}
       </Flex>
       <Box width="90%">
         <AllBooks data={books} openModal={openModal} />
       </Box>
       {selectedBook && (
-        <BookDetailModal book={selectedBook} isOpen={isOpen} onClose={closeModal} />
+        <BookDetailModal
+          book={selectedBook}
+          isOpen={isOpen}
+          onClose={closeModal}
+        />
       )}
     </VStack>
   );
@@ -79,17 +82,12 @@ interface dataProp {
   openModal: (book: Book) => void;
 }
 
-const LatestReleases = ({ data , openModal}: dataProp) => {
+const LatestReleases = ({ data, openModal }: dataProp) => {
   const releases = data.slice(1).slice(-5);
 
   const showReleases = releases.map((book) => {
     return (
-      <img
-        src={book.image}
-        alt={book.title}
-        onClick={() => openModal(book)}
-     
-      />
+      <img src={book.image} alt={book.title} onClick={() => openModal(book)} />
     );
   });
   return (
@@ -103,12 +101,17 @@ const LatestReleases = ({ data , openModal}: dataProp) => {
 const AllBooks = ({ data, openModal }: dataProp) => {
   const showAll = data.map((book) => {
     return (
-      <img
-        src={book.image}
-        alt={book.title}
-        onClick={() => openModal(book)}
-      
-      />
+      <Box
+        key={book.id}
+        p={4}
+        shadow="md"
+        rounded="lg"
+        maxW="300px"
+        onMouseEnter={}>
+
+      <Heading className="text-center m-2">{book.title}</Heading>
+      <img src={book.image} alt={book.title} onClick={() => openModal(book)}/>
+        </Box>
     );
   });
 
@@ -129,7 +132,7 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 //   //       src={book.image}
 //   //       alt={book.title}
 //   //       onClick={() => openModal(book)}
-   
+
 //   //     />
 //     );
 //   });
@@ -140,39 +143,3 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 //     </Box>
 //   );
 // };
-
-const ByFaction = () => {
-  const imagesFaction = [
-    "images/FactionLogos/AstartesLogo.jpg",
-    "images/FactionLogos/MechanicusLogo.jpg",
-    "images/FactionLogos/MilitarumLogo.jpg",
-    "images/FactionLogos/SororitasLogo.jpg",
-    "images/FactionLogos/NecronsLogo.jpg",
-    "images/FactionLogos/OrkzLogo.jpg",
-    "images/FactionLogos/TyranidsLogo.jpg",
-  ];
-  const namesFaction = [
-    "Adeptus Astartes",
-    "Adeptus Mechanicus",
-    "Astra Militarum",
-    "Adepta Sororitas",
-    "Necrons",
-    "Orks",
-    "Tyranids",
-  ];
-  return (
-    <Box width="100%" p="5" boxShadow="md">
-      <Text fontSize="2xl" textAlign="center" mb="4">
-        Factions
-      </Text>
-      <SimpleGrid columns={[1, 2, 3, 7]} spacing="20px">
-        {imagesFaction.map((image, index) => (
-          <VStack key={index} textAlign="center">
-            <Image src={image} alt={namesFaction[index]} w={100} h={100} />
-            <Text mt="2">{namesFaction[index]}</Text>
-          </VStack>
-        ))}
-      </SimpleGrid>
-    </Box>
-  );
-};

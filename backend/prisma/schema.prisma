@@ -44,7 +44,7 @@ model ReadingList {
   quotes    String?
   summary   String?
   addedAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
   book      Book?     @relation(fields: [bookId], references: [id])
   bookId  Int?
