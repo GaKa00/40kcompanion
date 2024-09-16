@@ -115,6 +115,7 @@ export default function Navbar() {
                   <ChakraLink as={ReactRouterLink} to="/" textColor='red'>
                     Logout
                   </ChakraLink>
+                  
                 </MenuItem>
                
                 <MenuItem></MenuItem>

@@ -42,6 +42,20 @@ export async function register(req: Request, res: Response) {
   }
 }
 
+
+//delete user
+
+export async function deleteUser(req: Request, res: Response) {
+  try {
+    const userId = parseInt(req.params.id);
+    await prisma.user.delete({ where: { id: userId } });
+    res.json({ message: "User deleted" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 //log in registered user
 //also creates an user token for other functionality which require authentication
 export async function login(req: Request, res: Response) {
@@ -115,8 +129,6 @@ export async function getUser(req:Request, res:Response) {
 }
 
 //Get reading list from active user
-
-
 
 export async function getUserReadingList(req: Request, res: Response) {
   const { id: userId } = req.params;
@@ -252,6 +264,8 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
      res.status(400).json({ error: error });
    }
  }
+
+
 
 
 

@@ -61,8 +61,16 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{book.title}</ModalHeader>
-        <Text align="center">Written by: {book.author}</Text>
+        <Flex
+          justify="space-evenly"
+          align="center"
+          className="border-b-2 border-black"
+        >
+          <ModalHeader className="min-w-48">{book.title}</ModalHeader>
+          <Text>Pages: {book.pages}</Text>
+        </Flex>
+
+        <Text align="center" className="my-3">Written by: {book.author}</Text>
         <ModalCloseButton />
         <ModalBody>
           <Flex align="center">

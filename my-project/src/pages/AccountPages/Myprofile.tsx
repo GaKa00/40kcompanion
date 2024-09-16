@@ -19,6 +19,7 @@ import Footer from "../../components/ui/Footer";
 import ReadingListModal from "../../components/Modal/RLModal";
 import EditedModal from "../../components/Modal/EditModeModal";
 import { getUser } from "../../utils/renderFetches";
+import Navbar from "../../components/ui/Navbar";
 
 const MyProfile = () => {
   //States
@@ -42,6 +43,7 @@ const MyProfile = () => {
 
   return (
     <div>
+      <Navbar />
       {user ? (
         <>
           <ProfileCard data={user} />

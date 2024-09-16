@@ -4,9 +4,9 @@ import {
   VStack,
   HStack,
   Flex,
-  Spacer,
+
   Text,
-  SimpleGrid,
+ 
   Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -107,7 +107,8 @@ const AllBooks = ({ data, openModal }: dataProp) => {
         shadow="md"
         rounded="lg"
         maxW="300px"
-        onMouseEnter={}>
+        // onMouseEnter={}
+        >
 
       <Heading className="text-center m-2">{book.title}</Heading>
       <img src={book.image} alt={book.title} onClick={() => openModal(book)}/>

@@ -7,6 +7,7 @@ import {
   login,
   register,
   updateBookInReadinglist,
+  deleteUser,
 } from "./users.controllers";
 import { auth } from "../../middleware/auth";
 
@@ -15,9 +16,9 @@ const router = express.Router();
 // CRUD for auth
 router.post("/register", register); // register a new user
 router.post("/login", login); // login an existing user
+router.delete("/delete/:id", deleteUser) //deletes an existing user
 
-
-// CRUD for users
+// CRUD for users and reading list
 router.get("/users/:id/reading-list", auth, getUserReadingList); // get the reading list of an active user
 router.get("/users/:id", auth, getUser); //get Active User
 router.post("/users/:id/reading-list", auth, addBookToReadinglist); // post a book to an active user's reading list

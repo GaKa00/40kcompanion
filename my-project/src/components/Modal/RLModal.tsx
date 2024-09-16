@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { BookDetailModalProps, ReadingList } from "../../types/types";
+import useSetCompletedBook from "../../hooks/useSetCompletedBook";
 
 
 
@@ -33,6 +34,9 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
   const [rating, setRating] = useState<number>(0); //state to set rating in edit mode
   const [newSummary, setNewSummary] = useState<string>(""); //state to set and update summary
   const [newQuote, setNewQuote] = useState<string>(""); //state to set and update quotes
+
+
+  const onRead = useSetCompletedBook(readingListId)
 
   // fetches reading list if token and userid is available
   //if book entries have already been edited, previous changes will be fetched, if not, they will be set to empty
@@ -75,26 +79,25 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
         <ModalHeader textAlign="center">
           <Text>{book.title}</Text>
         </ModalHeader>
-      
-        <Flex justify="center">
-        
-        
 
-              {/* //change to own made react stars */}
-    
-        </Flex>
+        <Flex justify="center">{/* //change to own made react stars */}</Flex>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody className="border-gray-500 border-b-2">
           <Flex align="center" justify="center" mb={4}>
-            <Image src={book.image} alt={book.title} boxSize="200px" />
-          </Flex>
-
-         
+            <Image
+              src={book.image}
+              alt={book.title}
+              boxSize="300px"
           
+            />
+          </Flex>
+          <Flex align="center">
+            <Text>Summary:</Text>
+            <Text>Quotes:</Text>
+          </Flex>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="green" ml={3}>
-            {/* onClick={onRead} */}
+          <Button colorScheme="green" ml={3} onClick={onRead}>
             Finished Reading
           </Button>
           <Button colorScheme="red" mr={3} onClick={onClose}>

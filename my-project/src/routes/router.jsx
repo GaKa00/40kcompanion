@@ -9,6 +9,7 @@ import Support from "../pages/PublicPages/Support"
 import Signin from "../pages/AccountPages/Signin"
 import Myprofile from "../pages/AccountPages/Myprofile"
 import Librarypage from "../pages/PublicPages/Librarypage";
+import Settings from "../pages/AccountPages/Settings"
 
  const router = createBrowserRouter([
    {
@@ -41,7 +42,7 @@ import Librarypage from "../pages/PublicPages/Librarypage";
    },
    {
      path: "/settings",
-     element: <App />,
+     element: <Settings/>,
    },
    {
      path: "/library",
