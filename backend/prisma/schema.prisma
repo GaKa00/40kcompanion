@@ -26,8 +26,8 @@ model Book {
   pages Int
   desc  String
   image  String
-  isFinished Boolean
-  isReading Boolean
+  isFinished Boolean?
+  isReading Boolean?
   tags String[]
   link String?
   rating  Int?
