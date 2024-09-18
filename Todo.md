@@ -7,4 +7,6 @@
 -resolve dynamic count
 
 
+-set http only cookie for signing in on server
+
 

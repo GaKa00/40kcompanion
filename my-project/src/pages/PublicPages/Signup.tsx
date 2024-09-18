@@ -33,6 +33,7 @@ const register = async (e: React.FormEvent<HTMLButtonElement>) => {
   e.preventDefault();
   
   try {
+    
     const response = await axios.post("http://localhost:3000/api/register", {
       username,
       email,
