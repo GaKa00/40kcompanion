@@ -17,6 +17,7 @@ import Navbar from "../../components/ui/Navbar";
 import { Book } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
 
+
 const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -101,11 +102,15 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
 
 const AllBooks = ({ data, openModal }: dataProp) => {
   const [currentPage, setCurrentPage] = useState(1);
+  
   const booksPerPage = 25;
   const booksPerRow = 5;
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
+
+
+
   const currentBooks = data
     .slice(indexOfFirstBook, indexOfLastBook)
     .sort((a, b) => a.id - b.id);
@@ -114,15 +119,40 @@ const AllBooks = ({ data, openModal }: dataProp) => {
   const handleNextPage = () => {
     if (currentPage < Math.ceil(data.length / booksPerPage)) {
       setCurrentPage(currentPage + 1);
+      smoothScroll();
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+     smoothScroll();
     }
   };
 
+
+//scroll function
+ function smoothScroll(duration = 500) {
+   const start = window.scrollY; 
+   const finish = window.innerHeight / 3; 
+   const startTime = performance.now();
+
+   const scroll = (currentTime: number) => {
+     const timeElapsed = currentTime - startTime;
+     const progress = Math.min(timeElapsed / duration, 1);
+     const ease = progress * (2 - progress);
+
+     // Calculate the new scroll position
+     const newPosition = start + (finish - start) * ease; 
+     window.scrollTo(0, newPosition);
+
+     if (progress < 1) {
+       requestAnimationFrame(scroll);
+     }
+   };
+
+   requestAnimationFrame(scroll);
+ }
   const showAll = currentBooks.map((book) => {
     return (
       <Box
@@ -159,7 +189,7 @@ const AllBooks = ({ data, openModal }: dataProp) => {
       {/* Responsive grid for books */}
       <Grid
         templateColumns={{
-          base: "repeat(1, 1fr)", // 2 columns on small screens
+          base: "repeat(1, 1fr)", // 1 column on small screens
           md: "repeat(3, 1fr)", // 3 columns on medium screens
           lg: `repeat(${booksPerRow}, 1fr)`, // Dynamic columns on larger screens
         }}
@@ -171,20 +201,28 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 
       {/* Pagination controls */}
       <Box mt={4} textAlign="center">
-        <Button onClick={handlePrevPage} disabled={currentPage === 1}>
+        <Button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          bgColor={currentPage === 1 ? "gray" : "primary"}
+        >
           Previous
         </Button>
         <Button
           onClick={handleNextPage}
           ml={4}
           disabled={currentPage === Math.ceil(data.length / booksPerPage)}
+          bgColor={
+            currentPage === Math.ceil(data.length / booksPerPage)
+              ? "gray"
+              : "primary"
+          }
         >
           Next
         </Button>
       </Box>
     </Box>
   );
-
 };
 
 
