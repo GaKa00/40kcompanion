@@ -8,6 +8,8 @@ import {
   Text,
  
   Heading,
+  Button,
+  Grid,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -45,6 +47,7 @@ const Librarypage = () => {
         boxShadow={"2xl"}
         width={"full"}
         overflow={"hidden"}
+        bgColor="black"
       >
         <Image
           alt={"Hero Image"}
@@ -56,10 +59,8 @@ const Librarypage = () => {
         />
       </Box>
 
-      <Flex mt="4" justifyContent={"center"}>
+      <Flex mt="4" justifyContent={"center"} >
         <LatestReleases data={books} openModal={openModal} />
-
-        {/* <Omnibuses data={books} openModal={openModal} /> */}
       </Flex>
       <Box width="90%">
         <AllBooks data={books} openModal={openModal} />
@@ -92,55 +93,99 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
   });
   return (
     <Box p="5" boxShadow="md" mb="4">
-      <Text fontSize="xl">Latest Releases</Text>
+      <Text fontSize="xl">Recently Added</Text>
       <HStack gap="3">{showReleases}</HStack>
     </Box>
   );
 };
 
 const AllBooks = ({ data, openModal }: dataProp) => {
-  const showAll = data.map((book) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 25;
+  const booksPerRow = 5;
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = data
+    .slice(indexOfFirstBook, indexOfLastBook)
+    .sort((a, b) => a.id - b.id);
+
+  // Handle page change
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(data.length / booksPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const showAll = currentBooks.map((book) => {
     return (
       <Box
         key={book.id}
         p={4}
-        shadow="md"
+        boxShadow="white-lg"
         rounded="lg"
-        maxW="300px"
-        // onMouseEnter={}
-        >
-
-      <Heading className="text-center m-2">{book.title}</Heading>
-      <img src={book.image} alt={book.title} onClick={() => openModal(book)}/>
-        </Box>
+        maxW="250px"
+        h="365px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        alignItems="center"
+        onClick={() => openModal(book)}
+        bg="metallic"
+      >
+        <Box
+          as="img"
+          src={book.image}
+          alt={book.title}
+          objectFit="cover"
+          h="325px"
+          w="100%"
+          borderRadius="lg"
+        />
+      </Box>
     );
   });
 
   return (
     <Box p="5" boxShadow="md">
-      <Text fontSize="xl">All Books</Text>
+      <Text fontSize={{ base: "lg", md: "xl" }}>All Books</Text>
 
-      {showAll}
-      {/* Resolve pagination, 50 books per  page */}
+      {/* Responsive grid for books */}
+      <Grid
+        templateColumns={{
+          base: "repeat(1, 1fr)", // 2 columns on small screens
+          md: "repeat(3, 1fr)", // 3 columns on medium screens
+          lg: `repeat(${booksPerRow}, 1fr)`, // Dynamic columns on larger screens
+        }}
+        gap={6}
+        mt={4}
+      >
+        {showAll}
+      </Grid>
+
+      {/* Pagination controls */}
+      <Box mt={4} textAlign="center">
+        <Button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Previous
+        </Button>
+        <Button
+          onClick={handleNextPage}
+          ml={4}
+          disabled={currentPage === Math.ceil(data.length / booksPerPage)}
+        >
+          Next
+        </Button>
+      </Box>
     </Box>
   );
+
 };
 
-// const Omnibuses = ({ data, openModal }: dataProp) => {
-//   // const showReleases = data.map((book) => {
-//   //   return (
-//   //     <img
-//   //       src={book.image}
-//   //       alt={book.title}
-//   //       onClick={() => openModal(book)}
 
-//   //     />
-//     );
-//   });
-//   return (
-//     <Box p="5" boxShadow="md" mb="4">
-//       <Text fontSize="xl">Omnibuses</Text>
-//       <HStack gap="3">{showReleases}</HStack>
-//     </Box>
-//   );
-// };
+

@@ -4,10 +4,11 @@ import './index.css'
 import {  RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import router from './routes/router.jsx';
+import theme from './components/ui/theme.js';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>
   </React.StrictMode>
