@@ -30,7 +30,7 @@ const theme = extendTheme({
     global: {
       body: {
         bg: "background", // Set the global background
-        color: "whiteAlpha", // Set default text color
+        color: "darkGray", // Set default text color
       },
     },
   },
