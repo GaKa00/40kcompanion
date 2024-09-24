@@ -52,6 +52,7 @@ export default function CallToActionWithVideo() {
                 bg: "red.400",
                 zIndex: -1,
               }}
+              color={"white"}
             >
               The Library
             </Text>

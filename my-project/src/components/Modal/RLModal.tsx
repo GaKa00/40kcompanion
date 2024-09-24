@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, MouseEventHandler } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -11,6 +11,7 @@ import {
   Text,
   Image,
   Flex,
+  useToast,
   Textarea,
   Switch,
   Box,
@@ -29,14 +30,30 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [readingListId, setReadingListId] = useState<number | null>(null); // State to obtain relevant bookid from readinglist
+  const [readingListId, setReadingListId] = useState<number>(0); // State to obtain relevant bookid from readinglist
+  const toast = useToast();
  
   const [rating, setRating] = useState<number>(0); //state to set rating in edit mode
   const [newSummary, setNewSummary] = useState<string>(""); //state to set and update summary
   const [newQuote, setNewQuote] = useState<string>(""); //state to set and update quotes
+ const { setCompletedBook } = useSetCompletedBook();
 
-
-  const onRead = useSetCompletedBook(readingListId)
+ // Function to handle finishing reading a book
+ const handleRead = () => {
+   if (readingListId) {
+     setCompletedBook(readingListId)
+     
+       toast({
+         title: "Book Completed!",
+         status: "success",
+         //swap?
+         duration: 3000,
+         isClosable: true,
+       });
+     
+   }
+ };
+  
 
   // fetches reading list if token and userid is available
   //if book entries have already been edited, previous changes will be fetched, if not, they will be set to empty
@@ -97,7 +114,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
           </Flex>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="green" ml={3} onClick={onRead}>
+          <Button colorScheme="green" ml={3} onClick={handleRead}>
             Finished Reading
           </Button>
           <Button colorScheme="red" mr={3} onClick={onClose}>

@@ -11,9 +11,13 @@ import {
   Text,
   Image,
   Flex,
+  Link,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { BookDetailModalProps } from "../../types/types";
+
+
 
 const BookDetailModal: React.FC<BookDetailModalProps> = ({
   book,
@@ -21,6 +25,8 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
   onClose,
 }) => {
   const [bookIdToAdd, setBookIdToAdd] = useState<number | null>(null);
+
+    const toast = useToast();
 
   useEffect(() => {
     if (bookIdToAdd !== null) {
@@ -41,7 +47,13 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
             }
           )
           .then(() => {
-            alert("Book added to reading list");
+         toast({
+           title: "Book added to reading list",
+           description: "Your book has been added to your reading list.",
+           status: "success",
+           duration: 3000,
+           isClosable: true,
+         });
           })
           .catch((error) => {
             console.error("Error adding book to reading list:", error);
@@ -116,9 +128,9 @@ return (
           mr={3}
           fontSize={{ base: "sm", md: "md" }}
         >
-          <a href={book.link} target="_blank">
+          <Link href={book.link} isExternal>
             Buy from Amazon
-          </a>
+          </Link>{" "}
         </Button>
         <Button
           bgColor="orkGreen"

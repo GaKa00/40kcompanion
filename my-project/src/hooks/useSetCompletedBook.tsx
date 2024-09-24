@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useCallback } from "react";
 
-const useSetCompletedBook = (readingListId: number) => {
-  useEffect(() => {
+const useSetCompletedBook = () => {
+  const setCompletedBook = useCallback((readingListId: number) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
     const userId = localStorage.getItem("uid") || sessionStorage.getItem("uid");
@@ -11,7 +11,7 @@ const useSetCompletedBook = (readingListId: number) => {
       axios
         .put(
           `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}`,
-          { isReading: false, isFinished: true }, 
+          { isReading: false, isFinished: true },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -25,7 +25,9 @@ const useSetCompletedBook = (readingListId: number) => {
           console.error("Error updating book in reading list:", error);
         });
     }
-  }, [readingListId]);
+  }, []);
+
+  return { setCompletedBook };
 };
 
 export default useSetCompletedBook;

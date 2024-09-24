@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -68,23 +69,23 @@ const register = async (e: React.FormEvent<HTMLButtonElement>) => {
         color="white"
         _hover={{ bg: "blue.600" }}
       >
-        Back to Home
+
       </Button>
       <Flex minH="100vh" align="center" justify="center">
-        <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
+        <Stack spacing={8} mx="auto" maxW="xl" py={12} px={6}>
           <Box
             rounded="lg"
-            bg={useColorModeValue("white", "gray.700")}
+            bg={useColorModeValue("gray.300", "white")}
             boxShadow="lg"
             p={8}
           >
             <Stack spacing={4}>
               <Stack align="center">
                 <Heading fontSize="4xl" textAlign="center">
-                  Sign up
+                  Conscript
                 </Heading>
                 <Text fontSize="lg" color="gray.600">
-                  to enjoy all of our cool features ✌️
+                  to the Librarius Sanctorum.
                 </Text>
               </Stack>
               <FormControl id="username" isRequired>

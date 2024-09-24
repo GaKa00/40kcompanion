@@ -16,6 +16,7 @@ import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
 import { Book } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
+import SearchBar from "../../components/Searchbar";
 
 
 const Librarypage = () => {
@@ -60,10 +61,11 @@ const Librarypage = () => {
         />
       </Box>
 
-      <Flex mt="4" justifyContent={"center"} >
+      <Flex mt="4" justifyContent={"center"}>
         <LatestReleases data={books} openModal={openModal} />
       </Flex>
       <Box width="90%">
+        <SearchBar />
         <AllBooks data={books} openModal={openModal} />
       </Box>
       {selectedBook && (
@@ -95,6 +97,7 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
   return (
     <Box p="5" boxShadow="md" mb="4">
       <Text fontSize="xl">Recently Added</Text>
+     
       <HStack gap="3">{showReleases}</HStack>
     </Box>
   );
