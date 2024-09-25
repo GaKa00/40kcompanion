@@ -47,3 +47,17 @@ export async function getBooksByTags(req: Request, res: Response) {
     res.status(500).json({ error: "An error occurred while fetching books" });
   }
 }
+
+export async function searchBooks(req: Request, res: Response) {
+  const { searchQuery  } = req.body;
+  const books = await prisma.book.findMany({
+    where: {
+      OR: [
+        { title: { contains: searchQuery } }, 
+        {author: {contains: searchQuery}},
+       
+      ],
+    },
+  });
+  res.json(books);
+}

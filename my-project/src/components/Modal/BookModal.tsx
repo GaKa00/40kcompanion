@@ -87,7 +87,7 @@ return (
         >
           {book.title}
         </ModalHeader>
-        <Text color="darkGray" fontSize={{ base: "sm", md: "md" }}>
+        <Text color="darkGray" fontSize={{ base: "sm", md: "md" }} paddingRight={15}>
           Pages: {book.pages}
         </Text>
       </Flex>
@@ -100,7 +100,6 @@ return (
       >
         Written by: {book.author}
       </Text>
-      <ModalCloseButton />
       <ModalBody>
         <Flex
           align="center"

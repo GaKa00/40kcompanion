@@ -16,7 +16,7 @@ import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
 import { Book } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
-import SearchBar from "../../components/Searchbar";
+
 
 
 const Librarypage = () => {
@@ -28,6 +28,8 @@ const Librarypage = () => {
       .get("http://localhost:3000/api/books")
       .then((response) => setBooks(response.data));
   }, []);
+
+
 
   const openModal = (book: Book) => {
     setSelectedBook(book);
@@ -65,7 +67,7 @@ const Librarypage = () => {
         <LatestReleases data={books} openModal={openModal} />
       </Flex>
       <Box width="90%">
-        <SearchBar />
+      
         <AllBooks data={books} openModal={openModal} />
       </Box>
       {selectedBook && (

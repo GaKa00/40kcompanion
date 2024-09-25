@@ -53,7 +53,7 @@ import Settings from "../pages/AccountPages/Settings"
      element: <App />,
    },
    {
-     path: "/",
+     path: "/searchResults/:query",
      element: <App />,
    },
    {

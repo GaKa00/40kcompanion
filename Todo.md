@@ -8,5 +8,6 @@
 
 
 -set http only cookie for signing in on server
+-make navbar sticky and search  only avail in library page
 
 

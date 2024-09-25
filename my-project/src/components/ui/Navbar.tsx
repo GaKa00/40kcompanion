@@ -20,6 +20,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
+import SearchBar from "../Searchbar";
 
 interface Props {
   children: React.ReactNode;
@@ -82,6 +83,7 @@ export default function Navbar() {
               </ChakraLink>
             </HStack>
           </HStack>
+            <SearchBar />
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
