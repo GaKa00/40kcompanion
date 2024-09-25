@@ -98,7 +98,7 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
   });
   return (
     <Box p="5" boxShadow="md" mb="4">
-      <Text fontSize="xl">Recently Added</Text>
+      <Text fontSize="xl" fontWeight="bold" color="whiteAlpha">Recently Added</Text>
      
       <HStack gap="3">{showReleases}</HStack>
     </Box>
@@ -189,7 +189,13 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 
   return (
     <Box p="5" boxShadow="md">
-      <Text fontSize={{ base: "lg", md: "xl" }}>All Books</Text>
+      <Text
+        fontSize={{ base: "lg", md: "xl" }}
+        fontWeight="bold"
+        color="whiteAlpha"
+      >
+        All Books
+      </Text>
 
       {/* Responsive grid for books */}
       <Grid
