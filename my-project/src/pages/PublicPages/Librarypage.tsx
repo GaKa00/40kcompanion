@@ -16,6 +16,7 @@ import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
 import { Book } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
+import FilterBox from "../../components/FilterBox";
 
 
 
@@ -62,6 +63,8 @@ const Librarypage = () => {
           src="./public/images/LandingImages/alternativeHero.jpg"
         />
       </Box>
+
+      <FilterBox/>
 
       <Flex mt="4" justifyContent={"center"}>
         <LatestReleases data={books} openModal={openModal} />
