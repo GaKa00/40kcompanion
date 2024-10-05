@@ -17,26 +17,43 @@ export async function getBooks(req: Request, res: Response) {
 }
 
 
-export async function getBookById(req: Request, res: Response) {
-    const {id} = req.body
-  const TargetBook = await prisma.book.findUnique({ where: { id } });
- res.json(TargetBook);
-}
+// export async function getBookById(req: Request, res: Response) {
+//   const id = Number(req.params.id);
+
+//   const TargetBook = await prisma.book.findUnique({
+//     where: { id },
+//   });
+
+//   if (!TargetBook) {
+//     return res.status(404).json({ error: "Book not found" });
+//   }
+
+//   res.json(TargetBook);
+// }
+
+
+
 
 export async function getBooksByTags(req: Request, res: Response) {
-  const { tags } = req.body;
+  const tag = req.query.tag; 
 
- 
-  if (!Array.isArray(tags) || !tags.every((tag) => typeof tag === "string")) {
-    return res.status(400).json({ error: "Tags must be an array of strings" });
+
+  if (!tag) {
+    const books = await prisma.book.findMany(); 
+    return res.json(books);
+  }
+
+
+  if (typeof tag !== "string") {
+    return res.status(400).json({ error: "Tag must be a string" });
   }
 
   try {
-  
+    
     const books = await prisma.book.findMany({
       where: {
         tags: {
-          hasSome: tags,
+          has: tag,
         },
       },
     });
@@ -47,7 +64,6 @@ export async function getBooksByTags(req: Request, res: Response) {
     res.status(500).json({ error: "An error occurred while fetching books" });
   }
 }
-
 export async function searchBooks(req: Request, res: Response) {
   const { searchQuery  } = req.body;
   const books = await prisma.book.findMany({

@@ -4,9 +4,7 @@ import {
   VStack,
   HStack,
   Flex,
-
   Text,
- 
   Heading,
   Button,
   Grid,
@@ -24,11 +22,15 @@ const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/books")
-      .then((response) => setBooks(response.data));
-  }, []);
+  const [tag, setTag] = useState (null);
+useEffect(() => {
+  axios
+    .get(`http://localhost:3000/api/books/searchByTags`, {
+      params: { tag: tag },
+    })
+    .then((response) => setBooks(response.data))
+    .catch((error) => console.error(error));
+}, [tag]);
 
 
 
@@ -120,8 +122,8 @@ const AllBooks = ({ data, openModal }: dataProp) => {
 
 
   const currentBooks = data
-    .slice(indexOfFirstBook, indexOfLastBook)
-    .sort((a, b) => a.id - b.id);
+  .sort((a, b) => Number(a.id) - Number(b.id))
+    .slice(indexOfFirstBook, indexOfLastBook);
 
   // Handle page change
   const handleNextPage = () => {

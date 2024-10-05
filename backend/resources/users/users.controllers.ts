@@ -15,6 +15,15 @@ const app = express();
 app.use(express.json());
 
 
+//typing for updating readinglist bookentries
+
+interface ReadingListUpdate {
+  isFinished?: boolean;
+  isReading?: boolean;
+  rating?: number;
+  quotes?: string;
+  summary?: string;
+}
 
 /**
  * @description register user
@@ -175,15 +184,6 @@ export async function deleteBookFromReadinglist(req:Request, res:Response){
 
 // Update book in reading list
 
-//typing for updating readinglist bookentries
-
-interface ReadingListUpdate {
-  isFinished?: boolean;
-  isReading?: boolean;
-  rating?: number;
-  quotes?: string;
-  summary?: string;
-}
 
 // if uid and readinglistid are defined, they will be parsed, then checked for comparison
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)

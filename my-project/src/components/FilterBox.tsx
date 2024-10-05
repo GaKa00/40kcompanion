@@ -1,5 +1,6 @@
 import { Box, Checkbox, CheckboxGroup, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import { useState } from "react";
 
 const FilterBox = () => {
   return (
@@ -16,14 +17,14 @@ const FilterBox = () => {
 };
 
 const FactionFilter = () => {
-  const [value, setValue] = React.useState([]);
+  const [value, setValue] =useState<string[]>([]);
 
   return (
     <Box>
       <Text color={"white"}>Factions</Text>
       <CheckboxGroup value={value} onChange={setValue}>
         <Stack direction="row">
-          <Checkbox value="1" color={"white"}>
+          <Checkbox value="adeptus astartes" color={"white"}>
             Adeptus Astartes
           </Checkbox>
           <Checkbox value="2" color={"white"}>
@@ -67,7 +68,9 @@ const FactionFilter = () => {
 };
 
 const SeriesFilter = () => {
-  const [value, setValue] = React.useState([]);
+  const [value, setValue] =useState([]);
+
+
 
   return (
     <Box>
@@ -90,7 +93,7 @@ const SeriesFilter = () => {
 };
 
 const OmnibusFilter = () => {
-  const [value, setValue] = React.useState([]);
+  const [value, setValue] = useState([]);
 
   return (
     <Box>
