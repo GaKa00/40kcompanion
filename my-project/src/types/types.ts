@@ -47,3 +47,11 @@
   book:Book
 
   }
+
+
+   export interface TagContextType {
+    tag: string | null; 
+    setTag: React.Dispatch<React.SetStateAction<string|null>>; 
+  }
+
+ 

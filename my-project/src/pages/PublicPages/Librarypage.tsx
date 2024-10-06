@@ -9,20 +9,31 @@ import {
   Button,
   Grid,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useContext  } from "react";
 import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
-import { Book } from "../../types/types";
+import { Book, TagContextType } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
 import FilterBox from "../../components/FilterBox";
 
 
+ const defaultContext: TagContextType = {
+   tag: null,
+   setTag: () => {},
+ };
+
+ export const TagContext = createContext<TagContextType>(defaultContext)
 
 const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState (null);
+
+
+  const tags = useContext(TagContext);
+
+
 useEffect(() => {
   axios
     .get(`http://localhost:3000/api/books/searchByTags`, {
@@ -45,6 +56,7 @@ useEffect(() => {
   };
 
   return (
+    <TagContext.Provider value={{tag, setTag}}>
     <VStack spacing={8} align="center">
       <Navbar />
       <Box
@@ -55,7 +67,7 @@ useEffect(() => {
         width={"full"}
         overflow={"hidden"}
         bgColor="black"
-      >
+        >
         <Image
           alt={"Hero Image"}
           fit={"cover"}
@@ -72,17 +84,17 @@ useEffect(() => {
         <LatestReleases data={books} openModal={openModal} />
       </Flex>
       <Box width="90%">
-      
         <AllBooks data={books} openModal={openModal} />
       </Box>
       {selectedBook && (
         <BookDetailModal
-          book={selectedBook}
-          isOpen={isOpen}
-          onClose={closeModal}
+        book={selectedBook}
+        isOpen={isOpen}
+        onClose={closeModal}
         />
       )}
     </VStack>
+</TagContext.Provider>
   );
 };
 
@@ -95,7 +107,7 @@ interface dataProp {
 
 const LatestReleases = ({ data, openModal }: dataProp) => {
   const releases = data.slice(1).slice(-5);
-
+  
   const showReleases = releases.map((book) => {
     return (
       <img src={book.image} alt={book.title} onClick={() => openModal(book)} />

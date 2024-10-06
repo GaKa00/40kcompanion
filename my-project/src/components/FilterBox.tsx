@@ -1,8 +1,13 @@
 import { Box, Checkbox, CheckboxGroup, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
+import { TagContext } from "../pages/PublicPages/Librarypage";
 
 const FilterBox = () => {
+
+
+ 
+
   return (
   <Flex  
   direction={"column"}
@@ -16,49 +21,59 @@ const FilterBox = () => {
   );
 };
 
+
+
+
 const FactionFilter = () => {
-  const [value, setValue] =useState<string[]>([]);
+  const [value, setValue] =useState<string>("");
+  
+  const { tag, setTag } = useContext(TagContext);
+
+const handleChange = (selectedValue : string) =>{
+  setValue(selectedValue)
+  setTag(selectedValue)
+}
 
   return (
     <Box>
       <Text color={"white"}>Factions</Text>
-      <CheckboxGroup value={value} onChange={setValue}>
+      <CheckboxGroup value={value} onChange={handleChange}>
         <Stack direction="row">
-          <Checkbox value="adeptus astartes" color={"white"}>
+          <Checkbox value="astartes" color={"white"}>
             Adeptus Astartes
           </Checkbox>
-          <Checkbox value="2" color={"white"}>
+          <Checkbox value="custodes" color={"white"}>
             Adeptus Custodes
           </Checkbox>
-          <Checkbox value="3" color={"white"}>
+          <Checkbox value="mechanicus" color={"white"}>
             Adeptus Mechanicus
           </Checkbox>
-          <Checkbox value="4" color={"white"}>
+          <Checkbox value="sororitas" color={"white"}>
             Adepta Sororitas
           </Checkbox>
-          <Checkbox value="5" color={"white"}>
+          <Checkbox value="militarum" color={"white"}>
             Astra Militarum
           </Checkbox>
           <Spacer />
-          <Checkbox value="6" color={"white"}>
+          <Checkbox value="chaos" color={"white"}>
             Chaos Space Marines
           </Checkbox>
-          <Checkbox value="7" color={"white"}>
+          <Checkbox value="aeldari" color={"white"}>
             Aeldari
           </Checkbox>
-          <Checkbox value="8" color={"white"}>
+          <Checkbox value="drukhari" color={"white"}>
             Drukhari
           </Checkbox>
-          <Checkbox value="9" color={"white"}>
+          <Checkbox value="necrons" color={"white"}>
             Necrons
           </Checkbox>
-          <Checkbox value="10" color={"white"}>
+          <Checkbox value="orks" color={"white"}>
             Orks
           </Checkbox>
-          <Checkbox value="11" color={"white"}>
+          <Checkbox value="tau" color={"white"}>
             T'au
           </Checkbox>
-          <Checkbox value="12" color={"white"}>
+          <Checkbox value="tyranids" color={"white"}>
             Tyranids
           </Checkbox>
         </Stack>
@@ -68,14 +83,21 @@ const FactionFilter = () => {
 };
 
 const SeriesFilter = () => {
-  const [value, setValue] =useState([]);
+   const [value, setValue] = useState<string>("");
+
+   const { tag, setTag } = useContext(TagContext);
+
+   const handleChange = (selectedValue: string) => {
+     setValue(selectedValue);
+     setTag(selectedValue);
+   };
 
 
 
   return (
     <Box>
       <Text color={"white"}>Series</Text>
-      <CheckboxGroup value={value} onChange={setValue}>
+      <CheckboxGroup value={value} onChange={handleChange}>
         <Stack direction="row">
           <Checkbox value="1" color={"white"}>
             First
@@ -93,13 +115,20 @@ const SeriesFilter = () => {
 };
 
 const OmnibusFilter = () => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState<string>("");
+
+  const { tag, setTag } = useContext(TagContext);
+
+  const handleChange = (selectedValue: string) => {
+    setValue(selectedValue);
+    setTag(selectedValue);
+  };
 
   return (
     <Box>
       <Text color={"white"}>Omnibus</Text>
 
-      <CheckboxGroup value={value} onChange={setValue}>
+      <CheckboxGroup value={value} onChange={handleChange}>
         <Stack direction="row">
           <Checkbox value="omnibus" color={"white"}>
             Omnibus
