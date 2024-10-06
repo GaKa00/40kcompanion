@@ -9,10 +9,10 @@ import { TagProvider } from './utils/TagContext.tsx';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <TagProvider>
+    <TagProvider>
+      <ChakraProvider theme={theme}>
         <RouterProvider router={router} />
-      </TagProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </TagProvider>
   </React.StrictMode>
 );

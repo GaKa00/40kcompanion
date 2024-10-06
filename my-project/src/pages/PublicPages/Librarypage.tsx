@@ -5,14 +5,13 @@ import {
   HStack,
   Flex,
   Text,
-  Heading,
   Button,
   Grid,
 } from "@chakra-ui/react";
-import React, { createContext, useEffect, useState, useContext  } from "react";
+import React, {  useEffect, useState, useContext  } from "react";
 import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
-import { Book, TagContextType } from "../../types/types";
+import { Book } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
 import FilterBox from "../../components/FilterBox";
 import TagContext from "../../utils/TagContext";
@@ -31,6 +30,7 @@ const { tag } = useContext(TagContext)!
 
 
 useEffect(() => {
+  console.log(`Tag is ${tag}`)
   axios
     .get(`http://localhost:3000/api/books/searchByTags`, {
       params: { tag: tag },
