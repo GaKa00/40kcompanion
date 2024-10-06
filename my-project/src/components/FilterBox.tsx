@@ -1,7 +1,7 @@
 import { Box, Checkbox, CheckboxGroup, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useState } from "react";
-import { TagContext } from "../pages/PublicPages/Librarypage";
+import TagContext from "../utils/TagContext";
 
 const FilterBox = () => {
 
@@ -27,18 +27,19 @@ const FilterBox = () => {
 const FactionFilter = () => {
   const [value, setValue] =useState<string>("");
   
-  const { tag, setTag } = useContext(TagContext);
+  const { tag, setTag } = useContext(TagContext)!;
 
 const handleChange = (selectedValue : string) =>{
   setValue(selectedValue)
   setTag(selectedValue)
-  
+  console.log(tag);
+
 }
 
   return (
     <Box>
       <Text color={"white"}>Factions</Text>
-      <CheckboxGroup value={value} onChange={handleChange}>
+      <CheckboxGroup value={value} onChange={() => handleChange(value)}>
         <Stack direction="row">
           <Checkbox value="astartes" color={"white"}>
             Adeptus Astartes
@@ -85,8 +86,7 @@ const handleChange = (selectedValue : string) =>{
 
 const SeriesFilter = () => {
    const [value, setValue] = useState<string>("");
-
-   const { tag, setTag } = useContext(TagContext);
+   const { setTag } = useContext(TagContext)!;
 
    const handleChange = (selectedValue: string) => {
      setValue(selectedValue);
@@ -98,7 +98,7 @@ const SeriesFilter = () => {
   return (
     <Box>
       <Text color={"white"}>Series</Text>
-      <CheckboxGroup value={value} onChange={handleChange}>
+      <CheckboxGroup value={value} onChange={ () => handleChange(value)}>
         <Stack direction="row">
           <Checkbox value="1" color={"white"}>
             First
@@ -118,11 +118,12 @@ const SeriesFilter = () => {
 const OmnibusFilter = () => {
   const [value, setValue] = useState<string>("");
 
-  const { tag, setTag } = useContext(TagContext);
+  const {  tag, setTag } = useContext(TagContext)!;
 
   const handleChange = (selectedValue: string) => {
     setValue(selectedValue);
     setTag(selectedValue);
+     console.log(tag);
   };
 
   return (

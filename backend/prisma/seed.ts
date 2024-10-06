@@ -745,7 +745,7 @@ async function main() {
           "siege of terra",
           "horus heresy",
           "imperial fists",
-          ""
+       
           "alpha legion",
         ],
         link: "https://www.amazon.com/Praetorian-Dorn-Horus-Heresy-Book-ebook/dp/B01N0E9WKM",

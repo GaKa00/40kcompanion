@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
  export type FeatureType = {
   title: string;
   text: string;
@@ -50,8 +52,13 @@
 
 
    export interface TagContextType {
-    tag: string | null; 
-    setTag: React.Dispatch<React.SetStateAction<string|null>>; 
-  }
+     tag: string;
+     setTag: React.Dispatch<React.SetStateAction<string>>;
+   }
+
+    export interface TagProviderProps {
+     children: ReactNode;
+   }
+
 
  

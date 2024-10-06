@@ -15,23 +15,19 @@ import Navbar from "../../components/ui/Navbar";
 import { Book, TagContextType } from "../../types/types";
 import BookDetailModal from "../../components/Modal/BookModal";
 import FilterBox from "../../components/FilterBox";
+import TagContext from "../../utils/TagContext";
 
 
- const defaultContext: TagContextType = {
-   tag: null,
-   setTag: () => {},
- };
 
- export const TagContext = createContext<TagContextType>(defaultContext)
 
 const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+const { tag } = useContext(TagContext)!
   
 
 
-  const {tag, setTag}= useContext(TagContext);
 
 
 useEffect(() => {
@@ -56,7 +52,8 @@ useEffect(() => {
   };
 
   return (
-    <TagContext.Provider value={{tag, setTag}}>
+
+
     <VStack spacing={8} align="center">
       <Navbar />
       <Box
@@ -75,7 +72,7 @@ useEffect(() => {
           w={"100%"}
           h={"100%"}
           src="./public/images/LandingImages/alternativeHero.jpg"
-        />
+          />
       </Box>
 
       <FilterBox/>
@@ -94,7 +91,7 @@ useEffect(() => {
         />
       )}
     </VStack>
-</TagContext.Provider>
+
   );
 };
 
