@@ -28,10 +28,10 @@ const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [tag, setTag] = useState (null);
+  
 
 
-  const tags = useContext(TagContext);
+  const {tag, setTag}= useContext(TagContext);
 
 
 useEffect(() => {

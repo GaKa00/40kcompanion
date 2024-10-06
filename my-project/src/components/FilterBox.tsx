@@ -32,6 +32,7 @@ const FactionFilter = () => {
 const handleChange = (selectedValue : string) =>{
   setValue(selectedValue)
   setTag(selectedValue)
+  
 }
 
   return (
