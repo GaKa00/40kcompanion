@@ -19,6 +19,13 @@ Prisma
 install guide
 
 
+to start
 
-useful commands
+frontend
+cd my-project
+npm run dev
+
+backend
+cd backend
+npm run test
 

@@ -22,128 +22,175 @@ const FilterBox = () => {
 };
 
 
-
-
 const FactionFilter = () => {
-  const [value, setValue] =useState<string>("");
-  
+  const [value, setValue] = useState<string>("");
+
   const { tag, setTag } = useContext(TagContext)!;
 
-const handleChange = (selectedValue : string) =>{
-  setValue(selectedValue)
-  setTag(selectedValue)
-  console.log(tag);
-
-}
+  const handleChange = (selectedValue: string) => {
+    setValue(selectedValue);
+    setTag(selectedValue);
+    console.log(tag);
+  };
 
   return (
-    <Box>
-      <Text color={"white"}>Factions</Text>
-      <CheckboxGroup value={value} onChange={(value) => handleChange(value)}>
-        <Stack direction="row">
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="md"
+      borderColor="gray.600"
+      bg="gray.900"
+      boxShadow="lg"
+      maxWidth="1000px"
+      mx="auto"
+      mt={6}
+    >
+      <Text
+        color="white"
+        fontSize="lg"
+        fontWeight="bold"
+        mb={3}
+        textAlign="center"
+      >
+        Factions
+      </Text>
+      <CheckboxGroup value={value} onChange={handleChange}>
+        <Stack
+          direction="row"
+          wrap="wrap"
+          spacing={4}
+          justify="center"
+          align="center"
+        >
+          {/* Row 1 */}
           <Checkbox
-            value=""
-            color={"white"}
+            value="astartes"
+            colorScheme="blue"
             isChecked={value === "astartes"}
             onChange={() => handleChange("astartes")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Adeptus Astartes
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="custodes"
+            colorScheme="blue"
             isChecked={value === "custodes"}
             onChange={() => handleChange("custodes")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Adeptus Custodes
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="mechanicus"
+            colorScheme="blue"
             isChecked={value === "mechanicus"}
             onChange={() => handleChange("mechanicus")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Adeptus Mechanicus
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="sororitas"
+            colorScheme="blue"
             isChecked={value === "sororitas"}
             onChange={() => handleChange("sororitas")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Adepta Sororitas
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="militarum"
+            colorScheme="blue"
             isChecked={value === "militarum"}
             onChange={() => handleChange("militarum")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Astra Militarum
           </Checkbox>
-          <Spacer />
+
           <Checkbox
-            value=""
-            color={"white"}
+            value="chaos"
+            colorScheme="purple"
             isChecked={value === "chaos"}
             onChange={() => handleChange("chaos")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Chaos Space Marines
           </Checkbox>
           <Checkbox
             value="aeldari"
-            color={"white"}
+            colorScheme="purple"
             isChecked={value === "aeldari"}
             onChange={() => handleChange("aeldari")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Aeldari
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="drukhari"
+            colorScheme="purple"
             isChecked={value === "drukhari"}
             onChange={() => handleChange("drukhari")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Drukhari
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="necrons"
+            colorScheme="purple"
             isChecked={value === "necrons"}
             onChange={() => handleChange("necrons")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Necrons
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="orks"
+            colorScheme="purple"
             isChecked={value === "orks"}
             onChange={() => handleChange("orks")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Orks
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="tau"
+            colorScheme="purple"
             isChecked={value === "tau"}
             onChange={() => handleChange("tau")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             T'au
           </Checkbox>
           <Checkbox
-            value=""
-            color={"white"}
+            value="tyranids"
+            colorScheme="purple"
             isChecked={value === "tyranids"}
             onChange={() => handleChange("tyranids")}
+            _hover={{ transform: "scale(1.05)" }}
+            textColor={"white"}
           >
             Tyranids
           </Checkbox>
-
         </Stack>
       </CheckboxGroup>
     </Box>
   );
 };
+
+
 
 const SeriesFilter = () => {
    const [value, setValue] = useState<string>("");
