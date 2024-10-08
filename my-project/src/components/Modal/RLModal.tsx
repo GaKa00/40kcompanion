@@ -46,10 +46,12 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
        toast({
          title: "Book Completed!",
          status: "success",
-         //swap?
+         
          duration: 3000,
          isClosable: true,
        });
+
+  location.reload();
      
    }
  };
