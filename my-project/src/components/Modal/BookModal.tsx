@@ -24,10 +24,14 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [bookIdToAdd, setBookIdToAdd] = useState<number | null>(null);
+  const [bookIdToAdd, setBookIdToAdd] = useState<number | null>(null);   
 
     const toast = useToast();
 
+
+
+
+    //may be replaced by hook useAddtoList 
   useEffect(() => {
     if (bookIdToAdd !== null) {
       const token =
@@ -127,7 +131,7 @@ return (
           mr={3}
           fontSize={{ base: "sm", md: "md" }}
         >
-          <Link href={book.link} isExternal>
+          <Link href={book.link} isExternal >
             Buy from Amazon
           </Link>{" "}
         </Button>

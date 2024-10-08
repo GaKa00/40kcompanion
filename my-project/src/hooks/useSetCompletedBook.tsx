@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useCallback } from "react";
 
+//This hook is used to register a selected book to the users readinglist
+//after validating a user, it takes the books id  in the users readinglist (which exists in the modal where this hook is called)
+//and then sets it as complete (which allows the book to show in the "finished book" section)
 const useSetCompletedBook = () => {
   const setCompletedBook = useCallback((readingListId: number) => {
     const token =

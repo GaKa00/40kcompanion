@@ -29,6 +29,8 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
   const [newQuote, setNewQuote] = useState<string>(""); // State to set and update quotes
   const [rating, setRating] = useState<number>(0); // State to set rating in edit mode
 
+  
+  
   const handleSummaryChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -39,6 +41,8 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
     setNewQuote(event.target.value);
   };
 
+
+  //gets book object from readinglist and checks fro previous changes in edit mode
   useEffect(() => {
     if (isOpen) {
       const token =

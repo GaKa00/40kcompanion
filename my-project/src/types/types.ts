@@ -61,4 +61,10 @@ import { ReactNode } from "react";
    }
 
 
+    export interface bookProp {
+     data: Book[];
+     openModal: (book: Book) => void;
+   }
+
+
  

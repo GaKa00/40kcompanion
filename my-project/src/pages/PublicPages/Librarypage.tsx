@@ -11,24 +11,29 @@ import {
 import React, {  useEffect, useState, useContext  } from "react";
 import axios from "axios";
 import Navbar from "../../components/ui/Navbar";
-import { Book } from "../../types/types";
-import BookDetailModal from "../../components/Modal/BookModal";
+import { Book, bookProp, } from "../../types/types";  //Type for book
+import BookDetailModal from "../../components/Modal/BookModal";  // Modal when clicking on a BookCard
 import FilterBox from "../../components/FilterBox";
-import TagContext from "../../utils/TagContext";
+import TagContext from "../../utils/TagContext";  //context to grab  selected tag when filtering searches
+import AllBooks from "../../components/AllBooks";
+
+
+// Imports above
+
 
 
 
 
 const Librarypage = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-const { tag } = useContext(TagContext)!
+  const [books, setBooks] = useState<Book[]>([]);   //state for handling book fetch from db
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that handles what book was being clicked on
+  const [isOpen, setIsOpen] = useState(false); //state to handle whether modal is open or closed
+  const { tag } = useContext(TagContext)!  
   
 
 
 
-
+  //Book fetch using searchbyTags, if no tags are provided, will show all books in library
 useEffect(() => {
   console.log(`Tag is ${tag}`)
   axios
@@ -40,6 +45,8 @@ useEffect(() => {
 }, [tag]);
 
 
+
+//Modal Functions
 
   const openModal = (book: Book) => {
     setSelectedBook(book);
@@ -78,11 +85,13 @@ useEffect(() => {
       <FilterBox/>
 
       <Flex mt="4" justifyContent={"center"}>
-        <LatestReleases data={books} openModal={openModal} />
+        {/* shows 5 latest books added to library */}
+        <LatestReleases data={books} openModal={openModal} />  
       </Flex>
       <Box width="90%">
         <AllBooks data={books} openModal={openModal} />
       </Box>
+    {/* modal render */}
       {selectedBook && (
         <BookDetailModal
         book={selectedBook}
@@ -97,12 +106,9 @@ useEffect(() => {
 
 export default Librarypage;
 
-interface dataProp {
-  data: Book[];
-  openModal: (book: Book) => void;
-}
 
-const LatestReleases = ({ data, openModal }: dataProp) => {
+//component for latest added books
+const LatestReleases = ({ data, openModal }: bookProp) => {
   const releases = data.slice(1).slice(-5);
   
   const showReleases = releases.map((book) => {
@@ -119,136 +125,8 @@ const LatestReleases = ({ data, openModal }: dataProp) => {
   );
 };
 
-const AllBooks = ({ data, openModal }: dataProp) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  
-  const booksPerPage = 25;
-  const booksPerRow = 5;
-
-  const indexOfLastBook = currentPage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
 
 
-
-  const currentBooks = data
-  .sort((a, b) => Number(a.id) - Number(b.id))
-    .slice(indexOfFirstBook, indexOfLastBook);
-
-  // Handle page change
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(data.length / booksPerPage)) {
-      setCurrentPage(currentPage + 1);
-      smoothScroll();
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-     smoothScroll();
-    }
-  };
-
-
-//scroll function
- function smoothScroll(duration = 500) {
-   const start = window.scrollY; 
-   const finish = window.innerHeight / 3; 
-   const startTime = performance.now();
-
-   const scroll = (currentTime: number) => {
-     const timeElapsed = currentTime - startTime;
-     const progress = Math.min(timeElapsed / duration, 1);
-     const ease = progress * (2 - progress);
-
-     // Calculate the new scroll position
-     const newPosition = start + (finish - start) * ease; 
-     window.scrollTo(0, newPosition);
-
-     if (progress < 1) {
-       requestAnimationFrame(scroll);
-     }
-   };
-
-   requestAnimationFrame(scroll);
- }
-  const showAll = currentBooks.map((book) => {
-    return (
-      <Box
-        key={book.id}
-        p={4}
-        boxShadow="white-lg"
-        rounded="lg"
-        maxW="250px"
-        h="365px"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        alignItems="center"
-        onClick={() => openModal(book)}
-        bg="metallic"
-      >
-        <Box
-          as="img"
-          src={book.image}
-          alt={book.title}
-          objectFit="cover"
-          h="325px"
-          w="100%"
-          borderRadius="lg"
-        />
-      </Box>
-    );
-  });
-
-  return (
-    <Box p="5" boxShadow="md">
-      <Text
-        fontSize={{ base: "lg", md: "xl" }}
-        fontWeight="bold"
-        color="whiteAlpha"
-      >
-        All Books
-      </Text>
-
-      {/* Responsive grid for books */}
-      <Grid
-        templateColumns={{
-          base: "repeat(1, 1fr)", // 1 column on small screens
-          md: "repeat(3, 1fr)", // 3 columns on medium screens
-          lg: `repeat(${booksPerRow}, 1fr)`, // Dynamic columns on larger screens
-        }}
-        gap={6}
-        mt={4}
-      >
-        {showAll}
-      </Grid>
-
-      {/* Pagination controls */}
-      <Box mt={4} textAlign="center">
-        <Button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          bgColor={currentPage === 1 ? "gray" : "primary"}
-        >
-          Previous
-        </Button>
-        <Button
-          onClick={handleNextPage}
-          ml={4}
-          disabled={currentPage === Math.ceil(data.length / booksPerPage)}
-          bgColor={
-            currentPage === Math.ceil(data.length / booksPerPage)
-              ? "gray"
-              : "primary"
-          }
-        >
-          Next
-        </Button>
-      </Box>
-    </Box>
-  );
-};
 
 
 

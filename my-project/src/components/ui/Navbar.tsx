@@ -20,7 +20,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
-import SearchBar from "../Searchbar";
+import SearchBar from "./Searchbar";
 
 interface Props {
   children: React.ReactNode;

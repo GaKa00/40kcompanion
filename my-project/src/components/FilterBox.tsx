@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, CheckboxGroup, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, Stack, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useState } from "react";
 import TagContext from "../utils/TagContext";
