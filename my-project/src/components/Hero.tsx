@@ -38,7 +38,7 @@ export default function CallToActionWithVideo() {
             fontSize={{ base: "xl", sm: "2xl", lg: "3xl" }}
           >
             <Text
-              // Add padding somehow
+            
               fontSize={{ base: "2xl", sm: "4xl", lg: "6xl" }}
               as={"span"}
               position={"relative"}
@@ -61,10 +61,12 @@ export default function CallToActionWithVideo() {
               Keep track of your 40K Reading
             </Text>
           </Heading>
-          <Text color={"gray.500"}>
-            Snippy is a rich coding snippets app that lets you create your own
-            code snippets, categorize them, and even sync them in the cloud so
-            you can use them anywhere. All that is free!
+          <Text color={"gray.200"}>
+            The Library is a comprehensive reading companion for the many books in the Warhammer 40K Universe.
+            Tired of searching for what book to read?  Is your dataslate full of information, and you need a place to write down
+            the records of those epic battles you've read about? <br /><br />
+              Do not fear, for The Library is here.
+          
           </Text>
           <Stack
             spacing={{ base: 4, sm: 6 }}

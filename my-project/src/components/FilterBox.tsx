@@ -9,15 +9,13 @@ const FilterBox = () => {
  
 
   return (
-  <Flex  
-  direction={"column"}
-  gap={4}>
-
+    <Flex direction={"column"} gap={4} maxW={"1000px"}>
       <FactionFilter />
-      <SeriesFilter />
-      <OmnibusFilter />
-  </Flex>
-   
+      <Flex>
+        <SeriesFilter />
+        <OmnibusFilter />
+      </Flex>
+    </Flex>
   );
 };
 
@@ -204,10 +202,27 @@ const SeriesFilter = () => {
 
 
   return (
-    <Box>
-      <Text color={"white"}>Series</Text>
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="md"
+      borderColor="gray.600"
+      bg="gray.900"
+      boxShadow="lg"
+      minWidth="750px"
+      maxWidth="750px"
+    >
+      <Text
+        color="white"
+        fontSize="lg"
+        fontWeight="bold"
+        mb={3}
+        textAlign="center"
+      >
+        Series
+      </Text>
       <CheckboxGroup value={value} onChange={handleChange}>
-        <Stack direction="row">
+        <Stack direction="row" justify={"center"}>
           <Checkbox value="" color={"white"}>
             First
           </Checkbox>
@@ -235,13 +250,33 @@ const OmnibusFilter = () => {
   };
 
   return (
-    <Box>
-      <Text color={"white"}>Omnibus</Text>
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="md"
+      borderColor="gray.600"
+      bg="gray.900"
+      boxShadow="lg"
+      minW={"140px"}
+      maxWidth="250px"
+      minWidth="250px"
+    >
+      <Text
+        color="white"
+        fontSize="lg"
+        fontWeight="bold"
+        mb={3}
+        textAlign="center"
+      >
+        Omnibus
+      </Text>
 
       <CheckboxGroup value={value} onChange={handleChange}>
-        <Stack direction="row">
-          <Checkbox value="" color={"white"}
-           isChecked={value === "omnibus"}
+        <Stack direction="row" justify={"center"}>
+          <Checkbox
+            value=""
+            color={"white"}
+            isChecked={value === "omnibus"}
             onChange={() => handleChange("omnibus")}
           >
             Omnibus
