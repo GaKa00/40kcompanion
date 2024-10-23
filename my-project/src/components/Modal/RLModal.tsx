@@ -1,4 +1,4 @@
-import React, { useState, useEffect, MouseEventHandler } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,18 +12,14 @@ import {
   Image,
   Flex,
   useToast,
-  Textarea,
-  Switch,
   Box,
+  List,
+  ListItem,
+  Divider,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { BookDetailModalProps, ReadingList } from "../../types/types";
 import useSetCompletedBook from "../../hooks/useSetCompletedBook";
-
-
-
-
-
 
 const ReadingListModal: React.FC<BookDetailModalProps> = ({
   book,
@@ -32,33 +28,29 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
 }) => {
   const [readingListId, setReadingListId] = useState<number>(0); // State to obtain relevant bookid from readinglist
   const toast = useToast();
- 
-  const [rating, setRating] = useState<number>(0); //state to set rating in edit mode
-  const [newSummary, setNewSummary] = useState<string>(""); //state to set and update summary
-  const [newQuote, setNewQuote] = useState<string>(""); //state to set and update quotes
- const { setCompletedBook } = useSetCompletedBook();
+  const [rating, setRating] = useState<number>(0); // State to set rating in edit mode
+  const [newSummary, setNewSummary] = useState<string>(""); // State to set and update summary
+  const [newQuote, setNewQuote] = useState<string>(""); // State to set and update quotes
+  const { setCompletedBook } = useSetCompletedBook();
 
- // Function to handle finishing reading a book
- const handleRead = () => {
-   if (readingListId) {
-     setCompletedBook(readingListId)
-     
-       toast({
-         title: "Book Completed!",
-         status: "success",
-         
-         duration: 3000,
-         isClosable: true,
-       });
+  // Function to handle finishing reading a book
+  const handleRead = () => {
+    if (readingListId) {
+      setCompletedBook(readingListId);
 
-  location.reload();
-     
-   }
- };
-  
+      toast({
+        title: "Book Completed!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
-  // fetches reading list if token and userid is available
-  //if book entries have already been edited, previous changes will be fetched, if not, they will be set to empty
+      location.reload();
+    }
+  };
+
+  // Fetches reading list if token and userId are available
+  // If book entries have already been edited, previous changes will be fetched
   useEffect(() => {
     if (isOpen) {
       const token =
@@ -91,30 +83,63 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
       }
     }
   }, [isOpen, book.id]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader textAlign="center">
-          <Text>{book.title}</Text>
+          <Text fontSize="2xl" fontWeight="bold">
+            {book.title}
+          </Text>
         </ModalHeader>
 
-        <Flex justify="center">{/* //change to own made react stars */}</Flex>
         <ModalCloseButton />
-        <ModalBody className="border-gray-500 border-b-2">
+        <ModalBody>
           <Flex align="center" justify="center" mb={4}>
-            <Image
-              src={book.image}
-              alt={book.title}
-              boxSize="300px"
-          
-            />
+            <Image src={book.image} alt={book.title} boxSize="300px" />
           </Flex>
-          <Flex align="center">
-            <Text>Summary:</Text>
-            <Text>Quotes:</Text>
-          </Flex>
+
+          {/* Divider under image */}
+          <Divider mb={4} />
+
+          {/* Summary Section */}
+          <Box mb={4}>
+            <Text fontSize="lg" fontWeight="bold" mb={2}>
+              Summary:
+            </Text>
+            <Text
+              fontSize="md"
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="md"
+              p={3}
+              backgroundColor="gray.50"
+            >
+              {newSummary || "No summary available."}
+            </Text>
+          </Box>
+
+          {/* Divider between sections */}
+          <Divider mb={4} />
+
+          {/* Quotes Section */}
+          <Box>
+            <Text fontSize="lg" fontWeight="bold" mb={2}>
+              Quotes:
+            </Text>
+            {newQuote ? (
+              <List spacing={2} styleType="disc" pl={5}>
+                {newQuote.split("\n").map((quote, index) => (
+                  <ListItem key={index}>{quote}</ListItem>
+                ))}
+              </List>
+            ) : (
+              <Text>No quotes available.</Text>
+            )}
+          </Box>
         </ModalBody>
+
         <ModalFooter>
           <Button colorScheme="green" ml={3} onClick={handleRead}>
             Finished Reading
