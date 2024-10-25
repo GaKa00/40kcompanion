@@ -123,9 +123,6 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
           >
             Save Quote
           </Button>
-          <Button colorScheme="green" ml={3}>
-            Finished Reading
-          </Button>
           <Button colorScheme="red" onClick={onClose}>
             Close
           </Button>

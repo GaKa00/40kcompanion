@@ -74,7 +74,8 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
               setReadingListId(bookEntry.id);
               setRating(bookEntry.rating || 0);
               setNewSummary(bookEntry.summary || "");
-              setNewQuote(bookEntry.quotes || "");
+              setNewQuote((bookEntry.quotes || []).join("\n"));
+
             }
           })
           .catch((error) => {

@@ -31,7 +31,7 @@ model Book {
   tags String[]
   link String?
   rating  Int?
-  quotes String?
+  quotes String[]
   summary  String?
   createdAt DateTime? @default(now())
   readingList ReadingList[]
@@ -41,7 +41,7 @@ model ReadingList {
   isFinished Boolean
   isReading Boolean
   rating    Int?
-  quotes    String?
+  quotes    String[]
   summary   String?
   addedAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

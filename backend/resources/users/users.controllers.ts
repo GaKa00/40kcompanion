@@ -21,7 +21,7 @@ interface ReadingListUpdate {
   isFinished?: boolean;
   isReading?: boolean;
   rating?: number;
-  quotes?: string;
+  quotes?: string[]
   summary?: string;
 }
 
@@ -189,13 +189,7 @@ export async function deleteBookFromReadinglist(req:Request, res:Response){
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateBookInReadinglist(req: Request, res: Response) {
   const { userId, readingListId } = req.params;
-  console.log( "params", req.params)
-
-  console.log(`Received userId: ${userId}, readingListId: ${readingListId}`);
-
-  if (!userId || !readingListId) {
-    return res.status(400).json({ message: "Missing userId or readingListId" });
-  }
+  const { isFinished, isReading, rating, quotes, summary, TextType } = req.body;
 
   const parsedReadingListId = parseInt(readingListId, 10);
   const parsedUserId = parseInt(userId, 10);
@@ -204,22 +198,25 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
     return res.status(400).json({ message: "Invalid userId or readingListId" });
   }
 
-  const { isFinished, isReading, rating, quotes, summary }: ReadingListUpdate =
-    req.body;
-
   if (req.user?.id !== parsedUserId) {
-    console.log(
-      `Access forbidden: req.user.id (${req.user?.id}) !== userId (${parsedUserId})`
-    );
     return res.status(403).json({ message: "Access forbidden" });
   }
 
-  const data: ReadingListUpdate = {};
+  const data: any = {}; // Initialize empty data object
+
   if (isFinished !== undefined) data.isFinished = isFinished;
   if (isReading !== undefined) data.isReading = isReading;
   if (rating !== undefined) data.rating = rating;
-  if (quotes !== undefined) data.quotes = quotes;
   if (summary !== undefined) data.summary = summary;
+
+if (TextType === "quotes" && quotes) {
+  data.quotes = {
+    push: Array.isArray(quotes) ? quotes : [quotes], // Ensure it's an array
+  };
+} else if (TextType && TextType !== "quotes") {
+  // Directly update non-quotes field
+  data[TextType] = req.body[TextType];
+}
 
   try {
     const updatedReadingList = await prisma.readingList.update({
