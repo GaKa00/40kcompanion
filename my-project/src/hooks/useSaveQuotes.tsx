@@ -1,18 +1,10 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
-
-
-
-const useSaveText = () => {
+const useSaveQuotes = () => {
   const [loading, setLoading] = useState(false);
 
-
-  const saveText = async (
-    newText: string,
-    readingListId: number,
-    TextType: string
-  ) => {
+  const saveQuote = async (newQuote: string, readingListId: number) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
     const userId = localStorage.getItem("uid") || sessionStorage.getItem("uid");
@@ -23,12 +15,11 @@ const useSaveText = () => {
     }
 
     setLoading(true);
-  
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}`,
-        { [TextType]: newText }, 
+        `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}/quote`,
+        { newQuote },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,15 +28,21 @@ const useSaveText = () => {
       );
 
       console.log("Quotes updated:", response.data);
-    } catch (error) {
-      console.error("Error updating quotes:", error);
-     
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Error updating summary:",
+          error.response ? error.response.data : error.message
+        );
+      } else {
+        console.error("Unexpected error:", error);
+      }
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-  return { saveText, loading, };
+  return { saveQuote, loading };
 };
 
-export default useSaveText;
+export default useSaveQuotes;

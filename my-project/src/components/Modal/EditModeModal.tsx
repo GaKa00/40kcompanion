@@ -16,14 +16,16 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { BookDetailModalProps, ReadingList } from "../../types/types";
-import useSaveText from "../../hooks/useSaveText";
+import useSaveSummary from "../../hooks/useSaveSummary";
+import useSaveQuotes from "../../hooks/useSaveQuotes";
 
 const EditedModal: React.FC<BookDetailModalProps> = ({
   book,
   isOpen,
   onClose,
 }) => {
-  const { saveText } = useSaveText();
+  const { saveText } = useSaveSummary();
+  const {saveQuote , loading} = useSaveQuotes()
   const [readingListId, setReadingListId] = useState<number | null>(null); // State to obtain relevant book id from reading list
   const [newSummary, setNewSummary] = useState<string>(""); // State to set and update summary
   const [newQuote, setNewQuote] = useState<string>(""); // State to set and update quotes
@@ -61,7 +63,7 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
               setReadingListId(bookEntry.id);
               setRating(bookEntry.rating || 0);
               setNewSummary(bookEntry.summary || "");
-              setNewQuote(bookEntry.quote || "");
+              setNewQuote(bookEntry.quotes?.join("; ") || ""); 
             }
           })
           .catch((error) => {
@@ -112,14 +114,14 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
           <Button
             colorScheme="blue"
             mr={3}
-            onClick={() => saveText(newSummary, readingListId!, "summary")}
+            onClick={() => saveText(newSummary, readingListId!)}
           >
             Save Summary
           </Button>
           <Button
             colorScheme="green"
             mr={3}
-            onClick={() => saveText(newQuote, readingListId!, "quotes")}
+            onClick={() => saveQuote(newQuote, readingListId!, )}
           >
             Save Quote
           </Button>

@@ -187,12 +187,58 @@ export async function deleteBookFromReadinglist(req:Request, res:Response){
 
 // if uid and readinglistid are defined, they will be parsed, then checked for comparison
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
-export async function updateBookInReadinglist(req: Request, res: Response) {
+export async function updateSummaryInReadinglist(req: Request, res: Response) {
+  console.log("Received request to update summary");
+
   const { userId, readingListId } = req.params;
-  const { isFinished, isReading, rating, quotes, summary, TextType } = req.body;
+  const { summary } = req.body;
+
+  console.log(
+    `User ID: ${userId}, Reading List ID: ${readingListId}, Summary: ${summary}`
+  );
 
   const parsedReadingListId = parseInt(readingListId, 10);
   const parsedUserId = parseInt(userId, 10);
+
+  if (isNaN(parsedUserId) || isNaN(parsedReadingListId)) {
+    console.log("Invalid userId or readingListId");
+    return res.status(400).json({ message: "Invalid userId or readingListId" });
+  }
+
+  if (req.user?.id !== parsedUserId) {
+    console.log("Access forbidden: user is not authorized");
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+
+  const data: any = {};
+  if (summary !== undefined) data.summary = summary;
+
+  try {
+    const updatedReadingList = await prisma.readingList.update({
+      where: { id: parsedReadingListId },
+      data,
+    });
+    console.log("Updated reading list:", updatedReadingList);
+    res.json(updatedReadingList);
+  } catch (error) {
+    console.error("Error updating reading list:", error);
+    res.status(400).json({ error: (error as Error).message });
+  }
+}
+
+
+export async function updateQuotesInReadinglist(req: Request, res: Response) {
+  const { userId, readingListId } = req.params;
+  const { newQuote } = req.body;
+
+  console.log("Received newQuote:", newQuote);
+
+  if (!userId || !readingListId) {
+    return res.status(400).json({ message: "Missing userId or readingListId" });
+  }
+
+  const parsedUserId = Number(userId);
+  const parsedReadingListId = Number(readingListId);
 
   if (isNaN(parsedUserId) || isNaN(parsedReadingListId)) {
     return res.status(400).json({ message: "Invalid userId or readingListId" });
@@ -202,33 +248,24 @@ export async function updateBookInReadinglist(req: Request, res: Response) {
     return res.status(403).json({ message: "Access forbidden" });
   }
 
-  const data: any = {}; // Initialize empty data object
-
-  if (isFinished !== undefined) data.isFinished = isFinished;
-  if (isReading !== undefined) data.isReading = isReading;
-  if (rating !== undefined) data.rating = rating;
-  if (summary !== undefined) data.summary = summary;
-
-if (TextType === "quotes" && quotes) {
-  data.quotes = {
-    push: Array.isArray(quotes) ? quotes : [quotes], // Ensure it's an array
-  };
-} else if (TextType && TextType !== "quotes") {
-  // Directly update non-quotes field
-  data[TextType] = req.body[TextType];
-}
-
   try {
     const updatedReadingList = await prisma.readingList.update({
       where: { id: parsedReadingListId },
-      data,
+      data: {
+        quotes: {
+          push: newQuote,
+        },
+      },
     });
+
     res.json(updatedReadingList);
   } catch (error) {
-    console.error(error);
+    console.error("Error updating quotes:", error);
     res.status(400).json({ error: (error as Error).message });
   }
 }
+
+
 
  //add book to active users reading list
 

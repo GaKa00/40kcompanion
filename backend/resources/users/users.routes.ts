@@ -6,8 +6,9 @@ import {
   getUser,
   login,
   register,
-  updateBookInReadinglist,
+  updateSummaryInReadinglist,
   deleteUser,
+  updateQuotesInReadinglist,
 } from "./users.controllers";
 import { auth } from "../../middleware/auth";
 
@@ -23,10 +24,17 @@ router.get("/users/:id/reading-list", auth, getUserReadingList); // get the read
 router.get("/users/:id", auth, getUser); //get Active User
 router.post("/users/:id/reading-list", auth, addBookToReadinglist); // post a book to an active user's reading list
 router.put(
+  "/users/:userId/reading-list/:readingListId/quote",
+  auth,
+  updateQuotesInReadinglist
+);
+
+router.put(
   "/users/:userId/reading-list/:readingListId",
   auth,
-  updateBookInReadinglist
-); // update a book in an active user's reading list
+  updateSummaryInReadinglist
+); // Update summary
+
 router.delete(
   "/users/:id/reading-list/:readingListId",
   auth,
