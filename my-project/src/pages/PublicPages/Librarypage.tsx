@@ -16,6 +16,7 @@ import BookDetailModal from "../../components/Modal/BookModal";  // Modal when c
 import FilterBox from "../../components/FilterBox";
 import TagContext from "../../utils/TagContext";  //context to grab  selected tag when filtering searches
 import AllBooks from "../../components/AllBooks";
+import SearchBar from "../../components/ui/Searchbar";
 
 
 // Imports above
@@ -65,10 +66,10 @@ useEffect(() => {
       <Navbar />
       <Box
         position={"relative"}
-        height={"900px"}
+        height={"500px"}
         rounded={"2xl"}
         boxShadow={"2xl"}
-        width={"full"}
+        width={"70%"}
         overflow={"hidden"}
         bgColor="black"
         >
@@ -82,6 +83,7 @@ useEffect(() => {
           />
       </Box>
 
+<SearchBar/>
       <FilterBox/>
 
       <Flex mt="4" justifyContent={"center"}>

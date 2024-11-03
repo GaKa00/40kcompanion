@@ -22,7 +22,3 @@ import { User } from "../types/types";
     }
   }, []);
 }
-
-function getBook() {
-    
-}
