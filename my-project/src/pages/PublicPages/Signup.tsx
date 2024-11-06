@@ -24,9 +24,11 @@ import axios from "axios";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 const navigate= useNavigate()
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
 const [username, setUsername] = useState("");
 
 
@@ -57,7 +59,6 @@ const register = async (e: React.FormEvent<HTMLButtonElement>) => {
       maxW="100vw"
       margin="0"
       padding="0"
-     
     >
       <Button
         as={ReactRouterLink}
@@ -65,90 +66,138 @@ const register = async (e: React.FormEvent<HTMLButtonElement>) => {
         position="absolute"
         top={4}
         left={4}
-        bg="blue.500"
+        bg="gray.500"
         color="white"
-        _hover={{ bg: "blue.600" }}
+        _hover={{ bg: "gray.600" }}
       >
-
+        Return to homepage
       </Button>
       <Flex minH="100vh" align="center" justify="center">
-        <Stack spacing={8} mx="auto" maxW="xl" py={12} px={6}>
+        <Stack
+          spacing={8}
+          mx="auto"
+          maxW="auto"
+          py={12}
+          px={6}
+          justify={"center"}
+        >
           <Box
             rounded="lg"
             bg={useColorModeValue("gray.300", "white")}
+            bgImage="url('./public/images/dataslate.jpg')"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+            bgPosition="center"
+            shadow="md"
+            width={{ base: "80%", sm: "200px", md: "500px", lg: "600px" }}
+            height={{ base: "80%", sm: "300px", md: "600px", lg: "1000px" }}
+            m={6}
             boxShadow="lg"
             p={8}
           >
-            <Stack spacing={4}>
-              <Stack align="center">
-                <Heading fontSize="4xl" textAlign="center">
-                  Conscript
-                </Heading>
-                <Text fontSize="lg" color="gray.600">
-                  to the Librarius Sanctorum.
-                </Text>
-              </Stack>
-              <FormControl id="username" isRequired>
-                <FormLabel>Username</FormLabel>
-                <Input
-                  type="string"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </FormControl>
-              <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </FormControl>
-              <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
+            <Flex direction="column" align="center" height={"100%"}>
+              <Stack
+                spacing={2}
+                height="90%"
+                justify="space-between"
+                width={"90%"}
+              >
+                <Stack align="center">
+                  <Text fontSize="xl" color="orange.300" mt={8}>
+                    Enter your credentials Rememberancer.
+                  </Text>
+                </Stack>
+                <FormControl id="username" isRequired>
+                  <FormLabel color={"orange.300"}>Display Name</FormLabel>
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    type="string"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    textColor={"white"}
                   />
-                  <InputRightElement h="full">
-                    <Button
-                      variant="ghost"
-                      onClick={() =>
-                        setShowPassword((showPassword) => !showPassword)
-                      }
-                    >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Submitting"
-                  size="lg"
-                  bg="blue.400"
-                  color="white"
-                  _hover={{ bg: "blue.500" }}
-                  onClick={register}
-                >
-                  Sign up
-                </Button>
+                </FormControl>
+                <FormControl id="email" isRequired>
+                  <FormLabel color={"orange.300"}>Email address</FormLabel>
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    textColor={"white"}
+                  />
+                </FormControl>
+                <FormControl id="password" isRequired>
+                  <FormLabel color={"orange.300"}>Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      color={"white"}
+                    />
+                    <InputRightElement h="full">
+                      <Button
+                        variant="ghost"
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <FormControl id="confirmPassword" isRequired>
+                  <FormLabel color="orange.300">Confirm Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      color={"white"}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <InputRightElement h="full">
+                      <Button
+                        variant="ghost"
+                        onClick={() =>
+                          setShowConfirmPassword(
+                            (showConfirmPassword) => !showConfirmPassword
+                          )
+                        }
+                      >
+                        {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg="orange.300"
+                    color="black"
+                    _hover={{ bg: "orange.500" }}
+                    bottom={1}
+                    onClick={register}
+                    maxW={{ sm: "200px", lg: "100%" }}
+                  >
+                    Submit Credentials
+                  </Button>
+                </Stack>
               </Stack>
               <Stack pt={6}>
-                <Text align="center">
-                  Already a user?{" "}
+                <Text align="center" color={"orange.300"}>
+                  Already registered?{" "}
                   <ChakraLink
                     as={ReactRouterLink}
-                    color="blue.500"
+                    color="white"
                     to="/signin"
+                    _hover={{ textShadow: "0px 0px 5px white" }}
                   >
                     Login
                   </ChakraLink>
                 </Text>
               </Stack>
-            </Stack>
+            </Flex>
           </Box>
         </Stack>
       </Flex>

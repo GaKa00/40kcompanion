@@ -65,7 +65,8 @@ export default function CallToActionWithVideo() {
             The Library is a comprehensive reading companion for the many books in the Warhammer 40K Universe.
             Tired of searching for what book to read?  Is your dataslate full of information, and you need a place to write down
             the records of those epic battles you've read about? <br /><br />
-              Do not fear, for The Library is here.
+              Do not fear, The Library hungers for more Rememberancers.
+              
           
           </Text>
           <Stack
