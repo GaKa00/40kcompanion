@@ -80,32 +80,40 @@ export default function Signin() {
         <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
           <Box
             rounded="lg"
-            bg={useColorModeValue("white", "gray.700")}
+            bg={useColorModeValue("gray.300", "white")}
+            bgImage="url('./public/images/dataslate.jpg')"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+            bgPosition="center"
+            shadow="md"
+            width={{ base: "80%", sm: "200px", md: "500px", lg: "400px" }}
+            height={{ base: "80%", sm: "300px", md: "400px", lg: "600px" }}
+            m={6}
             boxShadow="lg"
             p={8}
           >
             <Stack spacing={4}>
               <Stack align="center">
-                <Heading fontSize="4xl">Sign in to your account</Heading>
-                <Text fontSize="lg" color="gray.600">
-                  to enjoy all of our cool{" "}
-                  <Link color="blue.400">features</Link> ✌️
-                </Text>
+                <Heading fontSize="xl" color={"orange.300"}>
+                  Enter Rememberancer Credientials
+                </Heading>
               </Stack>
-               <FormControl id="username" isRequired>
-                <FormLabel>Username</FormLabel>
+              <FormControl id="username" isRequired>
+                <FormLabel color={"orange.300"}>Username</FormLabel>
                 <Input
                   type="string"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  textColor={"white"}
                 />
               </FormControl>
               <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
+                <FormLabel color={"orange.300"}>Password</FormLabel>
                 <Input
-                  type="password"
+                  type="text"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  textColor={"white"}
                 />
               </FormControl>
               <Stack spacing={10}>
@@ -114,22 +122,27 @@ export default function Signin() {
                   align="start"
                   justify="space-between"
                 >
-                  <Checkbox onClick={toggleRemember}>Remember me</Checkbox>
-                  <Link color="blue.400">Forgot password?</Link>
+                  <Checkbox onClick={toggleRemember} color={"orange.300"}>
+                    Remember me
+                  </Checkbox>
                 </Stack>
                 <ChakraLink
                   as={ReactRouterLink}
-                  color="blue.500"
+                  color="white"
                   to="/signup"
                   alignSelf="center"
+                  _hover={{ textShadow: "0px 0px 10px orange" }}
                 >
                   Don't have an account?
                 </ChakraLink>
+                <Link color={"orange.300"} alignSelf="center">
+                  Forgot password?
+                </Link>
                 <Button
-                  bg="blue.400"
-                  color="white"
+                  bg="orange.400"
+                  color="black"
                   _hover={{
-                    bg: "blue.500",
+                    bg: "orange.500",
                   }}
                   onClick={login}
                 >
