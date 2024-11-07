@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import express from "express";
 import { Request, Response } from "express";
+import { sendPasswordResetEmail } from "../../middleware/nodermailer";
 
 require("dotenv").config(); 
 console.log("JWT_SECRET:", process.env.JWT_SECRET);
@@ -346,7 +347,55 @@ export async function updateQuotesInReadinglist(req: Request, res: Response) {
    }
  }
 
+export async function sendPWRMail(req: Request, res: Response){
+  const { email } = req.body;
 
+  // Check if the user exists
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const resetToken = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: "30min",})
+  const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+
+  try{
+    await sendPasswordResetEmail(user.email,  resetLink);
+    res.status(200).json({ message: "Reset link sent to your email" });
+  }
+  catch(error){
+    console.error("Error sending password reset email:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+}
+
+export const resetPassword = async (req: Request, res: Response) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  try {
+    // Verify the reset token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as {
+      email: string;
+    };
+    const { email } = decoded;
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password in the database using Prisma
+    const user = await prisma.user.update({
+      where: { email },
+      data: { password: hashedPassword },
+    });
+
+    res.json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Invalid or expired token" });
+  }
+};
 
 
 

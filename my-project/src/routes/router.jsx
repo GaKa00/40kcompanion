@@ -10,6 +10,8 @@ import Signin from "../pages/AccountPages/Signin"
 import Myprofile from "../pages/AccountPages/Myprofile"
 import Librarypage from "../pages/PublicPages/Librarypage";
 import Settings from "../pages/AccountPages/Settings"
+import ForgotPassword from "../pages/ResestPWForm"
+import ResetPassword from "../pages/SetNewPW"
 
  const router = createBrowserRouter([
    {
@@ -53,6 +55,15 @@ import Settings from "../pages/AccountPages/Settings"
      path: "/searchResults/:query",
      element: <App />,
    },
+
+   {
+    path: "/forgotPassword",
+    element: <ForgotPassword/>,
+   },
+   {
+    path: "/resetPassword",
+    element: <ResetPassword/>,
+   }
 
  ]);
 

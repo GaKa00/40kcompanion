@@ -140,7 +140,7 @@ localStorage.getItem("token")
                 >
                   Don't have an account?
                 </ChakraLink>
-                <Link color={"orange.300"} alignSelf="center">
+                <Link  href={"/forgotPassword"} color={"orange.300"} alignSelf="center">
                   Forgot password?
                 </Link>
                 <Button

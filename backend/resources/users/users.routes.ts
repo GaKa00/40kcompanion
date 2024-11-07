@@ -11,6 +11,8 @@ import {
   updateQuotesInReadinglist,
   verifyToken,
   updateBookInReadinglist,
+  resetPassword,
+  sendPWRMail,
 } from "./users.controllers";
 import { auth } from "../../middleware/auth";
 
@@ -21,6 +23,8 @@ router.post('verify', auth, verifyToken)
 router.post("/register", register); // register a new user
 router.post("/login", login); // login an existing user
 router.delete("/delete/:id", deleteUser) //deletes an existing user
+router.post('/password-reset', sendPWRMail)
+router.post("/password-reset/:token", resetPassword);
 
 // CRUD for users and reading list
 router.get("/users/:id/reading-list", auth, getUserReadingList); // get the reading list of an active user
