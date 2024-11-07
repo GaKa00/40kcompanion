@@ -17,7 +17,7 @@ const useSaveSummary = () => {
     setLoading(true);
 
     // Construct the new URL based on the updated route
-    const url = `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}`;
+    const url = `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}/summary`;
     console.log(`Sending PUT request to: ${url}`); // Log the constructed URL
 
     try {

@@ -17,10 +17,13 @@ import React, { useState } from "react";
 import { Link as ReactRouterLink ,useNavigate} from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axios from "axios";
+import useAutoLogin from "../../hooks/useAutoLogin";
+
 
 export default function Signin() {
 
 
+ useAutoLogin();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -51,6 +54,8 @@ export default function Signin() {
 
   const toggleRemember = () => {
     setRemember((prevRemember) => !prevRemember);
+localStorage.getItem("token")
+
   };
   
   

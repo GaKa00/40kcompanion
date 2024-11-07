@@ -31,6 +31,23 @@ interface ReadingListUpdate {
  */
 
 
+export function verifyToken(req: Request, res: Response) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ isValid: false });
+  }
+
+  const secretKey = process.env.JWT_SECRET;
+  jwt.verify(token, secretKey, (error: any, user: any) => {
+    if (error) {
+      return res.status(403).json({ isValid: false });
+    }
+    res.json({ isValid: true, user });
+  });
+}
+
 //takes user details from body, then creates new user and grants an userid.
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body;
@@ -98,13 +115,13 @@ export async function login(req: Request, res: Response) {
     }
 
     const options = {
-      expiresIn: "4h",
+      expiresIn: "7d",
     };
 
     const token = jwt.sign(payload, secretKey, options);
     res.json({ token, userId: user.id });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
 
     
   }
@@ -185,10 +202,40 @@ export async function deleteBookFromReadinglist(req:Request, res:Response){
 // Update book in reading list
 
 
+export async function updateBookInReadinglist(req: Request, res: Response) {
+    const { userId, readingListId } = req.params;
+    const {isReading, isFinished} =req.body;
+    let parsedReadingListId = Number(readingListId);
+    const parsedUserId = Number(userId);
+    if (req.user?.id!== parsedUserId) {
+      return res.status(403).json({ message: "Access forbidden" });
+    }
+
+ try {
+  const updatedBookStatus = await prisma.readingList.update({
+    where: { id: parsedReadingListId },
+    data: { isReading, isFinished },
+  })
+     res.json(updatedBookStatus);
+  
+ } catch (error) {
+   console.error("Error updating book status:", error);
+   res.status(500).json({ error: "Internal Server Error" });
+  
+ }
+    
+
+
+   
+
+
+}
+
+
 // if uid and readinglistid are defined, they will be parsed, then checked for comparison
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateSummaryInReadinglist(req: Request, res: Response) {
-  console.log("Received request to update summary");
+
 
   const { userId, readingListId } = req.params;
   const { summary } = req.body;

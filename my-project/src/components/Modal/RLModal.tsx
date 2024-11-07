@@ -45,7 +45,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
         isClosable: true,
       });
 
-      location.reload();
+      
     }
   };
 

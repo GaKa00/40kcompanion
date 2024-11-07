@@ -2,7 +2,7 @@
  
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Bookpage from "../pages/PublicPages/Bookpage";
+
 import Faq from "../pages/PublicPages/Faq"
 import Signup from "../pages/PublicPages/Signup"
 import Support from "../pages/PublicPages/Support"
@@ -16,10 +16,7 @@ import Settings from "../pages/AccountPages/Settings"
      path: "/",
      element: <App />,
    },
-   {
-     path: "/books",
-     element: <Bookpage />,
-   },
+  
    {
      path: "/faq",
      element: <Faq />,
@@ -56,10 +53,7 @@ import Settings from "../pages/AccountPages/Settings"
      path: "/searchResults/:query",
      element: <App />,
    },
-   {
-     path: "/",
-     element: <App />,
-   },
+
  ]);
 
 export default router

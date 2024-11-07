@@ -63,7 +63,7 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
               setReadingListId(bookEntry.id);
               setRating(bookEntry.rating || 0);
               setNewSummary(bookEntry.summary || "");
-              setNewQuote(bookEntry.quotes?.join("; ") || ""); 
+              setNewQuote(""); 
             }
           })
           .catch((error) => {

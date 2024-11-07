@@ -21,9 +21,6 @@ const useSetCompletedBook = () => {
             },
           }
         )
-        .then(() => {
-          alert("Book marked as completed!");
-        })
         .catch((error) => {
           console.error("Error updating book in reading list:", error);
         });

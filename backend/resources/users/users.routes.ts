@@ -9,12 +9,15 @@ import {
   updateSummaryInReadinglist,
   deleteUser,
   updateQuotesInReadinglist,
+  verifyToken,
+  updateBookInReadinglist,
 } from "./users.controllers";
 import { auth } from "../../middleware/auth";
 
 const router = express.Router();
 
 // CRUD for auth
+router.post('verify', auth, verifyToken)
 router.post("/register", register); // register a new user
 router.post("/login", login); // login an existing user
 router.delete("/delete/:id", deleteUser) //deletes an existing user
@@ -30,10 +33,12 @@ router.put(
 );
 
 router.put(
-  "/users/:userId/reading-list/:readingListId",
+  "/users/:userId/reading-list/:readingListId/summary",
   auth,
   updateSummaryInReadinglist
 ); // Update summary
+
+router.put("/users/:userId/reading-list/:readingListId", auth , updateBookInReadinglist);
 
 router.delete(
   "/users/:id/reading-list/:readingListId",
