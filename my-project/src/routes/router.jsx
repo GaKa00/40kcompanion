@@ -61,7 +61,7 @@ import ResetPassword from "../pages/SetNewPW"
     element: <ForgotPassword/>,
    },
    {
-    path: "/resetPassword",
+  path: "/reset-password/:token",
     element: <ResetPassword/>,
    }
 
