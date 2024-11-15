@@ -62,7 +62,7 @@ useEffect(() => {
   return (
 
 
-    <VStack spacing={8} align="center">
+    <VStack spacing={8} align="center" mt={"4rem"}>
      
       <Box
         position={"relative"}
@@ -79,6 +79,7 @@ useEffect(() => {
           align={"center"}
           w={"100%"}
           h={"100%"}
+          
           src="./public/images/LandingImages/alternativeHero.jpg"
           />
       </Box>
