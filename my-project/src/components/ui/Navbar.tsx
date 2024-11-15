@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4} w={"100%"} className="sticky">
+      <Box bg={useColorModeValue("gray.400", "gray.900")} px={4} w={"100%"} className="sticky">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -75,12 +75,12 @@ export default function Navbar() {
               <ChakraLink as={ReactRouterLink} to="/library">
                 Library
               </ChakraLink>
-              <ChakraLink as={ReactRouterLink} to="/faq">
+              {/* <ChakraLink as={ReactRouterLink} to="/faq">
                 FAQ
-              </ChakraLink>
-              <ChakraLink as={ReactRouterLink} to="/support">
+              </ChakraLink> */}
+              {/* <ChakraLink as={ReactRouterLink} to="/support">
                 Support the Creator
-              </ChakraLink>
+              </ChakraLink> */}
             </HStack>
           </HStack>
             <SearchBar />

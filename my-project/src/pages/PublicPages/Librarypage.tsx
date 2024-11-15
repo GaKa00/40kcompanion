@@ -63,7 +63,7 @@ useEffect(() => {
 
 
     <VStack spacing={8} align="center">
-      <Navbar />
+     
       <Box
         position={"relative"}
         height={"500px"}
