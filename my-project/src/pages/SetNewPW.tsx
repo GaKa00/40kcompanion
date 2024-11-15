@@ -4,7 +4,9 @@ import axios from "axios";
 import React from "react";
 
 const ResetPassword = () => {
-  const { token } = useParams();
+const { token } = useParams();
+console.log("Token from URL:", token);
+
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
@@ -12,14 +14,14 @@ const ResetPassword = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/reset-password/${token}`,
+        `http://localhost:3000/api/password-reset/${token}`,
         { newPassword }
       );
       setMessage(response.data.message);
-    } catch (error) {
-      setMessage("Error resetting password");
+    } catch (error:any) {
+      setMessage(`Error resetting password: ${error.message}`);
     }
-  };
+  }; 
 
   return (
     <div>

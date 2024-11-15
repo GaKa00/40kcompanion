@@ -357,7 +357,9 @@ export async function sendPWRMail(req: Request, res: Response){
   }
 
   const resetToken = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: "30min",})
-  const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+  const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+  console.log("Reset link:", resetLink);
+
 
   try{
     await sendPasswordResetEmail(user.email,  resetLink);
@@ -373,6 +375,9 @@ export async function sendPWRMail(req: Request, res: Response){
 export const resetPassword = async (req: Request, res: Response) => {
   const { token } = req.params;
   const { newPassword } = req.body;
+  
+
+  
 
   try {
     // Verify the reset token
