@@ -1,14 +1,14 @@
-
 import express from "express";
 const router = express.Router();
 
-import { getBooks, getBooksByTags } from "./books.controllers";
+import { getBooks, getBooksByTags, searchBooks } from "./books.controllers";
 // getBookById,
-  // GET books: Retrieve a list of all books.
-  // GET books/:id: Retrieve details of a specific book.
+// GET books: Retrieve a list of all books.
+// GET books/:id: Retrieve details of a specific book.
 
-  router.get("/books", getBooks);
+router.get("/", getBooks);
+router.get("/searchByTags", getBooksByTags);
 // router.get("/books/:id", getBookById);
-router.get("/books/searchByTags", getBooksByTags);
+router.post("/search", searchBooks);
 
-export default router
+export default router;

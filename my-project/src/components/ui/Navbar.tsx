@@ -13,129 +13,190 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
+  Text,
+  Container,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import React from "react";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink, LinkProps } from "@chakra-ui/react";
-import SearchBar from "./Searchbar";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 interface Props {
   children: React.ReactNode;
+  to: string;
 }
-const Links = ["Books", "Upcoming Releases", "Support The Creator"];
-const NavLink = (props: Props) => {
-  const { children } = props;
 
+const NavLink = ({ children, to }: Props) => {
   return (
-    <Box
-      as="a"
-      px={2}
-      py={1}
-      rounded={"md"}
+    <ChakraLink
+      as={ReactRouterLink}
+      to={to}
+      px={4}
+      py={2}
+      fontWeight="semibold"
+      color="white"
+      position="relative"
       _hover={{
         textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
+        color: "gold",
+        _after: {
+          width: "100%",
+          opacity: 1,
+        },
       }}
-      href={"#"}
+      _after={{
+        content: '""',
+        position: "absolute",
+        width: "0%",
+        height: "2px",
+        bottom: 0,
+        left: 0,
+        bg: "gold",
+        transition: "all 0.3s ease",
+        opacity: 0,
+      }}
     >
       {children}
-    </Box>
+    </ChakraLink>
   );
 };
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("uid");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("uid");
+    navigate("/");
+  };
 
   return (
-    <>
-      <Box bg={useColorModeValue("gray.400", "gray.900")} px={4} w={"100%"} className="sticky">
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+    <Box
+      bg="background"
+      borderBottom="2px"
+      borderColor="metallic"
+      position="sticky"
+      top={0}
+      zIndex={1000}
+      boxShadow="0 4px 6px rgba(0,0,0,0.2)"
+    >
+      <Container maxW="container.xl">
+        <Flex h={16} alignItems="center" justifyContent="space-between">
           <IconButton
-            size={"md"}
+            size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
+            aria-label="Open Menu"
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
+            variant="ghost"
+            color="white"
+            _hover={{ color: "gold" }}
           />
-          <HStack spacing={8} alignItems={"center"}>
-            <Box>
-              {" "}
-              <ChakraLink as={ReactRouterLink} to="/">
-                WCR
-              </ChakraLink>{" "}
-            </Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
+
+          <HStack spacing={8} alignItems="center">
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/"
+              fontSize="2xl"
+              fontWeight="bold"
+              color="gold"
+              position="relative"
+              _hover={{
+                textDecoration: "none",
+                color: "white",
+                _after: {
+                  width: "100%",
+                  opacity: 1,
+                },
+              }}
+              _after={{
+                content: '""',
+                position: "absolute",
+                width: "0%",
+                height: "2px",
+                bottom: -2,
+                left: 0,
+                bg: "white",
+                transition: "all 0.3s ease",
+                opacity: 0,
+              }}
             >
-              <ChakraLink as={ReactRouterLink} to="/library">
-                Library
-              </ChakraLink>
-              {/* <ChakraLink as={ReactRouterLink} to="/faq">
-                FAQ
-              </ChakraLink> */}
-              {/* <ChakraLink as={ReactRouterLink} to="/support">
-                Support the Creator
-              </ChakraLink> */}
+              WCR
+            </ChakraLink>
+
+            <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
+              <NavLink to="/library">Library</NavLink>
+              <NavLink to="/profile">My Profile</NavLink>
             </HStack>
           </HStack>
-            <SearchBar />
-          <Flex alignItems={"center"}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
+
+          <Menu>
+            <MenuButton
+              as={Button}
+              rounded="full"
+              variant="ghost"
+              cursor="pointer"
+              minW={0}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              color="white"
+              _hover={{ color: "gold" }}
+              transition="all 0.2s"
+            >
+              <Avatar
+                size="sm"
+                src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                border="2px solid"
+                borderColor="gold"
+              />
+              <Text display={{ base: "none", md: "block" }} fontWeight="medium">
+                Profile
+              </Text>
+            </MenuButton>
+            <MenuList bg="background" borderColor="metallic" borderWidth="2px">
+              <MenuItem
+                onClick={() => navigate("/profile")}
+                _hover={{ color: "gold" }}
+                color="white"
+                fontWeight="medium"
               >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>
-                  <ChakraLink as={ReactRouterLink} to="/profile">
-                    My Profile
-                  </ChakraLink>
-                </MenuItem>
-                <MenuItem>
-                  {" "}
-                  <ChakraLink as={ReactRouterLink} to="/settings">
-                    Settings
-                  </ChakraLink>
-                </MenuItem>
-                <MenuDivider />
-                <MenuItem>
-                  <ChakraLink as={ReactRouterLink} to="/" textColor='red'>
-                    Logout
-                  </ChakraLink>
-                  
-                </MenuItem>
-               
-                <MenuItem></MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
+                My Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => navigate("/settings")}
+                _hover={{ color: "gold" }}
+                color="white"
+                fontWeight="medium"
+              >
+                Settings
+              </MenuItem>
+              <MenuDivider borderColor="metallic" />
+              <MenuItem
+                onClick={handleLogout}
+                color="chaosRed"
+                fontWeight="medium"
+                _hover={{ color: "chaosRed", opacity: 0.8 }}
+              >
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
 
-        {isOpen ? (
+        {isOpen && (
           <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+            <Stack as="nav" spacing={4}>
+              <NavLink to="/library">Library</NavLink>
+              <NavLink to="/profile">My Profile</NavLink>
             </Stack>
           </Box>
-        ) : null}
-      </Box>
-    </>
+        )}
+      </Container>
+    </Box>
   );
 }

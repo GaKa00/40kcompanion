@@ -4,17 +4,15 @@ import express from "express";
 import { Request, Response } from "express";
 import { sendPasswordResetEmail } from "../../middleware/nodermailer";
 
-require("dotenv").config(); 
+require("dotenv").config();
 console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 const jwt = require("jsonwebtoken");
-
 
 const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
-
 
 //typing for updating readinglist bookentries
 
@@ -22,7 +20,7 @@ interface ReadingListUpdate {
   isFinished?: boolean;
   isReading?: boolean;
   rating?: number;
-  quotes?: string[]
+  quotes?: string[];
   summary?: string;
 }
 
@@ -30,7 +28,6 @@ interface ReadingListUpdate {
  * @description register user
  * @route GET /users/:id
  */
-
 
 export function verifyToken(req: Request, res: Response) {
   const authHeader = req.headers["authorization"];
@@ -69,7 +66,6 @@ export async function register(req: Request, res: Response) {
   }
 }
 
-
 //delete user
 
 export async function deleteUser(req: Request, res: Response) {
@@ -89,12 +85,12 @@ export async function login(req: Request, res: Response) {
   try {
     const { username, password } = req.body;
 
- 
     if (!username || !password) {
-      return res.status(400).json({ message: "Username and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Username and password are required" });
     }
 
-    
     const user = await prisma.user.findUnique({ where: { username } });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -104,7 +100,7 @@ export async function login(req: Request, res: Response) {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    
+
     const payload = {
       id: user.id,
       username: user.username,
@@ -112,7 +108,7 @@ export async function login(req: Request, res: Response) {
 
     const secretKey = process.env.JWT_SECRET;
     if (!secretKey) {
-      throw new Error('JWT_SECRET is not defined');
+      throw new Error("JWT_SECRET is not defined");
     }
 
     const options = {
@@ -122,14 +118,11 @@ export async function login(req: Request, res: Response) {
     const token = jwt.sign(payload, secretKey, options);
     res.json({ token, userId: user.id });
   } catch (error) {
-    console.error(error); 
-
-    
+    console.error(error);
   }
-  
 }
- //gets the active user if userdata is needed (as per profile page)
-export async function getUser(req:Request, res:Response) {
+//gets the active user if userdata is needed (as per profile page)
+export async function getUser(req: Request, res: Response) {
   const { id: userId } = req.params;
   const parsedUserId = Number(userId);
 
@@ -160,7 +153,6 @@ export async function getUser(req:Request, res:Response) {
 export async function getUserReadingList(req: Request, res: Response) {
   const { id: userId } = req.params;
   const parsedUserId = Number(userId);
-  
 
   if (req.user?.id !== parsedUserId) {
     return res.status(403).json({ message: "Access forbidden" });
@@ -178,66 +170,49 @@ export async function getUserReadingList(req: Request, res: Response) {
   }
 }
 
+export async function deleteBookFromReadinglist(req: Request, res: Response) {
+  const { userId, readingListId } = req.params;
+  let parsedReadingListId = Number(readingListId);
+  const parsedUserId = Number(userId);
 
+  if (req.user?.userId !== parsedUserId) {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
 
-export async function deleteBookFromReadinglist(req:Request, res:Response){
-      const { userId, readingListId } = req.params;
-      let parsedReadingListId = Number(readingListId);
-      const parsedUserId = Number(userId);
-    
-      
-      if (req.user?.userId !== parsedUserId) {
-        return res.status(403).json({ message: "Access forbidden" });
-      }
-      
-      try {
-        await prisma.readingList.delete({ where: { id:parsedReadingListId  } });
-        res.status(204).send();
-      } catch (error) {
-        res.status(400).json({ error: error });
-      }
-    }
-  
-
+  try {
+    await prisma.readingList.delete({ where: { id: parsedReadingListId } });
+    res.status(204).send();
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+}
 
 // Update book in reading list
 
-
 export async function updateBookInReadinglist(req: Request, res: Response) {
-    const { userId, readingListId } = req.params;
-    const {isReading, isFinished} =req.body;
-    let parsedReadingListId = Number(readingListId);
-    const parsedUserId = Number(userId);
-    if (req.user?.id!== parsedUserId) {
-      return res.status(403).json({ message: "Access forbidden" });
-    }
+  const { userId, readingListId } = req.params;
+  const { isReading, isFinished } = req.body;
+  let parsedReadingListId = Number(readingListId);
+  const parsedUserId = Number(userId);
+  if (req.user?.id !== parsedUserId) {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
 
- try {
-  const updatedBookStatus = await prisma.readingList.update({
-    where: { id: parsedReadingListId },
-    data: { isReading, isFinished },
-  })
-     res.json(updatedBookStatus);
-  
- } catch (error) {
-   console.error("Error updating book status:", error);
-   res.status(500).json({ error: "Internal Server Error" });
-  
- }
-    
-
-
-   
-
-
+  try {
+    const updatedBookStatus = await prisma.readingList.update({
+      where: { id: parsedReadingListId },
+      data: { isReading, isFinished },
+    });
+    res.json(updatedBookStatus);
+  } catch (error) {
+    console.error("Error updating book status:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 }
-
 
 // if uid and readinglistid are defined, they will be parsed, then checked for comparison
 //if it suceedds, data sent from frontend will be replacing previous data already existing in backend (204-220)
 export async function updateSummaryInReadinglist(req: Request, res: Response) {
-
-
   const { userId, readingListId } = req.params;
   const { summary } = req.body;
 
@@ -274,7 +249,6 @@ export async function updateSummaryInReadinglist(req: Request, res: Response) {
   }
 }
 
-
 export async function updateQuotesInReadinglist(req: Request, res: Response) {
   const { userId, readingListId } = req.params;
   const { newQuote } = req.body;
@@ -297,12 +271,11 @@ export async function updateQuotesInReadinglist(req: Request, res: Response) {
   }
 
   try {
+    // Store the entire newQuote string as is
     const updatedReadingList = await prisma.readingList.update({
       where: { id: parsedReadingListId },
       data: {
-        quotes: {
-          push: newQuote,
-        },
+        quotes: [newQuote], // Store as a single-element array containing the full string
       },
     });
 
@@ -313,41 +286,39 @@ export async function updateQuotesInReadinglist(req: Request, res: Response) {
   }
 }
 
+//add book to active users reading list
 
+export async function addBookToReadinglist(req: Request, res: Response) {
+  const { id: userId } = req.params;
+  const { bookId } = req.body;
+  const parsedUserId = Number(userId);
+  const parsedBookId = Number(bookId);
 
- //add book to active users reading list
+  console.log("req.user:", req.user);
+  console.log("parsedUserId:", parsedUserId);
 
- export async function addBookToReadinglist(req: Request, res: Response) {
-   const { id: userId } = req.params;
-   const { bookId } = req.body;
-   const parsedUserId = Number(userId);
-   const parsedBookId = Number(bookId);
-
-   console.log("req.user:", req.user);
-   console.log("parsedUserId:", parsedUserId);
-
-   if (req.user?.id !== parsedUserId) {
+  if (req.user?.id !== parsedUserId) {
     console.log("Access forbidden:", req.user?.id, "!==", parsedUserId);
-     return res.status(403).json({ message: "Access forbidden" });
-   }
+    return res.status(403).json({ message: "Access forbidden" });
+  }
 
-   try {
-     const newEntry= await prisma.readingList.create({
-       data: {
-         userId: parsedUserId,
-         bookId: parsedBookId,
-         isFinished: false,
-         isReading: true,
-       },
-     });
-     res.status(201).json(newEntry);
-   } catch (error) {
-     console.error(error);
-     res.status(400).json({ error: error });
-   }
- }
+  try {
+    const newEntry = await prisma.readingList.create({
+      data: {
+        userId: parsedUserId,
+        bookId: parsedBookId,
+        isFinished: false,
+        isReading: true,
+      },
+    });
+    res.status(201).json(newEntry);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error });
+  }
+}
 
-export async function sendPWRMail(req: Request, res: Response){
+export async function sendPWRMail(req: Request, res: Response) {
   const { email } = req.body;
 
   // Check if the user exists
@@ -356,28 +327,24 @@ export async function sendPWRMail(req: Request, res: Response){
     return res.status(404).json({ message: "User not found" });
   }
 
-  const resetToken = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: "30min",})
+  const resetToken = jwt.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: "30min",
+  });
   const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
   console.log("Reset link:", resetLink);
 
-
-  try{
-    await sendPasswordResetEmail(user.email,  resetLink);
+  try {
+    await sendPasswordResetEmail(user.email, resetLink);
     res.status(200).json({ message: "Reset link sent to your email" });
-  }
-  catch(error){
+  } catch (error) {
     console.error("Error sending password reset email:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-
 }
 
 export const resetPassword = async (req: Request, res: Response) => {
   const { token } = req.params;
   const { newPassword } = req.body;
-  
-
-  
 
   try {
     // Verify the reset token
@@ -401,7 +368,3 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(400).json({ message: "Invalid or expired token" });
   }
 };
-
-
-
-

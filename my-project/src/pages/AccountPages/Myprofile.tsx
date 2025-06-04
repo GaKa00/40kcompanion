@@ -9,10 +9,16 @@ import {
   Text,
   Stack,
   Button,
-  useColorModeValue,
   Divider,
   Switch,
+  Container,
+  Badge,
+  useToast,
+  IconButton,
+  Tooltip,
+  UseToastOptions,
 } from "@chakra-ui/react";
+import { EditIcon, StarIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { Book, ReadingList, User } from "../../types/types";
 import Footer from "../../components/ui/Footer";
@@ -22,11 +28,12 @@ import { getUser } from "../../utils/renderFetches";
 import Navbar from "../../components/ui/Navbar";
 
 const MyProfile = () => {
-  //States
   const [user, setUser] = useState<User | null>(null);
-  const [isOpen, setIsOpen] = useState(false); //state that handles opening ReadingList Modal  when true
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that sets data for what book is being opened
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [editBool, setEditBool] = useState<boolean>(false);
+  const [readingList, setReadingList] = useState<ReadingList[]>([]);
+  const toast = useToast();
 
   const openModal = (book: Book) => {
     setSelectedBook(book);
@@ -38,26 +45,103 @@ const MyProfile = () => {
     setIsOpen(false);
   };
 
-  //fetch active user data
-  getUser(setUser);
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+      const userId =
+        localStorage.getItem("uid") || sessionStorage.getItem("uid");
+
+      if (!token || !userId) {
+        toast({
+          title: "Authentication Error",
+          description: "Please log in to view your profile",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        } as UseToastOptions);
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        toast({
+          title: "Error",
+          description:
+            "Failed to fetch user data. Please try logging in again.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        } as UseToastOptions);
+      }
+    };
+    fetchUserData();
+  }, [toast]);
+
+  // Fetch reading list when user is available
+  useEffect(() => {
+    if (user?.id) {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+      if (token) {
+        axios
+          .get(`http://localhost:3000/api/users/${user.id}/reading-list`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            setReadingList(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching reading list:", error);
+            toast({
+              title: "Error",
+              description: "Failed to fetch reading list",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          });
+      }
+    }
+  }, [user?.id, toast]);
 
   return (
-    <div>
+    <Box minH="100vh" bg="background">
       <Navbar />
-      {user ? (
-        <>
-          <ProfileCard data={user} />
-          <ButtonCard
-            userId={user.id}
-            openModal={openModal}
-            editBool={editBool}
-            setEditBool={setEditBool}
-          />
-        </>
-      ) : (
-        <Text>Loading...</Text>
-      )}
-
+      <Container maxW="container.xl" py={8}>
+        {user ? (
+          <>
+            <ProfileCard data={user} readingList={readingList} />
+            <ButtonCard
+              userId={user.id}
+              openModal={openModal}
+              editBool={editBool}
+              setEditBool={setEditBool}
+              readingList={readingList}
+              setReadingList={setReadingList}
+            />
+          </>
+        ) : (
+          <Center h="50vh">
+            <Text fontSize="xl" color="white">
+              Loading...
+            </Text>
+          </Center>
+        )}
+      </Container>
       <Footer />
       {editBool
         ? selectedBook && (
@@ -65,6 +149,25 @@ const MyProfile = () => {
               book={selectedBook}
               isOpen={isOpen}
               onClose={closeModal}
+              onUpdate={(updatedData: Book | ReadingList) => {
+                if ("book" in updatedData) {
+                  // It's a ReadingList
+                  setReadingList((prevList) =>
+                    prevList.map((item) =>
+                      item.id === updatedData.id ? updatedData : item
+                    )
+                  );
+                } else {
+                  // It's a Book
+                  setReadingList((prevList) =>
+                    prevList.map((item) =>
+                      item.book.id === updatedData.id
+                        ? { ...item, book: updatedData }
+                        : item
+                    )
+                  );
+                }
+              }}
             />
           )
         : selectedBook && (
@@ -72,138 +175,225 @@ const MyProfile = () => {
               book={selectedBook}
               isOpen={isOpen}
               onClose={closeModal}
+              onUpdate={(updatedData: Book | ReadingList) => {
+                if ("book" in updatedData) {
+                  // It's a ReadingList
+                  setReadingList((prevList) =>
+                    prevList.map((item) =>
+                      item.id === updatedData.id ? updatedData : item
+                    )
+                  );
+                } else {
+                  // It's a Book
+                  setReadingList((prevList) =>
+                    prevList.map((item) =>
+                      item.book.id === updatedData.id
+                        ? { ...item, book: updatedData }
+                        : item
+                    )
+                  );
+                }
+              }}
             />
           )}
-    </div>
+    </Box>
   );
 };
 
-const ProfileCard = ({ data }: { data: User }) => {
+const ProfileCard = ({
+  data,
+  readingList,
+}: {
+  data: User;
+  readingList: ReadingList[];
+}) => {
+  // Calculate reading statistics
+  const booksRead = readingList.filter((book) => book.isFinished).length;
+  const booksToRead = readingList.filter((book) => !book.isFinished).length;
+  const totalBooks = readingList.length;
+
   return (
-    <Center py={6}>
+    <Box
+      maxW="4xl"
+      mx="auto"
+      bg="darkGray"
+      rounded="xl"
+      overflow="hidden"
+      boxShadow="2xl"
+      border="1px solid"
+      borderColor="metallic"
+      position="relative"
+    >
       <Box
-        w={"90%"}
-        bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
-        rounded={"md"}
-        overflow={"hidden"}
+        h="200px"
+        bg="linear-gradient(to right, #2c5282, #4a5568)"
+        position="relative"
       >
         <Image
-          h={"150px"}
-          w={"full"}
-          src={
-            "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-          }
-          objectFit={"cover"}
+          h="full"
+          w="full"
+          objectFit="cover"
+          src="https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+          opacity="0.6"
         />
-        <Flex justify={"center"} mt={-12}>
-          <Avatar
-            size={"2xl"}
-            src="./public/images/Profile_Placeholder.jpg"
-            css={{
-              border: "2px solid white",
-            }}
+        <Box
+          position="absolute"
+          bottom="0"
+          left="0"
+          right="0"
+          h="100px"
+          bg="linear-gradient(to top, rgba(0,0,0,0.8), transparent)"
+        />
+      </Box>
+
+      <Flex justify="center" mt="-16" position="relative">
+        <Avatar
+          size="2xl"
+          src="./public/images/Profile_Placeholder.jpg"
+          border="4px solid"
+          borderColor="background"
+          boxShadow="lg"
+        />
+        <Tooltip label="Edit Profile" placement="top">
+          <IconButton
+            aria-label="Edit profile"
+            icon={<EditIcon />}
+            position="absolute"
+            right="calc(50% - 100px)"
+            bottom="0"
+            colorScheme="blue"
+            rounded="full"
+            size="sm"
+          />
+        </Tooltip>
+      </Flex>
+
+      <Box p={8}>
+        <Stack spacing={4} align="center" mb={6}>
+          <Heading fontSize="3xl" color="white" fontWeight="bold">
+            {data.username}
+          </Heading>
+          <Badge
+            px={3}
+            py={1}
+            rounded="full"
+            colorScheme="blue"
+            fontSize="sm"
+            bg="metallic"
+            color="gold"
+          >
+            {totalBooks > 0
+              ? `${Math.round((booksRead / totalBooks) * 100)}% Completion`
+              : "New Reader"}
+          </Badge>
+        </Stack>
+
+        <Divider borderColor="metallic" mb={6} />
+
+        <Flex justify="center" gap={8}>
+          <StatBox
+            label="Books Read"
+            value={booksRead.toString()}
+            icon={<StarIcon color="gold" />}
+          />
+          <StatBox
+            label="Total Books"
+            value={totalBooks.toString()}
+            icon={<StarIcon color="metallic" />}
+          />
+          <StatBox
+            label="To Read"
+            value={booksToRead.toString()}
+            icon={<StarIcon color="blue.400" />}
           />
         </Flex>
-
-        <Box p={6}>
-          <Stack spacing={0} align={"center"} mb={5}>
-            <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-              {data.username}
-            </Heading>
-            <Text fontSize={"lg"} color={"gray.500"}>
-              Beta Tester
-            </Text>
-          </Stack>
-          <Box borderWidth={2} mb={4}>
-            <Divider />
-          </Box>
-          <Stack spacing={0} align={"center"}>
-            <Text fontSize={"xl"} fontWeight={600}>
-              30
-              {/* Add books in readinglist  with is finished¨
-               */}
-            </Text>
-            <Text fontSize={"md"} color={"gray.500"}>
-              Books Read
-            </Text>
-          </Stack>
-        </Box>
       </Box>
-    </Center>
+    </Box>
   );
 };
+
+const StatBox = ({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+}) => (
+  <Box textAlign="center">
+    <Flex align="center" justify="center" gap={2} mb={2}>
+      {icon}
+      <Text fontSize="2xl" fontWeight="bold" color="white">
+        {value}
+      </Text>
+    </Flex>
+    <Text color="gray.400" fontSize="sm">
+      {label}
+    </Text>
+  </Box>
+);
 
 const ButtonCard = ({
   userId,
   openModal,
   editBool,
   setEditBool,
+  readingList,
+  setReadingList,
 }: {
   userId: number;
   openModal: (book: Book) => void;
   editBool: boolean;
   setEditBool: React.Dispatch<React.SetStateAction<boolean>>;
+  readingList: ReadingList[];
+  setReadingList: React.Dispatch<React.SetStateAction<ReadingList[]>>;
 }) => {
-  const [readingList, setReadingList] = useState<any[]>([]);
   const [showFinished, setShowFinished] = useState(true);
 
-  useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-
-    if (token && userId) {
-      axios
-        .get(`http://localhost:3000/api/users/${userId}/reading-list`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log("Fetched reading list:", response.data);
-          setReadingList(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching reading list:", error);
-        });
-    }
-  }, [userId]);
-
-  const toggleList = (isFinished: boolean) => {
-    setShowFinished(isFinished);
-  };
-
   return (
-    <>
-      <Box p={4} shadow="md" rounded="lg">
-        <Flex wrap="wrap" justifyContent="space-evenly">
-          <Button colorScheme="teal" onClick={() => toggleList(true)}>
-            Finished Reading
-          </Button>
-          <Button colorScheme="purple" onClick={() => toggleList(false)}>
-            To Be Read
-          </Button>
-        </Flex>
-      </Box>
-      <Text size="sm" m={2}>
-        Edit Mode
-      </Text>
-      <Switch
-        size="md"
-        mx={4}
-        isChecked={editBool}
-        onChange={() => setEditBool(!editBool)}
-      />
+    <Box mt={8}>
+      <Flex justify="center" gap={4} mb={6}>
+        <Button
+          colorScheme={showFinished ? "blue" : "gray"}
+          variant={showFinished ? "solid" : "outline"}
+          onClick={() => setShowFinished(true)}
+          _hover={{ transform: "translateY(-2px)" }}
+          transition="all 0.2s"
+        >
+          Finished Reading
+        </Button>
+        <Button
+          colorScheme={!showFinished ? "blue" : "gray"}
+          variant={!showFinished ? "solid" : "outline"}
+          onClick={() => setShowFinished(false)}
+          _hover={{ transform: "translateY(-2px)" }}
+          transition="all 0.2s"
+        >
+          To Be Read
+        </Button>
+      </Flex>
+
+      <Flex align="center" justify="center" gap={4} mb={6}>
+        <Text color="white" fontSize="sm">
+          Edit Mode
+        </Text>
+        <Switch
+          size="lg"
+          colorScheme="blue"
+          isChecked={editBool}
+          onChange={() => setEditBool(!editBool)}
+        />
+      </Flex>
+
       <BookShowcase
         readingList={readingList}
         showFinished={showFinished}
         openModal={openModal}
       />
-    </>
+    </Box>
   );
 };
-
-export default MyProfile;
 
 const BookShowcase = ({
   readingList,
@@ -218,49 +408,86 @@ const BookShowcase = ({
     showFinished ? list.isFinished : !list.isFinished
   );
 
-  console.log("Filtered books:", filteredBooks);
-
   return (
     <Box
-      shadow="lg"
-      rounded="lg"
-      minH="800px"
-      border="1px solid black"
-      m="10px"
+      bg="darkGray"
+      rounded="xl"
+      p={6}
+      border="1px solid"
+      borderColor="metallic"
+      boxShadow="xl"
     >
-      {showFinished ? (
-        <Heading p="15px" textAlign="center">
-          Finished Books
-        </Heading>
-      ) : (
-        <Heading p="15px" textAlign="center">
-          Books to read
-        </Heading>
-      )}
+      <Heading
+        size="lg"
+        color="white"
+        textAlign="center"
+        mb={8}
+        position="relative"
+        _after={{
+          content: '""',
+          position: "absolute",
+          bottom: "-10px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100px",
+          height: "2px",
+          bg: "gold",
+        }}
+      >
+        {showFinished ? "Finished Books" : "Books to Read"}
+      </Heading>
 
-      <Flex flexWrap="wrap" justifyContent="center" gap="3rem">
+      <Flex flexWrap="wrap" justify="center" gap={8}>
         {filteredBooks.length > 0 ? (
           filteredBooks.map((list) => (
-            <Box key={list.id} p={4} shadow="md" rounded="lg" maxW="300px">
+            <Box
+              key={list.id}
+              maxW="250px"
+              bg="background"
+              rounded="lg"
+              overflow="hidden"
+              border="1px solid"
+              borderColor="metallic"
+              transition="all 0.3s"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "xl",
+                borderColor: "gold",
+              }}
+            >
               {list.book.image && (
-                <div>
-
-                <Heading fontSize="lg">{list.book.title}</Heading>
-                <Image
-                  src={list.book.image}
-                  alt={list.book.title}
-                  onClick={() => openModal(list.book)}
-                  cursor="pointer"
-                  maxH="200px"
+                <>
+                  <Image
+                    src={list.book.image}
+                    alt={list.book.title}
+                    onClick={() => openModal(list.book)}
+                    cursor="pointer"
+                    h="300px"
+                    w="100%"
+                    objectFit="cover"
                   />
-                  </div>
+                  <Box p={4}>
+                    <Text
+                      color="white"
+                      fontSize="lg"
+                      fontWeight="medium"
+                      noOfLines={2}
+                    >
+                      {list.book.title}
+                    </Text>
+                  </Box>
+                </>
               )}
             </Box>
           ))
         ) : (
-          <Text>No books found</Text>
+          <Text color="gray.400" fontSize="lg">
+            No books found
+          </Text>
         )}
       </Flex>
     </Box>
   );
 };
+
+export default MyProfile;

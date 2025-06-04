@@ -8,46 +8,49 @@ import {
   Button,
   Grid,
 } from "@chakra-ui/react";
-import React, {  useEffect, useState, useContext  } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import Navbar from "../../components/ui/Navbar";
-import { Book, bookProp, } from "../../types/types";  //Type for book
-import BookDetailModal from "../../components/Modal/BookModal";  // Modal when clicking on a BookCard
+
+import { Book, bookProp } from "../../types/types"; //Type for book
+import BookDetailModal from "../../components/Modal/BookModal"; // Modal when clicking on a BookCard
 import FilterBox from "../../components/FilterBox";
-import TagContext from "../../utils/TagContext";  //context to grab  selected tag when filtering searches
+import TagContext from "../../utils/TagContext"; //context to grab  selected tag when filtering searches
 import AllBooks from "../../components/AllBooks";
 import SearchBar from "../../components/ui/Searchbar";
-
+import Navbar from "../../components/ui/Navbar";
 
 // Imports above
 
-
-
-
-
 const Librarypage = () => {
-  const [books, setBooks] = useState<Book[]>([]);   //state for handling book fetch from db
+  const [books, setBooks] = useState<Book[]>([]); //state for handling book fetch from db
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]); // state for search results
   const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that handles what book was being clicked on
   const [isOpen, setIsOpen] = useState(false); //state to handle whether modal is open or closed
-  const { tag } = useContext(TagContext)!  
-  
-
-
+  const { tag } = useContext(TagContext)!;
 
   //Book fetch using searchbyTags, if no tags are provided, will show all books in library
-useEffect(() => {
-  console.log(`Tag is ${tag}`)
-  axios
-    .get(`http://localhost:3000/api/books/searchByTags`, {
-      params: { tag: tag },
-    })
-    .then((response) => setBooks(response.data))
-    .catch((error) => console.error(error));
-}, [tag]);
+  useEffect(() => {
+    console.log(`Tag is ${tag}`);
+    axios
+      .get(`http://localhost:3000/api/searchByTags`, {
+        params: { tag: tag },
+      })
+      .then((response) => {
+        setBooks(response.data);
+        setFilteredBooks(response.data); // Initialize filtered books with all books
+      })
+      .catch((error) => console.error(error));
+  }, [tag]);
 
+  const handleSearch = (searchResults: Book[]) => {
+    if (searchResults.length === 0) {
+      setFilteredBooks(books); // Show all books when search is cleared
+    } else {
+      setFilteredBooks(searchResults);
+    }
+  };
 
-
-//Modal Functions
+  //Modal Functions
 
   const openModal = (book: Book) => {
     setSelectedBook(book);
@@ -60,10 +63,9 @@ useEffect(() => {
   };
 
   return (
-
-
     <VStack spacing={8} align="center" mt={"4rem"}>
-     
+      <Navbar />
+
       <Box
         position={"relative"}
         height={"500px"}
@@ -72,48 +74,45 @@ useEffect(() => {
         width={"70%"}
         overflow={"hidden"}
         bgColor="black"
-        >
+      >
         <Image
           alt={"Hero Image"}
           fit={"cover"}
           align={"center"}
           w={"100%"}
           h={"100%"}
-          
           src="./public/images/LandingImages/alternativeHero.jpg"
-          />
+        />
       </Box>
 
-<SearchBar/>
-      <FilterBox/>
+      <SearchBar onSearch={handleSearch} />
+      <FilterBox />
 
       <Flex mt="4" justifyContent={"center"}>
         {/* shows 5 latest books added to library */}
-        <LatestReleases data={books} openModal={openModal} />  
+        <LatestReleases data={filteredBooks} openModal={openModal} />
       </Flex>
       <Box width="90%">
-        <AllBooks data={books} openModal={openModal} />
+        <AllBooks data={filteredBooks} openModal={openModal} />
       </Box>
-    {/* modal render */}
+      {/* modal render */}
       {selectedBook && (
         <BookDetailModal
-        book={selectedBook}
-        isOpen={isOpen}
-        onClose={closeModal}
+          book={selectedBook}
+          isOpen={isOpen}
+          onClose={closeModal}
         />
       )}
     </VStack>
-
   );
 };
 
 export default Librarypage;
 
-
 //component for latest added books
 const LatestReleases = ({ data, openModal }: bookProp) => {
   const releases = data.slice(1).slice(-5);
-  
+
   const showReleases = releases.map((book) => {
     return (
       <img src={book.image} alt={book.title} onClick={() => openModal(book)} />
@@ -121,15 +120,11 @@ const LatestReleases = ({ data, openModal }: bookProp) => {
   });
   return (
     <Box p="5" boxShadow="md" mb="4">
-      <Text fontSize="xl" fontWeight="bold" color="whiteAlpha">Recently Added</Text>
-     
+      <Text fontSize="xl" fontWeight="bold" color="whiteAlpha">
+        Recently Added
+      </Text>
+
       <HStack gap="3">{showReleases}</HStack>
     </Box>
   );
 };
-
-
-
-
-
-

@@ -20,37 +20,88 @@ import {
 import axios from "axios";
 import { BookDetailModalProps, ReadingList } from "../../types/types";
 import useSetCompletedBook from "../../hooks/useSetCompletedBook";
+import { AxiosError } from "axios";
 
 const ReadingListModal: React.FC<BookDetailModalProps> = ({
   book,
   isOpen,
   onClose,
+  onUpdate,
 }) => {
-  const [readingListId, setReadingListId] = useState<number>(0); // State to obtain relevant bookid from readinglist
+  const [readingListId, setReadingListId] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
-  const [rating, setRating] = useState<number>(0); // State to set rating in edit mode
-  const [newSummary, setNewSummary] = useState<string>(""); // State to set and update summary
-  const [newQuote, setNewQuote] = useState<string>(""); // State to set and update quotes
+  const [rating, setRating] = useState<number>(0);
+  const [newSummary, setNewSummary] = useState<string>("");
+  const [newQuote, setNewQuote] = useState<string>("");
   const { setCompletedBook } = useSetCompletedBook();
 
   // Function to handle finishing reading a book
-  const handleRead = () => {
-    if (readingListId) {
-      setCompletedBook(readingListId);
-
+  const handleRead = async () => {
+    if (!readingListId) {
+      console.error("No reading list ID available for book:", book.id);
       toast({
-        title: "Book Completed!",
-        status: "success",
-        duration: 3000,
+        title: "Error",
+        description: "Unable to find book in reading list. Please try again.",
+        status: "error",
+        duration: 5000,
         isClosable: true,
       });
+      return;
+    }
 
-      
+    setIsLoading(true);
+    try {
+      console.log("Attempting to mark book as finished:", {
+        bookId: book.id,
+        readingListId,
+      });
+      const updatedList = await setCompletedBook(readingListId);
+
+      if (!updatedList) {
+        throw new Error("No response data received from server");
+      }
+
+      if (onUpdate) {
+        console.log("Updating reading list with completed book:", updatedList);
+        onUpdate(updatedList);
+        toast({
+          title: "Book Completed!",
+          description: "The book has been marked as finished.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onClose();
+      } else {
+        console.warn("onUpdate callback not provided");
+      }
+    } catch (error) {
+      console.error("Error in handleRead:", error);
+      let errorMessage = "Failed to mark book as finished. Please try again.";
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 404) {
+          errorMessage = "Book not found in reading list.";
+        } else if (axiosError.response?.status === 401) {
+          errorMessage = "Please log in again to update your reading list.";
+        }
+      }
+
+      toast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Fetches reading list if token and userId are available
-  // If book entries have already been edited, previous changes will be fetched
   useEffect(() => {
     if (isOpen) {
       const token =
@@ -58,32 +109,55 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
       const userId =
         localStorage.getItem("uid") || sessionStorage.getItem("uid");
 
-      if (token && userId) {
-        axios
-          .get(`http://localhost:3000/api/users/${userId}/reading-list`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            const readingList = response.data;
-            const bookEntry = readingList.find(
-              (entry: ReadingList) => entry.book.id === book.id
-            );
-            if (bookEntry) {
-              setReadingListId(bookEntry.id);
-              setRating(bookEntry.rating || 0);
-              setNewSummary(bookEntry.summary || "");
-              setNewQuote((bookEntry.quotes || []).join("\n"));
-
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching reading list:", error);
-          });
+      if (!token || !userId) {
+        console.error("Missing authentication:", {
+          token: !!token,
+          userId: !!userId,
+        });
+        toast({
+          title: "Authentication Error",
+          description: "Please log in to view your reading list",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
       }
+
+      console.log("Fetching reading list for book:", book.id);
+      axios
+        .get(`http://localhost:3000/api/users/${userId}/reading-list`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const readingList = response.data;
+          const bookEntry = readingList.find(
+            (entry: ReadingList) => entry.book.id === book.id
+          );
+          if (bookEntry) {
+            console.log("Found book in reading list:", bookEntry);
+            setReadingListId(bookEntry.id);
+            setRating(bookEntry.rating || 0);
+            setNewSummary(bookEntry.summary || "");
+            setNewQuote(bookEntry.quotes?.[0] || "");
+          } else {
+            console.warn("Book not found in reading list:", book.id);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching reading list:", error);
+          toast({
+            title: "Error loading book data",
+            description: "Please try refreshing the page",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        });
     }
-  }, [isOpen, book.id]);
+  }, [isOpen, book.id, toast]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -98,7 +172,12 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <Flex align="center" justify="center" mb={4}>
-            <Image src={book.image} alt={book.title} boxSize="300px" />
+            <Image
+              src={book.image}
+              alt={book.title}
+              boxSize="300px"
+              objectFit="cover"
+            />
           </Flex>
 
           {/* Divider under image */}
@@ -116,6 +195,7 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
               borderRadius="md"
               p={3}
               backgroundColor="gray.50"
+              whiteSpace="pre-wrap"
             >
               {newSummary || "No summary available."}
             </Text>
@@ -131,9 +211,14 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
             </Text>
             {newQuote ? (
               <List spacing={2} styleType="disc" pl={5}>
-                {newQuote.split("\n").map((quote, index) => (
-                  <ListItem key={index}>{quote}</ListItem>
-                ))}
+                {newQuote
+                  .split("\n")
+                  .filter((quote) => quote.trim())
+                  .map((quote, index) => (
+                    <ListItem key={index} whiteSpace="pre-wrap">
+                      {quote}
+                    </ListItem>
+                  ))}
               </List>
             ) : (
               <Text>No quotes available.</Text>
@@ -142,10 +227,21 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="green" ml={3} onClick={handleRead}>
+          <Button
+            colorScheme="green"
+            ml={3}
+            onClick={handleRead}
+            isLoading={isLoading}
+            loadingText="Updating..."
+          >
             Finished Reading
           </Button>
-          <Button colorScheme="red" mr={3} onClick={onClose}>
+          <Button
+            colorScheme="red"
+            mr={3}
+            onClick={onClose}
+            isDisabled={isLoading}
+          >
             Close
           </Button>
         </ModalFooter>
