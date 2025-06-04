@@ -24,13 +24,29 @@ import Navbar from "../../components/ui/Navbar";
 const Librarypage = () => {
   const [books, setBooks] = useState<Book[]>([]); //state for handling book fetch from db
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]); // state for search results
+  const [recentBooks, setRecentBooks] = useState<Book[]>([]); // state for recent books
   const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that handles what book was being clicked on
   const [isOpen, setIsOpen] = useState(false); //state to handle whether modal is open or closed
   const { tag } = useContext(TagContext)!;
 
   //Book fetch using searchbyTags, if no tags are provided, will show all books in library
+
+    useEffect(() => {
+    
+      axios
+        .get(`http://localhost:3000/api/`, {
+        })
+        .then((response) => {
+          setBooks(response.data);
+          setRecentBooks(response.data); // Initialize recent  books with all books
+        })
+        .catch((error) => console.error(error));
+    }, [tag]);
+
+
+
   useEffect(() => {
-    console.log(`Tag is ${tag}`);
+
     axios
       .get(`http://localhost:3000/api/searchByTags`, {
         params: { tag: tag },
@@ -90,7 +106,7 @@ const Librarypage = () => {
 
       <Flex mt="4" justifyContent={"center"}>
         {/* shows 5 latest books added to library */}
-        <LatestReleases data={filteredBooks} openModal={openModal} />
+        <LatestReleases data={recentBooks} openModal={openModal} />
       </Flex>
       <Box width="90%">
         <AllBooks data={filteredBooks} openModal={openModal} />

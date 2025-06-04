@@ -109,7 +109,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      performSearch(searchQuery);
+      onSearch(searchResults);
       setShowDropdown(false);
     }
   };
@@ -122,7 +122,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
   };
 
   const handleResultClick = (book: Book) => {
-    onSearch([book]);
+    onSearch(searchResults);
     setShowDropdown(false);
   };
 
@@ -168,7 +168,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
             icon={<SearchIcon />}
             size="sm"
             onClick={() => {
-              performSearch(searchQuery);
+              onSearch(searchResults);
               setShowDropdown(false);
             }}
             isLoading={isLoading}

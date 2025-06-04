@@ -254,18 +254,7 @@ const ProfileCard = ({
           borderColor="background"
           boxShadow="lg"
         />
-        <Tooltip label="Edit Profile" placement="top">
-          <IconButton
-            aria-label="Edit profile"
-            icon={<EditIcon />}
-            position="absolute"
-            right="calc(50% - 100px)"
-            bottom="0"
-            colorScheme="blue"
-            rounded="full"
-            size="sm"
-          />
-        </Tooltip>
+    
       </Flex>
 
       <Box p={8}>
@@ -365,6 +354,7 @@ const ButtonCard = ({
         </Button>
         <Button
           colorScheme={!showFinished ? "blue" : "gray"}
+          textColor={"white"}
           variant={!showFinished ? "solid" : "outline"}
           onClick={() => setShowFinished(false)}
           _hover={{ transform: "translateY(-2px)" }}

@@ -1,13 +1,11 @@
-
 import dotenv from "dotenv";
 
 //1350 - Omnibuses
 
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 dotenv.config();
-
 
 async function main() {
   await prisma.book.createMany({
@@ -18,7 +16,7 @@ async function main() {
         pages: 416,
         desc: "At the dawn of the 31st millennium, the Emperor of Mankind has led humanity to the stars and united a thousand worlds under the Imperium. The Great Crusade to reunite humanity under the banner of the Imperium is at its height, and the Emperor's favored son, Warmaster Horus, has been tasked with continuing the Crusade in the Emperor's absence. But treachery from within the ranks of the Legions begins to surface, and Horus himself faces a momentous decision that could shatter the fragile unity of the Imperium. The seeds of the galaxy-spanning Heresy are sown in this gripping opening novel of the Horus Heresy series.",
         image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg", // Example Amazon book cover link
+          "https://m.media-amazon.com/images/I/81XWJ1guHnL._AC_UY327_FMwebp_QL65_.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "astartes"],
@@ -33,7 +31,7 @@ async function main() {
         pages: 416,
         desc: "The Great Crusade continues, and Warmaster Horus struggles to keep the Imperium united as jealousy and suspicion set in. As he tries to consolidate his power and leadership, dark forces begin to turn him away from his father's light. This novel shows the tragic turning point that starts Horus on the path of rebellion and introduces the sinister forces that will lead to the galaxy-wide civil war.",
         image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/False%Gods.jpg",
+          "https://m.media-amazon.com/images/I/91Y92AZlJ7L._AC_UY327_FMwebp_QL65_.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "astartes", "chaos"],
@@ -48,7 +46,7 @@ async function main() {
         pages: 416,
         desc: "The third novel in the Horus Heresy series focuses on the events leading up to and during the Istvaan III massacre, a defining moment where Horus reveals his full treachery. Loyalist Astartes are betrayed and slaughtered by their own brothers as Horus begins his open rebellion against the Emperor. The first brutal blows of the Horus Heresy are dealt, and the fate of the Imperium is forever altered.",
         image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/Galaxy%In%Flames.jpg",
+          "https://m.media-amazon.com/images/I/81Tnmc5gT7L._AC_UY327_FMwebp_QL65_.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "astartes", "chaos"],
@@ -282,8 +280,7 @@ async function main() {
         author: "Gav Thorpe",
         pages: 416,
         desc: "Corax, Primarch of the Raven Guard, has returned from the massacre at Istvaan V. With his Legion in tatters, he sets out to rebuild, using the Emperor's own genetic secrets to create new Astartes. But even as he fights to restore his Legion, treachery and infiltration threaten to destroy everything he's fought for.",
-        image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/Deliverance%Lost.jpg",
+        image: "/images/bookImages/StoryArcs/HorusHeresy/DeliveranceLost.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "raven guard", "primarchs"],
@@ -298,8 +295,7 @@ async function main() {
         author: "Dan Abnett",
         pages: 416,
         desc: "The Ultramarines are the Emperor's executioners, sent to deal with any who defy his will. This novel focuses on their role in the burning of Prospero, home of the Thousand Sons, and the complex relationship between Leman Russ and Magnus the Red. A companion novel to 'A Thousand Sons', it tells the other side of this tragic conflict.",
-        image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/Know%No%Fear.jpg",
+        image: "/images/bookImages/StoryArcs/HorusHeresy/KnownoFear.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "ultramarines", "astartes"],
@@ -409,7 +405,13 @@ async function main() {
           "./public/images/bookImages/StoryArcs/HorusHeresy/Angel%Exterminatus.jpg",
         isFinished: false,
         isReading: false,
-        tags: [ "siege of terra","horus heresy","iron warriors", "emperor's children","chaos",],
+        tags: [
+          "siege of terra",
+          "horus heresy",
+          "iron warriors",
+          "emperor's children",
+          "chaos",
+        ],
         link: "https://www.amazon.com/Angel-Exterminatus-Horus-Heresy-Book-ebook/dp/B01MTNYQ2V",
         rating: null,
         quotes: "",
@@ -438,7 +440,13 @@ async function main() {
         image: "./public/images/bookImages/StoryArcs/HorusHeresy/Betrayer.jpg",
         isFinished: false,
         isReading: false,
-        tags: ["siege of terra",  "horus heresy", "world eaters", "word bearers","chaos", ],
+        tags: [
+          "siege of terra",
+          "horus heresy",
+          "world eaters",
+          "word bearers",
+          "chaos",
+        ],
         link: "https://www.amazon.com/Betrayer-Horus-Heresy-Book-24-ebook/dp/B01N94E97F",
         rating: null,
         quotes: "",
@@ -454,7 +462,13 @@ async function main() {
           "./public/images/bookImages/StoryArcs/HorusHeresy/Mark%of%Calth.jpg",
         isFinished: false,
         isReading: false,
-        tags: [   "siege of terra",  "horus heresy",  "ultramarines",  "anthology", "astartes",],
+        tags: [
+          "siege of terra",
+          "horus heresy",
+          "ultramarines",
+          "anthology",
+          "astartes",
+        ],
         link: "https://www.amazon.com/Mark-Calth-Horus-Heresy-Book-ebook/dp/B01N94GKSU",
         rating: null,
         quotes: "",
@@ -500,7 +514,13 @@ async function main() {
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
         isReading: false,
-        tags: [ "siege of terra", "horus heresy", "ultramarines",   "primarchs",   "astartes", ],
+        tags: [
+          "siege of terra",
+          "horus heresy",
+          "ultramarines",
+          "primarchs",
+          "astartes",
+        ],
         link: "https://www.amazon.com/Unremembered-Empire-Horus-Heresy-Book-ebook/dp/B01MSMI0OO",
         rating: null,
         quotes: "",
@@ -516,7 +536,13 @@ async function main() {
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
         isReading: false,
-        tags: [ "siege of terra","horus heresy",  "white scars",  "primarchs","astartes",  ],
+        tags: [
+          "siege of terra",
+          "horus heresy",
+          "white scars",
+          "primarchs",
+          "astartes",
+        ],
         link: "https://www.amazon.com/Scars-Horus-Heresy-Book-28-ebook/dp/B01N94GKSV",
         rating: null,
         quotes: "",
@@ -546,8 +572,7 @@ async function main() {
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
         isReading: false,
-        tags: [
-          "siege of terra", "horus heresy", "primarchs",   "chaos",  ],
+        tags: ["siege of terra", "horus heresy", "primarchs", "chaos"],
         link: "https://www.amazon.com/Vengeful-Spirit-Horus-Heresy-Book-ebook/dp/B01N94GUDI",
         rating: null,
         quotes: "",
@@ -568,7 +593,7 @@ async function main() {
           "iron hands",
           "raven guard",
           "salamanders",
-           "astartes",
+          "astartes",
         ],
         link: "https://www.amazon.com/Damnation-Pythos-Horus-Heresy-Book-ebook/dp/B01MRKVMVD",
         rating: null,
@@ -606,7 +631,7 @@ async function main() {
           "horus heresy",
           "salamanders",
           "primarchs",
-          
+
           "astartes",
         ],
         link: "https://www.amazon.com/Deathfire-Horus-Heresy-Book-32-ebook/dp/B01N75PXZH",
@@ -703,7 +728,7 @@ async function main() {
           "horus heresy",
           "alpha legion",
           "anthology",
-          
+
           "astartes",
         ],
         link: "https://www.amazon.com/Silent-War-Horus-Heresy-Book-ebook/dp/B01N9481KO",
@@ -745,7 +770,7 @@ async function main() {
           "siege of terra",
           "horus heresy",
           "imperial fists",
-       
+
           "alpha legion",
         ],
         link: "https://www.amazon.com/Praetorian-Dorn-Horus-Heresy-Book-ebook/dp/B01N0E9WKM",
@@ -757,7 +782,7 @@ async function main() {
         title: "Corax",
         author: "Gav Thorpe",
         pages: 381,
-        desc: "After Isstvan, after Deliverance, the Raven Guard still endure. Their primarch Corvus Corax has rallied countless warriors to his banner, striking back at the forces of the Warmaster on every front – from the degenerate hereteks of the Mechanicum to the cruel legionaries of the Sons of Horus, none shall escape his wrath. But although Corax has managed to stall the physical corruption of his own Space Marines, what of their spirit? And what sinister end must await those who dwell forever in the darkness? This anthology contains all of Gav Thorpe’s tales of the Raven Guard in the Horus Heresy – the novellas Soulforge and Ravenlord, and short stories ‘The Shadowmasters’, ‘The Value of Fear’ and ‘Raptor’. Also included is the brand new novella Weregeld, taking Corax’s legend to its grim conclusion",
+        desc: "After Isstvan, after Deliverance, the Raven Guard still endure. Their primarch Corvus Corax has rallied countless warriors to his banner, striking back at the forces of the Warmaster on every front – from the degenerate hereteks of the Mechanicum to the cruel legionaries of the Sons of Horus, none shall escape his wrath. But although Corax has managed to stall the physical corruption of his own Space Marines, what of their spirit? And what sinister end must await those who dwell forever in the darkness? This anthology contains all of Gav Thorpe's tales of the Raven Guard in the Horus Heresy – the novellas Soulforge and Ravenlord, and short stories 'The Shadowmasters', 'The Value of Fear' and 'Raptor'. Also included is the brand new novella Weregeld, taking Corax's legend to its grim conclusion",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -772,7 +797,7 @@ async function main() {
         title: "The Master of Mankind",
         author: "Aaron Dembski-Bowden",
         pages: 424,
-        desc: "While Horus’ rebellion burns across the galaxy, a very different kind of war rages beneath the Imperial Palace. The ‘Ten Thousand’ Custodian Guard, along with the Sisters of Silence and the Mechanicum forces of Fabricator General Kane, fight to control the nexus points of the ancient eldar webway that lie closest to Terra, infested by daemonic entities after Magnus the Red’s intrusion. But with traitor legionaries and corrupted Battle Titans now counted among the forces of Chaos, the noose around the Throneworld is tightening, and none but the Emperor Himself can hope to prevail.",
+        desc: "While Horus' rebellion burns across the galaxy, a very different kind of war rages beneath the Imperial Palace. The 'Ten Thousand' Custodian Guard, along with the Sisters of Silence and the Mechanicum forces of Fabricator General Kane, fight to control the nexus points of the ancient eldar webway that lie closest to Terra, infested by daemonic entities after Magnus the Red's intrusion. But with traitor legionaries and corrupted Battle Titans now counted among the forces of Chaos, the noose around the Throneworld is tightening, and none but the Emperor Himself can hope to prevail.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -787,9 +812,8 @@ async function main() {
         title: "Garro: Weapon of Fate",
         author: "James Swallow",
         pages: 413,
-        desc: "From out of the shadows of the Silent War, a hero emerges. Clad all in grey, an errant warrior of the Legiones Astartes kneels before the Regent of Terra, and accepts a solemn new duty – Battle-Captain Garro, once commander of the Eisenstein, now Agentia Primus of Malcador the Sigillite. From the desolation of Isstvan to the halls of the Imperial Palace itself, he stands as a paragon of loyalty and protector of the innocent, ever ready to strike back at the traitorous allies of the Warmaster. But Garro is walking a path of his own, one that may lead him to question his own place in the Imperium... and what if he, too, should falter? This book contains James Swallow’s complete saga of Nathaniel Garro in the Horus Heresy – the audio drama series is embellished and expanded in prose, with additional scenes to represent the author’s original vision. This all serves as prelude to the events of the novella Vow of Faith, bringing Garro closer to his inescapable destiny as the first true martyr of the Lectitio Divinitatus.",
-        image:
-          "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
+        desc: "From out of the shadows of the Silent War, a hero emerges. Clad all in grey, an errant warrior of the Legiones Astartes kneels before the Regent of Terra, and accepts a solemn new duty – Battle-Captain Garro, once commander of the Eisenstein, now Agentia Primus of Malcador the Sigillite. From the desolation of Isstvan to the halls of the Imperial Palace itself, he stands as a paragon of loyalty and protector of the innocent, ever ready to strike back at the traitorous allies of the Warmaster. But Garro is walking a path of his own, one that may lead him to question his own place in the Imperium... and what if he, too, should falter? This book contains James Swallow's complete saga of Nathaniel Garro in the Horus Heresy – the audio drama series is embellished and expanded in prose, with additional scenes to represent the author's original vision. This all serves as prelude to the events of the novella Vow of Faith, bringing Garro closer to his inescapable destiny as the first true martyr of the Lectitio Divinitatus.",
+        image: "/images/bookImages/StoryArcs/HorusHeresy/Garro.jpg",
         isFinished: false,
         isReading: false,
         tags: ["siege of terra", "horus heresy", "astartes"],
@@ -837,7 +861,7 @@ async function main() {
         title: "Ruinstorm",
         author: "David Annandale",
         pages: 352,
-        desc: "Imperium Secundus stands on the brink of disaster as the Ruinstorm tears apart the galaxy. Roboute Guilliman, Sanguinius, and Lion El’Jonson must make their perilous journey through this maelstrom of warp-spawned nightmares to reach Terra before it’s too late. But can they navigate the darkest horrors of the Ruinstorm and find a way to unite the shattered Imperium?",
+        desc: "Imperium Secundus stands on the brink of disaster as the Ruinstorm tears apart the galaxy. Roboute Guilliman, Sanguinius, and Lion El'Jonson must make their perilous journey through this maelstrom of warp-spawned nightmares to reach Terra before it's too late. But can they navigate the darkest horrors of the Ruinstorm and find a way to unite the shattered Imperium?",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -929,7 +953,7 @@ async function main() {
         title: "Heralds of The Siege",
         author: "Various Authors",
         pages: 378,
-        desc: "A galaxy burns and brother turns on brother as the conflict brought about by a beloved son’s betrayal reaches its fateful end. The Warmaster Horus has triumphed. His massive fleet at last nears Terra and the patriarchal Throne of his hated father. Many have fallen to bring this moment about, their tales are the ashes upon which the Heresy was born and prospered. Others have played their own small parts, drops in an ocean of war and blood. None of it matters. Terra looks to the skies as it raises its defences. Armies muster, heroes raise their swords, citizens cower. The war is coming. And nothing can stop it. This anthology includes sixteen stories set during the Horus Heresy, some of which are in print for the first time or were originally released as audio dramas, by authors Gav Thorpe, Chris Wraight, John French, James Swallow, Guy Haley, Nick Kyme, Rob Sanders and Anthony Reynolds.",
+        desc: "A galaxy burns and brother turns on brother as the conflict brought about by a beloved son's betrayal reaches its fateful end. The Warmaster Horus has triumphed. His massive fleet at last nears Terra and the patriarchal Throne of his hated father. Many have fallen to bring this moment about, their tales are the ashes upon which the Heresy was born and prospered. Others have played their own small parts, drops in an ocean of war and blood. None of it matters. Terra looks to the skies as it raises its defences. Armies muster, heroes raise their swords, citizens cower. The war is coming. And nothing can stop it. This anthology includes sixteen stories set during the Horus Heresy, some of which are in print for the first time or were originally released as audio dramas, by authors Gav Thorpe, Chris Wraight, John French, James Swallow, Guy Haley, Nick Kyme, Rob Sanders and Anthony Reynolds.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -960,7 +984,7 @@ async function main() {
         title: "The Buried Dagger",
         author: "James Swallow",
         pages: 400,
-        desc: "As the galaxy burns in the fires of treachery, the Death Guard faces its darkest hour. Mortarion, their Primarch, and his sons must confront the horrors that await them in the Warp. This novel charts the Death Guard’s descent into madness and decay, revealing the roots of their damnation and their ultimate transformation into the Plague Marines of Nurgle.",
+        desc: "As the galaxy burns in the fires of treachery, the Death Guard faces its darkest hour. Mortarion, their Primarch, and his sons must confront the horrors that await them in the Warp. This novel charts the Death Guard's descent into madness and decay, revealing the roots of their damnation and their ultimate transformation into the Plague Marines of Nurgle.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -992,7 +1016,7 @@ async function main() {
         title: "The Lost and the Damned",
         author: "Guy Haley",
         pages: 416,
-        desc: "The final push of Horus’s forces has begun. As the traitors descend upon Terra, the Loyalists must rally to defend humanity’s last bastion. This novel tells the story of the climactic battles of the Siege of Terra, exploring the horrors of war and the depths of betrayal as the fate of the Imperium hangs in the balance.",
+        desc: "The final push of Horus's forces has begun. As the traitors descend upon Terra, the Loyalists must rally to defend humanity's last bastion. This novel tells the story of the climactic battles of the Siege of Terra, exploring the horrors of war and the depths of betrayal as the fate of the Imperium hangs in the balance.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -1054,7 +1078,7 @@ async function main() {
         title: "The Fury of Magnus",
         author: "Graham McNeill",
         pages: 261,
-        desc: "Of all the Emperor’s sons who fell to Chaos, it is perhaps Magnus the Red whose tale is the most tragic. Sanctioned because of his desire for knowledge, chastised, judged, and shattered to his very elements – there is much for the Crimson King to feel vengeful for. Yet revenge is not the only thing that draws him to Terra alongside the Warmaster’s besieging armies. He seeks something, a fragment, the missing piece of himself that lies within the most impregnable place on the planet – the inner sanctum of the Imperial Palace. As the greatest conflict of the ages reaches fever pitch, Magnus fights his own inner battle. To be whole once more, he must not only overcome the fiercest of defences, but also face the one being whom he loves and hates with equal fervour more than any other – his errant father, the Emperor of Mankind.",
+        desc: "Of all the Emperor's sons who fell to Chaos, it is perhaps Magnus the Red whose tale is the most tragic. Sanctioned because of his desire for knowledge, chastised, judged, and shattered to his very elements – there is much for the Crimson King to feel vengeful for. Yet revenge is not the only thing that draws him to Terra alongside the Warmaster's besieging armies. He seeks something, a fragment, the missing piece of himself that lies within the most impregnable place on the planet – the inner sanctum of the Imperial Palace. As the greatest conflict of the ages reaches fever pitch, Magnus fights his own inner battle. To be whole once more, he must not only overcome the fiercest of defences, but also face the one being whom he loves and hates with equal fervour more than any other – his errant father, the Emperor of Mankind.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -1070,7 +1094,7 @@ async function main() {
         title: "Mortis",
         author: "John French",
         pages: 400,
-        desc: "The victories of Saturnine and the sacrifices of the Eternity Wall space port have faded into the hope of yesterday. Denied but not defeated, the Traitors intensify their assault on the Imperial Palace. With the principal space ports in Horus’ hands, the Warmaster now drains the heavens of his reserves. As the pressure of the assault increases, the power of Chaos waxes. The waking lives of the defenders are filled with despair, while their dreams pull them in search of a false paradise. As the fabric of the defences fails and the will of those who stand on them cracks, Horus commands the Titans of the Legio Mortis to breach the walls. Against them stands the might of Mercury Wall and the strength of the Legio Ignatum. Ancient rivals, the god-engines of both Legions meet in battle, while within the walls a few desperate individuals seek a way to turn back the tide of the warp’s malign influence. Across Terra, lost warriors and travellers make their way through wastelands and gardens of horror, towards home and an unknown future.",
+        desc: "The victories of Saturnine and the sacrifices of the Eternity Wall space port have faded into the hope of yesterday. Denied but not defeated, the Traitors intensify their assault on the Imperial Palace. With the principal space ports in Horus' hands, the Warmaster now drains the heavens of his reserves. As the pressure of the assault increases, the power of Chaos waxes. The waking lives of the defenders are filled with despair, while their dreams pull them in search of a false paradise. As the fabric of the defences fails and the will of those who stand on them cracks, Horus commands the Titans of the Legio Mortis to breach the walls. Against them stands the might of Mercury Wall and the strength of the Legio Ignatum. Ancient rivals, the god-engines of both Legions meet in battle, while within the walls a few desperate individuals seek a way to turn back the tide of the warp's malign influence. Across Terra, lost warriors and travellers make their way through wastelands and gardens of horror, towards home and an unknown future.",
         image:
           "./public/images/bookImages/StoryArcs/HorusHeresy/Horus_Rising.jpg",
         isFinished: false,
@@ -1100,7 +1124,7 @@ async function main() {
         title: "Echoes of Eternity",
         author: "Aaron Dembski-Bowden",
         pages: 400,
-        desc: "The walls have fallen. The defenders are broken. The Inner Palace lies in ruins. The Warmaster’s horde advances through the fire and ash of Terra's dying breaths, forcing the loyalists back to the Delphic Battlement – the very walls of the Sanctum Imperialis. Angron, Primarch of the World Eaters and Herald of Horus, has achieved immortality through annihilation – now he leads the armies of the damned in a wrathful tide, destroying all before them as the warp begins its poisonous corruption of Terra's very soil. For the Emperor’s beleaguered forces, the end has come. The Khan lies on the edge of death. Rogal Dorn is encircled, fighting his own war at Bhab Bastion. Guilliman will not reach Terra in time. Without his brothers, Sanguinius – the Angel of the Ninth Legion – waits on the final battlements, hoping to rally a desperate band of defenders and refugees for one last stand.",
+        desc: "The walls have fallen. The defenders are broken. The Inner Palace lies in ruins. The Warmaster's horde advances through the fire and ash of Terra's dying breaths, forcing the loyalists back to the Delphic Battlement – the very walls of the Sanctum Imperialis. Angron, Primarch of the World Eaters and Herald of Horus, has achieved immortality through annihilation – now he leads the armies of the damned in a wrathful tide, destroying all before them as the warp begins its poisonous corruption of Terra's very soil. For the Emperor's beleaguered forces, the end has come. The Khan lies on the edge of death. Rogal Dorn is encircled, fighting his own war at Bhab Bastion. Guilliman will not reach Terra in time. Without his brothers, Sanguinius – the Angel of the Ninth Legion – waits on the final battlements, hoping to rally a desperate band of defenders and refugees for one last stand.",
         image:
           "https://m.media-amazon.com/images/I/81nhKgMk+4L._AC_UY327_FMwebp_QL65_.jpg",
         isFinished: false,
@@ -1129,7 +1153,7 @@ async function main() {
         title: "The End and the Death - Volume I",
         author: "Dan Abnett",
         pages: 672,
-        desc: "There is no way out. The walls have fallen, the gates are breached, and the defenders are slain. It is the end and the death. After seven brutal years of civil war, the Warmaster stands on the verge of victory. Horus Lupercal, once beloved son, has come to murder his father. The Emperor, a shining beacon of hope to many, an unscrupulous tyrant to others, must die. The lives of uncountable numbers have been extinguished and even primarchs, once thought immortal, have been laid low. The Emperor’s dream lies in tatters, but there remains a sliver of hope. Now, at the final hour of the final day, the Emperor rises. With him come his Angel, his Praetorian, and his Captain, all determined to enact terrible vengeance. Yet the hope is slim, for the Warmaster sees all and knows all, and the ultimate victory of Chaos is at hand. There is no way out.",
+        desc: "There is no way out. The walls have fallen, the gates are breached, and the defenders are slain. It is the end and the death. After seven brutal years of civil war, the Warmaster stands on the verge of victory. Horus Lupercal, once beloved son, has come to murder his father. The Emperor, a shining beacon of hope to many, an unscrupulous tyrant to others, must die. The lives of uncountable numbers have been extinguished and even primarchs, once thought immortal, have been laid low. The Emperor's dream lies in tatters, but there remains a sliver of hope. Now, at the final hour of the final day, the Emperor rises. With him come his Angel, his Praetorian, and his Captain, all determined to enact terrible vengeance. Yet the hope is slim, for the Warmaster sees all and knows all, and the ultimate victory of Chaos is at hand. There is no way out.",
         image:
           "https://m.media-amazon.com/images/I/81-Pu-0-MqL._AC_UY327_FMwebp_QL65_.jpg",
         isFinished: false,
@@ -1144,7 +1168,7 @@ async function main() {
         title: "The End and the Death: Volume II",
         author: "Dan Abnett",
         pages: 672,
-        desc: "Terra is besieged. Humanity’s salvation lies on a knife edge. The Warmaster Horus’ bloody seven-year crusade has led to this: the cradle of mankind, where he is to kill his father, the Emperor.   With the war at this critical juncture, Sanguinius, primarch of the loyalist Blood Angels, braves the horrors of the Warmaster’s flagship, The Vengeful Spirit, with a single purpose in mind: to slay his brother Horus, decapitate the Heresy once and for all, and stop the forces of Chaos from taking Holy Terra. But at the whim of a Warmaster fallen so far from grace, the Dark Gods will not make Sanguinius’ task an easy one, and as the war edges towards its explosive, bloody conclusion, events are about to unfold that could either save humanity, or plunge it headlong into an eternity of darkness.",
+        desc: "Terra is besieged. Humanity's salvation lies on a knife edge. The Warmaster Horus' bloody seven-year crusade has led to this: the cradle of mankind, where he is to kill his father, the Emperor.   With the war at this critical juncture, Sanguinius, primarch of the loyalist Blood Angels, braves the horrors of the Warmaster's flagship, The Vengeful Spirit, with a single purpose in mind: to slay his brother Horus, decapitate the Heresy once and for all, and stop the forces of Chaos from taking Holy Terra. But at the whim of a Warmaster fallen so far from grace, the Dark Gods will not make Sanguinius' task an easy one, and as the war edges towards its explosive, bloody conclusion, events are about to unfold that could either save humanity, or plunge it headlong into an eternity of darkness.",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1212,7 +1236,7 @@ async function main() {
         title: "Perturabo: Hammer of Olympia",
         author: "Guy Haley",
         pages: 192,
-        desc: "Born to a life of political conflict, Perturabo was always considered a child prodigy among the people of Olympia – indeed, his philosophical and scientific works were beyond compare. But then, after his rediscovery by the Emperor and decades of thankless military campaigning on the Great Crusade, the primarch begins to resent his Legion’s place in the Imperium. When word reaches him of turmoil on his adoptive home world, he orders the Iron Warriors to abandon their campaign against the alien hrud and crush this emerging rebellion by any means necessary...",
+        desc: "Born to a life of political conflict, Perturabo was always considered a child prodigy among the people of Olympia – indeed, his philosophical and scientific works were beyond compare. But then, after his rediscovery by the Emperor and decades of thankless military campaigning on the Great Crusade, the primarch begins to resent his Legion's place in the Imperium. When word reaches him of turmoil on his adoptive home world, he orders the Iron Warriors to abandon their campaign against the alien hrud and crush this emerging rebellion by any means necessary...",
         image:
           "https://m.media-amazon.com/images/I/81O3aTfpSmL._AC_UY327_FMwebp_QL65_.jpg",
         tags: ["horus heresy", "primarch", "iron warriors"],
@@ -1238,7 +1262,7 @@ async function main() {
         title: "Fulgrim: The Palatine Phoenix",
         author: "Josh Reynolds",
         pages: 192,
-        desc: "Lord of Chemos and bearer of the Palatine Aquila, Fulgrim, primarch of the Emperor’s Children, is determined to take his rightful place in the Great Crusade, whatever the cost. A swordsman without equal, the Phoenician has long studied the art of war and grows impatient to put his skills, and those of his loyal followers, to a true test. Now, accompanied by only seven of his finest warriors, he seeks to bring a rebellious world into compliance, by any means necessary. But Fulgrim soon learns that no victory comes without cost, and the greater the triumph, the greater the price one must pay...",
+        desc: "Lord of Chemos and bearer of the Palatine Aquila, Fulgrim, primarch of the Emperor's Children, is determined to take his rightful place in the Great Crusade, whatever the cost. A swordsman without equal, the Phoenician has long studied the art of war and grows impatient to put his skills, and those of his loyal followers, to a true test. Now, accompanied by only seven of his finest warriors, he seeks to bring a rebellious world into compliance, by any means necessary. But Fulgrim soon learns that no victory comes without cost, and the greater the triumph, the greater the price one must pay...",
         image:
           "https://m.media-amazon.com/images/I/81i6PiY98kL._AC_UY327_FMwebp_QL65_.jpg",
         tags: ["horus heresy", "primarch", "emperor's children"],
@@ -1251,7 +1275,7 @@ async function main() {
         title: "Ferrus Manus: The Gorgon of Medusa",
         author: "David Guymer",
         pages: 192,
-        desc: "The Great Crusade has swept across half the galaxy, a million human worlds now embracing the truth and reason that comes with allegiance to the rule of Terra. But even such unparalleled success comes at a cost. Rumours abound that the Emperor plans to step back from the Crusade and raise one of his primarch sons to lead in his stead. Faced with the bitterly non-compliant human empire of Gardinaal and a leaderless host of Ultramarines, Thousand Sons and Emperor’s Children at his Legion’s command, the Iron Hands primarch Ferrus Manus decides to make an example that even the Emperor cannot ignore.",
+        desc: "The Great Crusade has swept across half the galaxy, a million human worlds now embracing the truth and reason that comes with allegiance to the rule of Terra. But even such unparalleled success comes at a cost. Rumours abound that the Emperor plans to step back from the Crusade and raise one of his primarch sons to lead in his stead. Faced with the bitterly non-compliant human empire of Gardinaal and a leaderless host of Ultramarines, Thousand Sons and Emperor's Children at his Legion's command, the Iron Hands primarch Ferrus Manus decides to make an example that even the Emperor cannot ignore.",
         image:
           "https://m.media-amazon.com/images/I/81W9wZSkRzL._AC_UY327_FMwebp_QL65_.jpg",
         tags: ["horus heresy", "primarch", "iron hands"],
@@ -1290,7 +1314,7 @@ async function main() {
         title: "Corax: Lord of Shadows",
         author: "Guy Haley",
         pages: 192,
-        desc: "During the Great Crusade, it falls to the primarch Corax of the Raven Guard to humble the immense void-cities of the Carinae. Determined to bring these worlds into compliance, he unleashes the might of his Legion and a massive war host of the Imperial Army. But the lords of Carinae are well defended and without remorse. At the height of the conflict, at the void-city of Zenith, a dread bio-weapon from an ancient time is unleashed. At once, the Imperial force is brought to its knees, as allies are turned against each other and the Raven Guard left to face almost insurmountable odds. As the campaign teeters on the brink of failure, Corax’s desire for vengeance is severely tested against the need for a swift and certain resolution to the war.",
+        desc: "During the Great Crusade, it falls to the primarch Corax of the Raven Guard to humble the immense void-cities of the Carinae. Determined to bring these worlds into compliance, he unleashes the might of his Legion and a massive war host of the Imperial Army. But the lords of Carinae are well defended and without remorse. At the height of the conflict, at the void-city of Zenith, a dread bio-weapon from an ancient time is unleashed. At once, the Imperial force is brought to its knees, as allies are turned against each other and the Raven Guard left to face almost insurmountable odds. As the campaign teeters on the brink of failure, Corax's desire for vengeance is severely tested against the need for a swift and certain resolution to the war.",
         image:
           "https://m.media-amazon.com/images/I/81kWSXIRCyL._AC_UY327_FMwebp_QL65_.jpg",
         tags: ["horus heresy", "primarch", "raven guard"],
@@ -1316,7 +1340,7 @@ async function main() {
         title: "Konrad Curze: The Night Haunter",
         author: "Guy Haley",
         pages: 192,
-        desc: "Of all the Emperor’s immortal sons, the primarchs, it is Konrad Curze whose legend is the darkest. Born in the shadows of Nostramo, a world of murderers, thieves and worse, is it any surprise that he became the figure of dread known only as the Night Haunter? Heed now the tragic story of the creature Konrad Curze, master of the Night Lords Legion, of how he became a monster and a weapon of terror. He who once served the Imperium saw the truth in a maddening universe and the hypocrisy of a loveless father, and embraced the only thing that made any sense – darkness. From the blood-soaked gutters of his hiveworld upbringing, to the last days of his ill-fated existence, Curze is a primarch like no other and his tale is one to chill the very bone…",
+        desc: "Of all the Emperor's immortal sons, the primarchs, it is Konrad Curze whose legend is the darkest. Born in the shadows of Nostramo, a world of murderers, thieves and worse, is it any surprise that he became the figure of dread known only as the Night Haunter? Heed now the tragic story of the creature Konrad Curze, master of the Night Lords Legion, of how he became a monster and a weapon of terror. He who once served the Imperium saw the truth in a maddening universe and the hypocrisy of a loveless father, and embraced the only thing that made any sense – darkness. From the blood-soaked gutters of his hiveworld upbringing, to the last days of his ill-fated existence, Curze is a primarch like no other and his tale is one to chill the very bone…",
         image:
           "https://m.media-amazon.com/images/I/91eKTl2K7BL._AC_UY327_FMwebp_QL65_.jpg",
         tags: ["horus heresy", "primarch", "night lords"],
@@ -1329,7 +1353,7 @@ async function main() {
         title: "Lion El'Jonson: Lord of the First",
         author: "David Guymer",
         pages: 384,
-        desc: "Each primarch is an exemplary being, derived from the Emperor’s own genetic stock to embody a facet of His personality. Their powers are unfathomable, but only one of them is the First. Lion El’Jonson is the paragon of what it is to be a primarch. His Legion, pre-eminent for most of their long history, typify the virtues of temperance, pride, and martial excellency that the Lion embodies. They are the Emperor’s last line and final sanction. They are His Dark Angels. Now, while the Emperor gathers His mightiest sons for an assault on Ullanor Prime, the Lord of the First instead draws his Legion to the farthest reaches of the known galaxy, seeking to subdue a single rebellious world. Is this but another example of the Lion’s infamous pride, or is there more afoot amidst that graveyard of empires that is the Ghoul Stars, more than the Lion will share even with his own sons?",
+        desc: "Each primarch is an exemplary being, derived from the Emperor's own genetic stock to embody a facet of His personality. Their powers are unfathomable, but only one of them is the First. Lion El'Jonson is the paragon of what it is to be a primarch. His Legion, pre-eminent for most of their long history, typify the virtues of temperance, pride, and martial excellency that the Lion embodies. They are the Emperor's last line and final sanction. They are His Dark Angels. Now, while the Emperor gathers His mightiest sons for an assault on Ullanor Prime, the Lord of the First instead draws his Legion to the farthest reaches of the known galaxy, seeking to subdue a single rebellious world. Is this but another example of the Lion's infamous pride, or is there more afoot amidst that graveyard of empires that is the Ghoul Stars, more than the Lion will share even with his own sons?",
         image: "https://m.media-amazon.com/images/I/51DYYaIq2hL.jpg",
         isFinished: false,
         isReading: false,
@@ -1343,7 +1367,7 @@ async function main() {
         title: "Alpharius: Head of the Hydra",
         author: "Mike Brooks",
         pages: 352,
-        desc: "Legends abound of the glorious – or infamous – deeds of the Emperor's sons. Yet almost nothing is known of Alpharius, the most mysterious of them all, for the Lord of the Alpha Legion is unparalleled in the art of obfuscation. Such are his gifts of secrecy and deceit that even his rediscovery has remained an enigma – until now. But when the tale comes from the serpent’s mouth, where do the lies end and the truth begin?",
+        desc: "Legends abound of the glorious – or infamous – deeds of the Emperor's sons. Yet almost nothing is known of Alpharius, the most mysterious of them all, for the Lord of the Alpha Legion is unparalleled in the art of obfuscation. Such are his gifts of secrecy and deceit that even his rediscovery has remained an enigma – until now. But when the tale comes from the serpent's mouth, where do the lies end and the truth begin?",
         image: "https://m.media-amazon.com/images/I/51oEC9pegyL.jpg",
         isFinished: false,
         isReading: false,
@@ -1371,7 +1395,7 @@ async function main() {
         title: "Rogal Dorn: The Emperor's Crusader",
         author: "Gav Thorpe",
         pages: 384,
-        desc: "As the Great Crusade enters its sixth decade, the fleets and armies of the Emperor spear out into the galaxy to bring the Imperial Truth to thousands of worlds. Expansion has been swift, but must now be tempered with consolidation. Even so, the Emperor demands that the boundaries of the Imperium be pushed further into the unknown. The Master of Mankind tasks four primarchs with the dangerous mission of securing the worlds of the Occluda Noctis – hundreds of star systems on the far side of the Northern Major Warp Storm, whose warp-churning presence casts a shadow on the guiding light of the Astronomican and blinds even the Emperor’s psychic sight. Rogal Dorn leads his Imperial Fists directly into the heart of this cosmic twilight. Isolated, battling a foe the likes of which nobody has encountered before, Dorn must use all of his strategic genius and irresistible will to conquer the darkness in the name of the Emperor.",
+        desc: "As the Great Crusade enters its sixth decade, the fleets and armies of the Emperor spear out into the galaxy to bring the Imperial Truth to thousands of worlds. Expansion has been swift, but must now be tempered with consolidation. Even so, the Emperor demands that the boundaries of the Imperium be pushed further into the unknown. The Master of Mankind tasks four primarchs with the dangerous mission of securing the worlds of the Occluda Noctis – hundreds of star systems on the far side of the Northern Major Warp Storm, whose warp-churning presence casts a shadow on the guiding light of the Astronomican and blinds even the Emperor's psychic sight. Rogal Dorn leads his Imperial Fists directly into the heart of this cosmic twilight. Isolated, battling a foe the likes of which nobody has encountered before, Dorn must use all of his strategic genius and irresistible will to conquer the darkness in the name of the Emperor.",
         image: "https://m.media-amazon.com/images/I/51gDFJmb+8L.jpg",
         isFinished: false,
         isReading: false,
@@ -1400,7 +1424,7 @@ async function main() {
         title: "The Infinite and The Divine",
         author: "Robert Rath",
         pages: 368,
-        desc: "Before the being called the Emperor revealed Himself, before the rise of the aeldari, before the necrontyr traded their flesh for immortal metal, the world was born in violence.Even when they inhabited bodies of flesh, Trazyn the Infinite and Orikan the Diviner were polar opposites. Trazyn, a collector of historical oddities, presides over a gallery full of the most dangerous artefacts – and people – of the galactic past. Orikan, a chronomancer without peer, draws zodiacs that predict and manipulate the future. But when an artefact emerges that may hold the key to the necrons’ next evolution, these two obsessives enter a multi-millennia game of cat and mouse that ends civilisations, reshapes timelines, and changes both forever. As riddles unwind and ancient secrets are revealed, the question remains: will their feud save the necron race or destroy it?",
+        desc: "Before the being called the Emperor revealed Himself, before the rise of the aeldari, before the necrontyr traded their flesh for immortal metal, the world was born in violence.Even when they inhabited bodies of flesh, Trazyn the Infinite and Orikan the Diviner were polar opposites. Trazyn, a collector of historical oddities, presides over a gallery full of the most dangerous artefacts – and people – of the galactic past. Orikan, a chronomancer without peer, draws zodiacs that predict and manipulate the future. But when an artefact emerges that may hold the key to the necrons' next evolution, these two obsessives enter a multi-millennia game of cat and mouse that ends civilisations, reshapes timelines, and changes both forever. As riddles unwind and ancient secrets are revealed, the question remains: will their feud save the necron race or destroy it?",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1429,7 +1453,7 @@ async function main() {
         title: "Eisenhorn: The Omnibus",
         author: "Dan Abnett",
         pages: 944,
-        desc: "In the grim far future, the Inquisition moves amongst mankind like an avenging shadow, striking down daemons, aliens and heretics with uncompromising ruthlessness. Written by Gaunt’s Ghosts creator, Dan Abnett, this volume charts the career of Inquisitor Gregor Eisenhorn as he changes from being a zealous upholder of the truth to collaborating with the very powers he once swore to destroy. Part detective story, part interplanetary Epic, this omnibus brings together the novels Xenos, Malleus, Hereticus and The Magos, as well as four short stories.",
+        desc: "In the grim far future, the Inquisition moves amongst mankind like an avenging shadow, striking down daemons, aliens and heretics with uncompromising ruthlessness. Written by Gaunt's Ghosts creator, Dan Abnett, this volume charts the career of Inquisitor Gregor Eisenhorn as he changes from being a zealous upholder of the truth to collaborating with the very powers he once swore to destroy. Part detective story, part interplanetary Epic, this omnibus brings together the novels Xenos, Malleus, Hereticus and The Magos, as well as four short stories.",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1443,7 +1467,7 @@ async function main() {
         title: "Lords of Nocturne: A Salamanders Omnibus",
         author: "Nick Kyme",
         pages: 800,
-        desc: "After the death of their captain at the hands of a traitorous brother, Da’kir and Tsu’gan, battle-brothers and rivals, face enemies from within and without. As their paths diverge and they face trials that will test them to their very limits, their destinies draw them back together for one final confrontation that will decide the fate of the Salamanders Chapter. The Salamanders, fire-born sons of Vulkan, unite to face a threat to their very existence in this omnibus edition of tales from Nick Kyme.",
+        desc: "After the death of their captain at the hands of a traitorous brother, Da'kir and Tsu'gan, battle-brothers and rivals, face enemies from within and without. As their paths diverge and they face trials that will test them to their very limits, their destinies draw them back together for one final confrontation that will decide the fate of the Salamanders Chapter. The Salamanders, fire-born sons of Vulkan, unite to face a threat to their very existence in this omnibus edition of tales from Nick Kyme.",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1457,7 +1481,7 @@ async function main() {
         title: "Deathwatch: The Omnibus",
         author: "David Annandale and more",
         pages: 1239,
-        desc: "The Deathwatch are the elite. Recruited from numerous Space Marine Chapters, their mission is simple: exterminate any xenos threat to the Imperium. Assembled into kill-teams, the Deathwatch are expert alien hunters, equipped to undertake any mission in any environment. None are as dedicated or as skilled in the brutal art of alien annihilation. This action-packed omnibus contains three full novels written by Steve Parker, Ian St Martin and Justin D Hill, along with a dozen of the best short stories ever written about the Imperium’s premier xenos hunters.",
+        desc: "The Deathwatch are the elite. Recruited from numerous Space Marine Chapters, their mission is simple: exterminate any xenos threat to the Imperium. Assembled into kill-teams, the Deathwatch are expert alien hunters, equipped to undertake any mission in any environment. None are as dedicated or as skilled in the brutal art of alien annihilation. This action-packed omnibus contains three full novels written by Steve Parker, Ian St Martin and Justin D Hill, along with a dozen of the best short stories ever written about the Imperium's premier xenos hunters.",
 
         image: "",
         isFinished: false,
@@ -1472,7 +1496,7 @@ async function main() {
         title: "Salamanders: The Omnibus",
         author: "Nick Kyme",
         pages: 1560,
-        desc: "The Salamanders have a long and noble history, standing proud among the First Founding Space Marine Chapters. Though their appearance can be terrifying, they are deeply honourable, and will go to any lengths to safeguard the Imperium and its billions of teeming citizens. After the death of their captain, Da’kir and Tsu’gan, battlebrothers and rivals, face enemies from within and without. As their paths diverge and they face trials that will test them to their very limits, their destinies draw them back together for one final confrontation... New edition of a greatvalue omnibus that contains all three novels in the Tome of Fire trilogy Salamander, Firedrake and Nocturne plus a host of additional short stories.",
+        desc: "The Salamanders have a long and noble history, standing proud among the First Founding Space Marine Chapters. Though their appearance can be terrifying, they are deeply honourable, and will go to any lengths to safeguard the Imperium and its billions of teeming citizens. After the death of their captain, Da'kir and Tsu'gan, battlebrothers and rivals, face enemies from within and without. As their paths diverge and they face trials that will test them to their very limits, their destinies draw them back together for one final confrontation... New edition of a greatvalue omnibus that contains all three novels in the Tome of Fire trilogy Salamander, Firedrake and Nocturne plus a host of additional short stories.",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1514,7 +1538,7 @@ async function main() {
         title: "Lords of Blood",
         author: "Guy Haley",
         pages: 1327,
-        desc: "Baal is besieged. The tendrils of Hive Fleet Leviathan have reached the home system for the Sons of Sanguinius, and Commander Dante, calling upon the Ninth Legion's successor Chapters, is the only thing stopping the Great Devourer from consuming the Blood Angels’ home world. But in order to overcome the insidious xenos, Dante and his Blood Angels must also face an enemy within – The Flaw, a curse in their veins that they must counter if they are to reach their former glory. Can Dante defend Imperium Nihilus from enemies far greater than the Tyranid swarms that once threatened their home world? Or are the sons of Sanguinius doomed to succumb to the darkness in their blood?",
+        desc: "Baal is besieged. The tendrils of Hive Fleet Leviathan have reached the home system for the Sons of Sanguinius, and Commander Dante, calling upon the Ninth Legion's successor Chapters, is the only thing stopping the Great Devourer from consuming the Blood Angels' home world. But in order to overcome the insidious xenos, Dante and his Blood Angels must also face an enemy within – The Flaw, a curse in their veins that they must counter if they are to reach their former glory. Can Dante defend Imperium Nihilus from enemies far greater than the Tyranid swarms that once threatened their home world? Or are the sons of Sanguinius doomed to succumb to the darkness in their blood?",
         image: "",
         isFinished: false,
         isReading: false,
@@ -1584,4 +1608,4 @@ async function main() {
   });
 }
 
-main()
+main();

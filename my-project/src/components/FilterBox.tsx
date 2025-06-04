@@ -139,7 +139,7 @@ const FilterBox = () => {
   ];
 
   return (
-    <Flex direction={"column"} gap={4} maxW={"1000px"}>
+    <Flex direction={"column"} maxW={"1000px"}>
       {Object.keys(activeFilters).length > 0 && (
         <Button
           leftIcon={<CloseIcon />}
