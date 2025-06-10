@@ -79,3 +79,32 @@ export async function searchBooks(req: Request, res: Response) {
     res.status(500).json({ message: "Error performing search" });
   }
 }
+
+export async function getRecentBooks(req: Request, res: Response) {
+  try {
+    console.log("Fetching recent books...");
+    const books = await prisma.book.findMany({
+      take: 5,
+      orderBy: {
+        id: "desc", // Using id ordering since createdAt is null for all books
+      },
+      select: {
+        id: true,
+        title: true,
+        image: true,
+        author: true,
+        createdAt: true,
+      },
+    });
+
+    console.log("Recent books found:", books.length);
+    console.log("First book:", books[0]?.title);
+
+    res.json(books);
+  } catch (error) {
+    console.error("Error fetching recent books:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching recent books" });
+  }
+}

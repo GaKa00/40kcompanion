@@ -13,17 +13,18 @@ import {
   updateBookInReadinglist,
   resetPassword,
   sendPWRMail,
+  updateBookRating,
 } from "./users.controllers";
 import { auth } from "../../middleware/auth";
 
 const router = express.Router();
 
 // CRUD for auth
-router.post('verify', auth, verifyToken)
+router.post("verify", auth, verifyToken);
 router.post("/register", register); // register a new user
 router.post("/login", login); // login an existing user
-router.delete("/delete/:id", deleteUser) //deletes an existing user
-router.post('/password-reset', sendPWRMail)
+router.delete("/delete/:id", deleteUser); //deletes an existing user
+router.post("/password-reset", sendPWRMail);
 router.post("/password-reset/:token", resetPassword);
 
 // CRUD for users and reading list
@@ -42,12 +43,22 @@ router.put(
   updateSummaryInReadinglist
 ); // Update summary
 
-router.put("/users/:userId/reading-list/:readingListId", auth , updateBookInReadinglist);
+router.put(
+  "/users/:userId/reading-list/:readingListId",
+  auth,
+  updateBookInReadinglist
+);
 
 router.delete(
   "/users/:id/reading-list/:readingListId",
   auth,
   deleteBookFromReadinglist
 ); // remove a book from an active user's reading list
+
+router.put(
+  "/users/:userId/reading-list/:readingListId/rating",
+  auth,
+  updateBookRating
+);
 
 export default router;

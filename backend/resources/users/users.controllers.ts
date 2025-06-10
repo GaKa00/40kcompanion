@@ -368,3 +368,33 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(400).json({ message: "Invalid or expired token" });
   }
 };
+
+// Update book rating in reading list
+export async function updateBookRating(req: Request, res: Response) {
+  const { userId, readingListId } = req.params;
+  const { rating } = req.body;
+  const parsedReadingListId = Number(readingListId);
+  const parsedUserId = Number(userId);
+
+  if (req.user?.id !== parsedUserId) {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+
+  if (typeof rating !== "number" || rating < 0 || rating > 5) {
+    return res
+      .status(400)
+      .json({ message: "Rating must be a number between 0 and 5" });
+  }
+
+  try {
+    const updatedBook = await prisma.readingList.update({
+      where: { id: parsedReadingListId },
+      data: { rating },
+      include: { book: true },
+    });
+    res.json(updatedBook);
+  } catch (error) {
+    console.error("Error updating book rating:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}

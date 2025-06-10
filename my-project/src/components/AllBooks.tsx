@@ -1,12 +1,10 @@
-import React, {  useState,  } from "react";
+import React, { useState } from "react";
 import { bookProp } from "../types/types";
 import { Box, Text, Button, Grid } from "@chakra-ui/react";
 
 //component for rendering all books + pagination
 const AllBooks = ({ data, openModal }: bookProp) => {
-  const [currentPage, setCurrentPage] = useState(1);  
-
-
+  const [currentPage, setCurrentPage] = useState(1);
 
   //pagination components and functions 12-35
 
@@ -16,13 +14,13 @@ const AllBooks = ({ data, openModal }: bookProp) => {
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
 
-  const currentBooks = data   
+  const currentBooks = data
     .sort((a, b) => Number(a.id) - Number(b.id))
     .slice(indexOfFirstBook, indexOfLastBook);
 
   // Handle page change
   const handleNextPage = () => {
-    const totalPages = Math.ceil(data.length / booksPerPage);  //sets number of pages
+    const totalPages = Math.ceil(data.length / booksPerPage); //sets number of pages
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
       smoothScroll();
@@ -73,6 +71,13 @@ const AllBooks = ({ data, openModal }: bookProp) => {
         alignItems="center"
         onClick={() => openModal(book)}
         bg="metallic"
+        cursor="pointer"
+        transition="all 0.3s"
+        _hover={{
+          transform: "translateY(-5px)",
+          boxShadow: "xl",
+          borderColor: "gold",
+        }}
       >
         <Box
           as="img"
@@ -97,44 +102,81 @@ const AllBooks = ({ data, openModal }: bookProp) => {
         All Books
       </Text>
 
-      {/* Responsive grid for books */}
-      <Grid
-        templateColumns={{
-          base: "repeat(1, 1fr)", // 1 column on small screens
-          md: "repeat(3, 1fr)", // 3 columns on medium screens
-          lg: `repeat(${booksPerRow}, 1fr)`, // Dynamic columns on larger screens
-        }}
-        gap={6}
-        mt={4}
-      >
-        {showAll}
-      </Grid>
+      {data.length === 0 ? (
+        <Box
+          textAlign="center"
+          py={10}
+          px={4}
+          bg="gray.900"
+          borderRadius="lg"
+          mt={4}
+          border="1px solid"
+          borderColor="gray.700"
+        >
+          <Text fontSize="xl" color="gray.400" mb={2}>
+            No books found
+          </Text>
+          <Text color="gray.500">
+            Try adjusting your search or filters to find what you're looking for
+          </Text>
+        </Box>
+      ) : (
+        <>
+          {/* Responsive grid for books */}
+          <Grid
+            templateColumns={{
+              base: "repeat(1, 1fr)",
+              md: "repeat(3, 1fr)",
+              lg: `repeat(${booksPerRow}, 1fr)`,
+            }}
+            gap={6}
+            mt={4}
+          >
+            {showAll}
+          </Grid>
 
-      {/* Pagination controls */}
-      <Box mt={4} textAlign="center">
-        <Button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          bgColor={currentPage === 1 ? "gray" : "primary"}
-        >
-          Previous
-        </Button>
-        <Button
-          onClick={handleNextPage}
-          ml={4}
-          disabled={currentPage === Math.ceil(data.length / booksPerPage)}
-          bgColor={
-            currentPage === Math.ceil(data.length / booksPerPage)
-              ? "gray"
-              : "primary"
-          }
-        >
-          Next
-        </Button>
-      </Box>
+          {/* Pagination controls */}
+          <Box mt={4} textAlign="center">
+            <Button
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              bgColor={currentPage === 1 ? "gray" : "primary"}
+              _hover={{
+                transform: currentPage !== 1 ? "scale(1.05)" : "none",
+                bgColor: currentPage === 1 ? "gray" : "primary.600",
+              }}
+              transition="all 0.2s"
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={handleNextPage}
+              ml={4}
+              disabled={currentPage === Math.ceil(data.length / booksPerPage)}
+              bgColor={
+                currentPage === Math.ceil(data.length / booksPerPage)
+                  ? "gray"
+                  : "primary"
+              }
+              _hover={{
+                transform:
+                  currentPage !== Math.ceil(data.length / booksPerPage)
+                    ? "scale(1.05)"
+                    : "none",
+                bgColor:
+                  currentPage === Math.ceil(data.length / booksPerPage)
+                    ? "gray"
+                    : "primary.600",
+              }}
+              transition="all 0.2s"
+            >
+              Next
+            </Button>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
-
 
 export default AllBooks;

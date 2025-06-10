@@ -45,6 +45,7 @@ export type ReadingList = {
   summary?: string;
   addedAt: string;
   book: Book;
+  userId: number;
 };
 
 export interface TagContextType {

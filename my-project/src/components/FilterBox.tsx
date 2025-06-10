@@ -129,9 +129,9 @@ const FilterBox = () => {
   ];
 
   const seriesOptions: FilterOption[] = [
-    { value: "first", label: "First" },
-    { value: "second", label: "Second" },
-    { value: "third", label: "Third" },
+    { value: "horus heresy", label: "Horus Heresy", colorScheme: "blue" },
+    { value: "gaunts ghosts", label: "Gaunt's Ghosts", colorScheme: "blue" },
+    { value: "ciaphas cain", label: "Ciaphas Cain", colorScheme: "blue" },
   ];
 
   const omnibusOptions: FilterOption[] = [

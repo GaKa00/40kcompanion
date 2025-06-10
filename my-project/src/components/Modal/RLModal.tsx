@@ -16,11 +16,15 @@ import {
   List,
   ListItem,
   Divider,
+  HStack,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { BookDetailModalProps, ReadingList } from "../../types/types";
 import useSetCompletedBook from "../../hooks/useSetCompletedBook";
 import { AxiosError } from "axios";
+import { StarIcon } from "@chakra-ui/icons";
 
 const ReadingListModal: React.FC<BookDetailModalProps> = ({
   book,
@@ -181,6 +185,29 @@ const ReadingListModal: React.FC<BookDetailModalProps> = ({
           </Flex>
 
           {/* Divider under image */}
+          <Divider mb={4} />
+
+          {/* Rating Section */}
+          <Box mb={4}>
+            <Text fontSize="lg" fontWeight="bold" mb={2}>
+              Your Rating:
+            </Text>
+            <HStack spacing={1}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <StarIcon
+                  key={star}
+                  color={star <= (rating || 0) ? "yellow.400" : "gray.300"}
+                  boxSize={6}
+                />
+              ))}
+              {rating > 0 && (
+                <Text ml={2} color="gray.600">
+                  ({rating} stars)
+                </Text>
+              )}
+            </HStack>
+          </Box>
+
           <Divider mb={4} />
 
           {/* Summary Section */}

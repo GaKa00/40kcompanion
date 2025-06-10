@@ -33,6 +33,7 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
   book,
   isOpen,
   onClose,
+  onUpdate,
 }) => {
   const toast = useToast();
   const { saveText, loading: summaryLoading } = useSaveSummary();
@@ -155,34 +156,73 @@ const EditedModal: React.FC<BookDetailModalProps> = ({
   };
 
   const handleSaveRating = async () => {
-    if (!readingListId) return;
-
-    try {
-      await axios.put(
-        `http://localhost:3000/api/users/${localStorage.getItem(
-          "uid"
-        )}/reading-list/${readingListId}/rating`,
-        { rating },
-        {
-          headers: {
-            Authorization: `Bearer ${
-              localStorage.getItem("token") || sessionStorage.getItem("token")
-            }`,
-          },
-        }
-      );
+    if (!readingListId) {
       toast({
-        title: "Rating saved",
-        status: "success",
+        title: "Error",
+        description: "No reading list entry found",
+        status: "error",
         duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+      return;
+    }
+
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const userId = localStorage.getItem("uid") || sessionStorage.getItem("uid");
+
+    if (!token || !userId) {
+      toast({
+        title: "Authentication Error",
+        description: "Please log in to rate books",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/users/${userId}/reading-list/${readingListId}/rating`,
+        { rating },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (onUpdate && response.data) {
+        onUpdate(response.data);
+      }
+
+      toast({
+        title: "Rating saved",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error: any) {
+      console.error("Error saving rating:", {
+        error: error.response?.data || error.message,
+        status: error.response?.status,
+        userId,
+        readingListId,
+      });
+
+      let errorMessage = "Please try again";
+      if (error.response?.status === 403) {
+        errorMessage = "You don't have permission to rate this book";
+      } else if (error.response?.status === 401) {
+        errorMessage = "Please log in again";
+      }
+
       toast({
         title: "Error saving rating",
-        description: "Please try again",
+        description: errorMessage,
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }

@@ -145,7 +145,9 @@ export default function Navbar() {
               alignItems="center"
               gap={2}
               color="white"
+              backgroundColor="background"
               _hover={{ color: "gold" }}
+              _active={{ color: "white", backgroundColor: "background" }}
               transition="all 0.2s"
             >
               <Avatar
@@ -163,6 +165,7 @@ export default function Navbar() {
                 onClick={() => navigate("/profile")}
                 _hover={{ color: "gold" }}
                 color="white"
+                backgroundColor="background"
                 fontWeight="medium"
               >
                 My Profile
@@ -171,6 +174,7 @@ export default function Navbar() {
                 onClick={() => navigate("/settings")}
                 _hover={{ color: "gold" }}
                 color="white"
+                backgroundColor="background"
                 fontWeight="medium"
               >
                 Settings
@@ -179,6 +183,7 @@ export default function Navbar() {
               <MenuItem
                 onClick={handleLogout}
                 color="chaosRed"
+                backgroundColor="background"
                 fontWeight="medium"
                 _hover={{ color: "chaosRed", opacity: 0.8 }}
               >

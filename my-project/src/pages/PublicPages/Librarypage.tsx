@@ -7,6 +7,9 @@ import {
   Text,
   Button,
   Grid,
+  Skeleton,
+  SkeletonText,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
@@ -19,43 +22,109 @@ import AllBooks from "../../components/AllBooks";
 import SearchBar from "../../components/ui/Searchbar";
 import Navbar from "../../components/ui/Navbar";
 
+// Loading skeleton components
+const LoadingBookCard = () => (
+  <Box
+    p={4}
+    boxShadow="white-lg"
+    rounded="lg"
+    maxW="250px"
+    h="365px"
+    display="flex"
+    flexDirection="column"
+    justifyContent="space-between"
+    alignItems="center"
+    bg="metallic"
+  >
+    <Skeleton height="325px" width="100%" borderRadius="lg" />
+  </Box>
+);
+
+const LoadingRecentReleases = () => (
+  <Box p="5" boxShadow="md" mb="4">
+    <SkeletonText noOfLines={1} width="150px" mb={4} />
+    <HStack gap="3">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Skeleton key={i} height="200px" width="150px" borderRadius="md" />
+      ))}
+    </HStack>
+  </Box>
+);
+
 // Imports above
 
 const Librarypage = () => {
-  const [books, setBooks] = useState<Book[]>([]); //state for handling book fetch from db
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]); // state for search results
-  const [recentBooks, setRecentBooks] = useState<Book[]>([]); // state for recent books
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null); //state that handles what book was being clicked on
-  const [isOpen, setIsOpen] = useState(false); //state to handle whether modal is open or closed
+  const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [recentBooks, setRecentBooks] = useState<Book[]>([]);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoadingBooks, setIsLoadingBooks] = useState(true);
+  const [isLoadingRecent, setIsLoadingRecent] = useState(true);
   const { tag } = useContext(TagContext)!;
 
-  //Book fetch using searchbyTags, if no tags are provided, will show all books in library
+  // Fetch recent books only once on initial load
+  useEffect(() => {
+    const fetchRecentBooks = async () => {
+      setIsLoadingRecent(true);
+      try {
+        console.log("Fetching recent books from frontend...");
+        const response = await axios.get(`http://localhost:3000/api/recent`);
+        console.log("Recent books response:", response.data);
 
-    useEffect(() => {
-    
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setRecentBooks(response.data);
+        } else {
+          console.warn("No recent books found in response");
+          setRecentBooks([]);
+        }
+      } catch (error) {
+        console.error("Error fetching recent books:", error);
+        setRecentBooks([]);
+      } finally {
+        setIsLoadingRecent(false);
+      }
+    };
+
+    fetchRecentBooks();
+  }, []); // Empty dependency array means this only runs once on mount
+
+  // Initial book fetch for main library
+  useEffect(() => {
+    setIsLoadingBooks(true);
+    axios
+      .get(`http://localhost:3000/api/`)
+      .then((response) => {
+        setBooks(response.data);
+        setFilteredBooks(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching books:", error);
+      })
+      .finally(() => {
+        setIsLoadingBooks(false);
+      });
+  }, []);
+
+  // Tag-based book fetch (only affects main library)
+  useEffect(() => {
+    if (tag) {
+      setIsLoadingBooks(true);
       axios
-        .get(`http://localhost:3000/api/`, {
+        .get(`http://localhost:3000/api/searchByTags`, {
+          params: { tag: tag },
         })
         .then((response) => {
           setBooks(response.data);
-          setRecentBooks(response.data); // Initialize recent  books with all books
+          setFilteredBooks(response.data);
         })
-        .catch((error) => console.error(error));
-    }, [tag]);
-
-
-
-  useEffect(() => {
-
-    axios
-      .get(`http://localhost:3000/api/searchByTags`, {
-        params: { tag: tag },
-      })
-      .then((response) => {
-        setBooks(response.data);
-        setFilteredBooks(response.data); // Initialize filtered books with all books
-      })
-      .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error("Error fetching books by tag:", error);
+        })
+        .finally(() => {
+          setIsLoadingBooks(false);
+        });
+    }
   }, [tag]);
 
   const handleSearch = (searchResults: Book[]) => {
@@ -105,11 +174,29 @@ const Librarypage = () => {
       <FilterBox />
 
       <Flex mt="4" justifyContent={"center"}>
-        {/* shows 5 latest books added to library */}
-        <LatestReleases data={recentBooks} openModal={openModal} />
+        {isLoadingRecent ? (
+          <LoadingRecentReleases />
+        ) : (
+          <LatestReleases data={recentBooks} openModal={openModal} />
+        )}
       </Flex>
       <Box width="90%">
-        <AllBooks data={filteredBooks} openModal={openModal} />
+        {isLoadingBooks ? (
+          <Box p="5" boxShadow="md">
+            <SkeletonText noOfLines={1} width="100px" mb={4} />
+            <SimpleGrid
+              columns={{ base: 1, sm: 2, md: 3, lg: 5 }}
+              spacing={6}
+              mt={4}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                <LoadingBookCard key={i} />
+              ))}
+            </SimpleGrid>
+          </Box>
+        ) : (
+          <AllBooks data={filteredBooks} openModal={openModal} />
+        )}
       </Box>
       {/* modal render */}
       {selectedBook && (
@@ -127,20 +214,35 @@ export default Librarypage;
 
 //component for latest added books
 const LatestReleases = ({ data, openModal }: bookProp) => {
-  const releases = data.slice(1).slice(-5);
-
-  const showReleases = releases.map((book) => {
+  // Ensure data is an array and has items
+  if (!Array.isArray(data) || data.length === 0) {
     return (
-      <img src={book.image} alt={book.title} onClick={() => openModal(book)} />
+      <Box p="5" boxShadow="md" mb="4">
+        <Text fontSize="xl" fontWeight="bold" color="whiteAlpha">
+          Recently Added
+        </Text>
+        <Text color="gray.500" mt={2}>
+          No recent books available
+        </Text>
+      </Box>
     );
-  });
+  }
+
   return (
     <Box p="5" boxShadow="md" mb="4">
       <Text fontSize="xl" fontWeight="bold" color="whiteAlpha">
         Recently Added
       </Text>
-
-      <HStack gap="3">{showReleases}</HStack>
+      <HStack gap="3">
+        {data.map((book) => (
+          <img
+            key={book.id}
+            src={book.image}
+            alt={book.title}
+            onClick={() => openModal(book)}
+          />
+        ))}
+      </HStack>
     </Box>
   );
 };
